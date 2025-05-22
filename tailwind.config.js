@@ -4,15 +4,36 @@ import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+        "./storage/framework/views/*.php",
+        "./resources/views/**/*.blade.php",
     ],
 
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: [
+                    '"M PLUS 1"',
+                    '"Helvetica Neue"',
+                    "Helvetica",
+                    '"Hiragino Sans"',
+                    '"Hiragino Kaku Gothic ProN"',
+                    "Arial",
+                    '"Yu Gothic"',
+                    "Meiryo",
+                    ...defaultTheme.fontFamily.sans,
+                ],
+            },
+            fontSize: {
+                base: "24px",
+                h1: "48px",
+                "small-base": "16px",
+            },
+            colors: {
+                "custom-gray": "#666563",
+                "beige": "#FFF4E0",
+                "custom-green": "#8EFF99",
+                "custom-brown": "#FFB98E",
             },
         },
     },
