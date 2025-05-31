@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <h2 class="text-center">新規登録</h2>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -38,15 +39,38 @@
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+        @for ($i = 0; $i < 3; $i++)
+        <!-- ChildName1 -->
+        <div class="mt-4">
+            <x-input-label for="child_name_1" :value="__('Child Name') . '（7文字以内）'" />
+            <x-text-input id="child_name_1" class="block mt-1 w-full" type="text" name="child_name[]" :value="old('child_name.0')" autocomplete="child-name-1" />
+            {{-- <x-input-error :message="$errors->get('child_name.0')" class="mt-2" /></x-input-error> --}}
+        </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+        <!-- ChildGender1 -->
+        <div class="mt-4">
+            <x-input-label :value="__('Child Gender')" />
+            <div class="flex items-center space-x-4 mt-1">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="child_gender[0]" value="boy" class="form-radio" {{ old('child_gender.0') == 'boy' ? 'checked' : ''}}>
+                    <span class="text-small-base ml-2">男の子</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="child_gender[0]" value="girl" class="form-radio" {{ old('child_gender.0') == 'girl' ? 'checked' : ''}}>
+                    <span class="text-small-base ml-2">女の子</span>
+                </label>
+            </div>
+        </div>
+        @endfor
+
+
+        <div class="flex flex-col items-center justify-end mt-6">
+            <x-primary-button class="bg-custom-blue hover:bg-custom-blue/60 text-xl w-full">
+                送　　信
+            </x-primary-button>
+            <a class="my-5 underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
     </form>
 </x-guest-layout>

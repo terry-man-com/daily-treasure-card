@@ -31,9 +31,11 @@ export default {
             },
             colors: {
                 "custom-gray": "#666563",
-                "beige": "#FFF4E0",
+                beige: "#FFF4E0",
                 "custom-green": "#8EFF99",
                 "custom-brown": "#FFB98E",
+                "form-gray": "#F5F5F4",
+                "custom-blue": "#5A9BFF",
             },
         },
     },
