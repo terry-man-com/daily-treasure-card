@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <h2 class="text-center">ログイン</h2>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -32,16 +33,18 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex flex-col items-center justify-end mt-4">
+            <x-primary-button class="mt-5 bg-custom-blue hover:bg-custom-blue/60 text-xl w-full focus:ring-2 focus:ring-offset-2 focus:ring-blue-200">
+                {{ __('Send') }}
+            </x-primary-button>
+            <a class="my-5 underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                {{ __("Don't have an account?") }} <!-- アポストロフィーを使用したいため""でかこむ !-->
+            </a>
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
         </div>
     </form>
 </x-guest-layout>

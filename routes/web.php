@@ -7,7 +7,7 @@ use App\Http\Controllers\TestController;
 Route::get('/', [TestController::class, 'home'])->name('home');
 
 Route::get('/dashboard', function () {
-    return view('tasks.toppage');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

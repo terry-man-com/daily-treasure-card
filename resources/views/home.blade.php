@@ -30,11 +30,11 @@
                     <h1 class="text-h1 font-bold mb-4 tracking-widest">ワ ク ワ ク <span class="text-[#FF8EE1]">宝 </span>集 め</h1>
                     <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto font-medium">ワクワク宝石集めとは、お子さまがパパ・ママと決めたお約束を守ることで宝石や可愛い動物をゲットできる習慣化支援アプリです。</p>
                     <div class="flex mt-6 justify-center gap-20">
-                        <a href="#_" class="w-auto md:w-48 px-8 py-4 text-base leading-6 bg-custom-green border border-transparent rounded-full hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-200">
+                        <a href="{{ route('register') }}" class="w-auto md:w-48 px-8 py-4 text-base leading-6 bg-custom-green border border-transparent rounded-full hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-200">
                             始める
                         </a>
-                        <a href="#_" class="w-auto md:w-48 px-8 py-4 text-base leading-6 bg-custom-brown border border-transparent rounded-full hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-200">
-                            新規登録
+                        <a href="{{ route('login') }}" class="w-auto md:w-48 px-8 py-4 text-base leading-6 bg-custom-brown border border-transparent rounded-full hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
+                            ログイン
                         </a>
                     </div>
                 </div>
