@@ -29,17 +29,31 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'child_name.*' => ['nullable', 'string', 'max:7'],
+            'child_gender.*' => ['nullable', 'in:boy,girl'],
+        ]);
+        // ユーザー登録
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        // 配列で送られてくる子供の登録
+        if (!empty($validated['child_name'])) {
+            foreach ($validated['child_name'] as $index => $name) {
+                if ($name) {
+                    $user->children()->create([
+                        'child_name' => $name,
+                        'child_gender' => $validated['child_gender'][$index] ?? null,
+                    ]);
+                }
+            }
+        }
 
         event(new Registered($user));
 
