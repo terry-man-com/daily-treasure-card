@@ -18,7 +18,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col">
-        @include('components.my-header')
+        @include('components.welcome-header')
 
         <main class="flex-grow flex justify-center items-start pt-20 px-4">
             <div class="bg-white max-w-md h-[50vh] overflow-hidden shadow-md rounded-xl flex flex-col w-[362px] ">
