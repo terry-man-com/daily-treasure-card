@@ -23,8 +23,8 @@
         @endif
     </head>
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col">
-        @include('components.my-header')
-        <section class="text-custom-gray flex-grow">
+        @include('components.welcome-header')
+        <main class="text-custom-gray flex-grow">
             <div class="container px-24 py-5 mx-auto">
                 <div class="text-center mb-10">
                     <h1 class="text-h1 font-bold mb-4 tracking-widest">ワ ク ワ ク <span class="text-[#FF8EE1]">宝 </span>集 め</h1>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </main>
         @include('components.my-footer')
     </body>
 </html>

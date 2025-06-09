@@ -6,5 +6,13 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    //
+    // ホーム画面用
+    public function home()
+    {
+        return view('home');
+    }
+    
+    public function index() {
+        return view('tasks.index');
+    }
 }
