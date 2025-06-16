@@ -19,9 +19,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col justify-between">
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+        {{ $slot }}
+        <script src="{{ asset('js/main.js') }}"></script>
     </body>
+
 </html>
