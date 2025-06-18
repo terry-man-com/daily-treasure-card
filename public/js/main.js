@@ -34,4 +34,64 @@ const setupTabSwitching = () => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", setupTabSwitching);
+// タスク判定ボタン
+const setupJudgeButtons = () => {
+  const judgeButtons = document.querySelectorAll(".js-judge-button");
+
+  judgeButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const result = button.dataset.result; // "true" or "false"
+      const buttonArea = button.closest(".judge-button-area");
+      const task = buttonArea.closest(".task");
+      const wrapper = task.querySelector(".js-judge-wrapper");
+
+      // ボタン無効化&非表示
+      buttonArea.querySelectorAll(".js-judge-button").forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add("hidden");
+      });
+
+      // 判定メッセージ表示
+      wrapper.classList.remove("hidden");
+      const resultSpan = wrapper.querySelector(`[data-result="${result}"]`);
+      if (resultSpan) {
+        resultSpan.classList.remove("hidden");
+
+        const innerSpan = resultSpan.querySelector("span");
+        if (innerSpan) {
+          innerSpan.classList.remove("hidden");
+        }
+      }
+    });
+  });
+};
+
+// 判定リセット
+const pushedResetButton = () => {
+  const resetButton = document.getElementById("reset-button");
+
+  resetButton.addEventListener("click", () => {
+      // 判定ボタンを全て復活
+      document.querySelectorAll(".js-judge-button").forEach((btn) => {
+          btn.classList.remove("hidden");
+          btn.disabled = false;
+      });
+
+      // ② 判定結果ラッパーとその中の span を全て非表示
+      document.querySelectorAll(".js-judge-wrapper").forEach((wrapper) => {
+        wrapper.classList.add("hidden");
+
+        // wrapper内のspanタグも非表示にする
+        wrapper.querySelectorAll("span").forEach((span) => {
+            span.classList.add("hidden");
+        });
+      });
+  });
+};
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupTabSwitching();
+  setupJudgeButtons();
+  pushedResetButton();
+});
