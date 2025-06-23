@@ -34,37 +34,56 @@ const setupTabSwitching = () => {
   }
 };
 
+// ○×ボタンが押下されたかを判定し、
+// 全ての○×ボタンが押された時にガチャボタンを活性化させる
+const updateRewardButton = (panel) => {
+  const allButtons = panel.querySelectorAll(".js-judge-button");
+  const isAllJudged = Array.from(allButtons).every(btn => btn.disabled);
+  const rewardButton = panel.querySelector(".js-reward-button");
+  if (rewardButton) {
+    rewardButton.disabled = !isAllJudged;
+  }
+};
+
 // タスク判定ボタン
 const setupJudgeButtons = () => {
-  const judgeButtons = document.querySelectorAll(".js-judge-button");
+  const tabPanels = document.querySelectorAll("[data-panel]");
 
-  judgeButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const result = button.dataset.result; // "true" or "false"
-      const buttonArea = button.closest(".judge-button-area");
-      const task = buttonArea.closest(".task");
-      const wrapper = task.querySelector(".js-judge-wrapper");
+  tabPanels.forEach(panel => {
+    const judgeButtons = panel.querySelectorAll(".js-judge-button");
 
-      // ボタン無効化&非表示
-      buttonArea.querySelectorAll(".js-judge-button").forEach(btn => {
-        btn.disabled = true;
-        btn.classList.add("hidden");
-      });
+    judgeButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const result = button.dataset.result; // "true" or "false"
+        const buttonArea = button.closest(".judge-button-area");
+        const task = buttonArea.closest(".task");
+        const wrapper = task.querySelector(".js-judge-wrapper");
 
-      // 判定メッセージ表示
-      wrapper.classList.remove("hidden");
-      const resultSpan = wrapper.querySelector(`[data-result="${result}"]`);
-      if (resultSpan) {
-        resultSpan.classList.remove("hidden");
+        // ボタン無効化&非表示
+        buttonArea.querySelectorAll(".js-judge-button").forEach(btn => {
+          btn.disabled = true;
+          btn.classList.add("hidden");
+        });
 
-        const innerSpan = resultSpan.querySelector("span");
-        if (innerSpan) {
-          innerSpan.classList.remove("hidden");
+        // 判定メッセージ表示
+        wrapper.classList.remove("hidden");
+        const resultSpan = wrapper.querySelector(`[data-result="${result}"]`);
+        if (resultSpan) {
+          resultSpan.classList.remove("hidden");
+
+          const innerSpan = resultSpan.querySelector("span");
+          if (innerSpan) {
+            innerSpan.classList.remove("hidden");
+          }
         }
-      }
+
+        // ガチャボタンの活性化判定（タブ内限定）
+        updateRewardButton(panel);
+      });
     });
   });
 };
+
 
 // 判定リセット
 const pushedResetButton = () => {
@@ -77,7 +96,7 @@ const pushedResetButton = () => {
           btn.disabled = false;
       });
 
-      // ② 判定結果ラッパーとその中の span を全て非表示
+      // 判定結果ラッパーとその中の span を全て非表示
       document.querySelectorAll(".js-judge-wrapper").forEach((wrapper) => {
         wrapper.classList.add("hidden");
 
