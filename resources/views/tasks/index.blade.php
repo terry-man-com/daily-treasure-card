@@ -37,7 +37,7 @@
                                 </div>
                             @endfor
                         </ul>
-                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <button class="js-reward-button block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                             ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                         </button>
                         <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
@@ -51,7 +51,7 @@
                             @for ($i = 0; $i < 5; $i++)
                                 <div class="task flex justify-center gap-10 py-3">
                                     <li class="tracking-[0.5em]">
-                                            源流歳テストテストテストテスト
+                                            はみがき
                                             {{-- {{$task->contents}} --}}
                                     </li>
                                     <div class="flex items-center gap-2 text-white">
@@ -61,7 +61,7 @@
                                 </div>
                             @endfor
                         </ul>
-                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em]">
+                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                             ★<span class="text-custom-gray">ごほうびガチャ</span>★
                         </button>
                         <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
@@ -85,7 +85,7 @@
                                 </div>
                             @endfor
                         </ul>
-                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em]">
+                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                             ★<span class="text-custom-gray">ごほうびガチャ</span>★
                         </button>
                         <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
