@@ -87,24 +87,31 @@ const setupJudgeButtons = () => {
 
 // 判定リセット
 const pushedResetButton = () => {
-  const resetButton = document.getElementById("reset-button");
+  // スコープをタブに限定する
+  const tabPanels = document.querySelectorAll("[data-panel]");
 
-  resetButton.addEventListener("click", () => {
+  tabPanels.forEach((panel) => {
+    const resetButton = panel.querySelector("#reset-button");
+
+    resetButton.addEventListener("click", () => {
       // 判定ボタンを全て復活
       document.querySelectorAll(".js-judge-button").forEach((btn) => {
-          btn.classList.remove("hidden");
-          btn.disabled = false;
+        btn.classList.remove("hidden");
+        btn.disabled = false;
       });
 
       // 判定結果ラッパーとその中の span を全て非表示
-      document.querySelectorAll(".js-judge-wrapper").forEach((wrapper) => {
-        wrapper.classList.add("hidden");
-
-        // wrapper内のspanタグも非表示にする
-        wrapper.querySelectorAll("span").forEach((span) => {
+        panel.querySelectorAll(".js-judge-wrapper").forEach((wrapper) => {
+          wrapper.classList.add("hidden");
+          // wrapper内のspanタグも非表示にする
+          wrapper.querySelectorAll("span").forEach((span) => {
             span.classList.add("hidden");
+          });
         });
-      });
+      // ガチャボタンを再び無効化にする。
+      const rewardButton = panel.querySelector(".js-reward-button");
+      if(rewardButton) rewardButton.disabled = true;
+    });
   });
 };
 
