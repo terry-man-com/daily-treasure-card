@@ -22,7 +22,7 @@
                             @for ($i = 0; $i < 5; $i++)
                                 <div class="task flex justify-between items-center mx-2 px-20 py-1">
                                     <div class="task-name tracking-[0.5em] text-left">
-                                        はみがきを
+
                                         {{-- {{$task->contents}} --}}
                                     </div>
                                     <div class="judge-button-area flex justify-center items-center gap-2 text-white w-1/4">
@@ -40,7 +40,7 @@
                             ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                         </button>
                         <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
-                            <a href="{{ route("tasks.create") }}" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
+                            <a href="#" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
                             <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
                             <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
                         </div>
