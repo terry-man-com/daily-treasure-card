@@ -22,14 +22,14 @@
                             @for ($i = 0; $i < 5; $i++)
                                 <div class="task flex justify-between items-center mx-2 px-20 py-1">
                                     <div class="task-name tracking-[0.5em] text-left">
-                                        はみがきを
+                                        ああああああああああああああああ
                                         {{-- {{$task->contents}} --}}
                                     </div>
                                     <div class="judge-button-area flex justify-center items-center gap-2 text-white w-1/4">
                                         <button data-result="true" class="js-judge-button w-24 h-10 bg-custom-pink rounded-full hover:bg-custom-pink/50">◯</button>
                                         <button data-result="false" class="js-judge-button w-24 h-10 bg-custom-blue rounded-full hover:bg-custom-blue">✖︎</button>
                                     </div>
-                                    <div class="js-judge-wrapper w-[200px] text-center bg-white indent-[0.2em] tracking-[0.2em] hidden">
+                                    <div class="js-judge-wrapper w-[250px] text-center bg-white indent-[0.2em] tracking-[0.2em] hidden">
                                         <span data-result="true" class="text-yellow-400 hidden">★&nbsp;<span class="text-custom-gray">できた</span>&nbsp;★</span>
                                         <span data-result="false" class="text-custom-gray hidden">またあした</span>
                                     </div>
