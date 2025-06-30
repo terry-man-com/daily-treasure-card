@@ -24,7 +24,7 @@
                         <div class="flex flex-col gap-4 px-20">
                             @for ($i = 0; $i < 5; $i++)
                                 <div class="task flex justify-between items-center py-2">
-                                        <input type="type" class="task-name tracking-[0.5em] w-4/5 border-2">
+                                        <input type="type" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2">
                                         {{-- {{$task->contents}} --}}
                                     <div class="judge-button-area flex justify-center items-center text-white w-1/4">
                                         <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
