@@ -11,11 +11,11 @@ class TaskController extends Controller
     {
         return view('home');
     }
-    
+    // 「きょうのおやくそく」画面遷移（タスク一覧）
     public function index() {
         return view('tasks.index');
     }
-
+    // 「」（タスク登録）
     public function create() {
         return view('tasks.create');
     }
