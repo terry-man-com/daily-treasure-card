@@ -13,7 +13,7 @@
                     {{-- for文でリファクタリング --}}
                     <div class="flex justify-center gap-4 text-white text-lx font-medium">
                         <button data-tab="0" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg bg-custom-pink">ひなみ</button>
-                        <button data-tab="1" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg bg-custom-blue">げんりゅうさい</button>
+                        <button data-tab="1" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg bg-custom-blue"></button>
                         <button data-tab="2" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg bg-custom-blue">ゆいと</button>
                     </div>
                     <!-- タスク表示部分 -->
