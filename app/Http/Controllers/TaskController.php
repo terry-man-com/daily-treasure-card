@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -29,7 +30,8 @@ class TaskController extends Controller
     // タスク登録
     public function store(Request $request)
     {
-        $contents = $request->input('contents');
+        $child_id = $request->input('child_id');
+        $contents    = $request->input('contents');
 
         // フォーム全てが空かどうかを確認
         // if (collect($contents)->filter()->isEmpty()) {
@@ -42,12 +44,18 @@ class TaskController extends Controller
         $request->validate([
             'contents' => 'required|array',
             'contents.*' => 'nullable|string|max:15',
+            'child_id' => 'required|integer|exists:children,id',
         ]);
+
         foreach ($contents as $content) {
             if (!empty($content)) {
-                Task::create(['contents' => $content]);
+                Task::create([
+                    'child_id' => $child_id,
+                    'contents' => $content,
+                ]);
             } // タスク登録を繰り返す
         }
+        
         return redirect()->route('tasks.index')->with('success', 'タスクを登録しました！');
     }
 

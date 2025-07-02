@@ -6,7 +6,7 @@
                     <h1 class="text-h1 font-bold mb-4 tracking-[0.5em]">きょうのおやくそく</h1>
                 </div>
                 @if (session('success'))
-                    <div class="message">{{ session('success')}}</div>
+                    <div class="text-red-100">{{ session('success')}}</div>
                 @endif
                 <!-- タブ部分 -->
                     {{-- タブ切り替えボタン --}}
