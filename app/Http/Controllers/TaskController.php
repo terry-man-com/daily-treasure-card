@@ -16,7 +16,9 @@ class TaskController extends Controller
     // 「きょうのおやくそく」画面遷移（タスク一覧）
     public function index()
     {
-        return view('tasks.index');
+         // リレーションで取得　+ childに紐づいたtasksも取得する
+        $children = auth()->user()->children()->with('tasks')->get();
+        return view('tasks.index', compact('children'));
     }
 
     // 「おやくそく登録」遷移用（タスク登録）
