@@ -20,34 +20,35 @@
                         @endforeach
                     </div>
                     <!-- タスク表示部分 -->
-                    <div data-panel="0" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] px-20 py-10 border-2 overflow-y-auto relative z-0">
-                        <form method="post" action="{{ route('tasks.store') }}">
-                            @csrf
-                            <div class="flex flex-col gap-4 px-20">
-                                <div class="task flex justify-between items-center py-2">
-                                    <input type="hidden" name="child_id" value="{{ $children[0]->id }}">
-                                    <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2" placeholder="15文字以上で入力してください">
-                                        {{-- {{$task->contents}} --}}
-                                    <div class="judge-button-area flex justify-center items-center text-white w-1/4">
-                                        <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
-                                    </div>
-                                </div>
-                                @for ($i = 0; $i < 4; $i++)
+                    @foreach ($children as $panelIndex => $child)
+                        <div data-panel="{{ $panelIndex }}" class="js-tab-panel1 {{ $panelIndex === 0 ? '' : 'hidden' }} flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] px-20 py-10 border-2 overflow-y-auto relative z-0">
+                            <form method="post" action="{{ route('tasks.store') }}">
+                                @csrf
+                                <div class="flex flex-col gap-4 px-20">
                                     <div class="task flex justify-between items-center py-2">
-                                        <input type="hidden" name="child_id" value="{{ $children[0]->id }}">
-                                        <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2">
-                                            {{-- {{$task->contents}} --}}
+                                        <input type="hidden" name="child_id" value="{{ $child->id }}">
+                                        <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2" placeholder="15文字以内で入力してください" value="{{ isset($child->tasks[0]) ? $child->tasks[0]->contents : '' }}">
                                         <div class="judge-button-area flex justify-center items-center text-white w-1/4">
                                             <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
                                         </div>
                                     </div>
-                                @endfor
-                                <button type="submit" class="js-reward-button block text-3xl text-white text-center font-bold bg-custom-pink mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em]">
-                                    登録
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                                    @for ($i = 1; $i < 5; $i++)
+                                        <div class="task flex justify-between items-center py-2">
+                                            <input type="hidden" name="child_id" value="{{ $child->id }}">
+                                            <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2" value="{{ isset($child->tasks[$i]) ? $child->tasks[$i]->contents : '' }}">
+                                                {{-- {{$task->contents}} --}}
+                                            <div class="judge-button-area flex justify-center items-center text-white w-1/4">
+                                                <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                    <button type="submit" class="js-reward-button block text-3xl text-white text-center font-bold bg-custom-pink mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em]">
+                                        登録
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    @endforeach
                     <div data-panel="1" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto hidden">
                 @csrf
                 <ul>

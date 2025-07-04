@@ -18,10 +18,10 @@
                     </div>
                     <!-- タスク表示部分 -->
                     <div data-panel="0" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto">
-                        <div class="flex flex-col gap-4 mt-5 px-20">
+                        <div class="flex flex-col gap-6 mt-10 px-20">
                             @foreach($children as $child)
                                 @foreach($child->tasks as $task)
-                                    <div class="task flex justify-between items-center mx-2 px-20 py-1">
+                                    <div class="task flex justify-between items-center mx-2 px-20 py-1 h-10">
                                         <div class="task-name tracking-[0.5em] text-left">
                                             {{ $task->contents }}
                                         </div>
@@ -38,13 +38,15 @@
                                 @endforeach
                             @endforeach
                         </div>
-                        <button class="js-reward-button block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
-                        </button>
-                        <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
+                        <div>
+                            <button class="js-reward-button block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
+                            </button>
+                            <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
                             <a href="{{ route("tasks.create") }}" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
                             <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
                             <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
+                            </div>
                         </div>
                     </div>
                     <div data-panel="1" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto hidden">
