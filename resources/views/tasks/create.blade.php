@@ -32,7 +32,9 @@
                                             <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
                                         </div>
                                     </div>
-                                    @for ($i = 1; $i < 5; $i++)
+                                    {{-- 所持タスク数問わずフォームを５つ表示させるため --}}
+                                    {{-- $iの初期値を０にするとタスク数が５個未満ときにフォームが消える --}}
+                                    @for ($i = 1; $i < 5; $i++) 
                                         <div class="task flex justify-between items-center py-2">
                                             <input type="hidden" name="child_id" value="{{ $child->id }}">
                                             <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2" value="{{ isset($child->tasks[$i]) ? $child->tasks[$i]->contents : '' }}">
