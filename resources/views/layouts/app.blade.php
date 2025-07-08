@@ -20,6 +20,8 @@
     </head>
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col justify-between">
         {{ $slot }}
+        <script type="module" src="{{ asset('js/main.js') }}"></script>
+        @stack('scripts')
         <script src="{{ asset('js/main.js') }}"></script>
     </body>
 
