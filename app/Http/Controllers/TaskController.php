@@ -38,7 +38,7 @@ class TaskController extends Controller
         // フォーム全てが空かどうかを確認
         if (collect($contents)->filter()->isEmpty()) {
             return redirect()->back()
-                ->withErrors(['contents' => '1つ以上入力してください'])
+                ->withErrors(['contents' => 'お約束を1つ以上入力してください'])
                 ->withInput();
         }
 

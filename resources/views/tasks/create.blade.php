@@ -30,7 +30,7 @@
                                 <div class="flex flex-col gap-4 px-20">
                                     <div class="task flex justify-between items-center py-2">
                                         <input type="hidden" name="child_id" value="{{ $child->id }}">
-                                        <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-1 rounded-lg text-xl" placeholder="15文字以内で入力してください" value="{{ old('contents.0') }}">
+                                        <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-1 rounded-lg text-xl @error('contents.' ."0") border-red-400 border-2 @enderror" placeholder="15文字以内で入力してください" value="{{ old('contents.0') }}">
                                         <div class="judge-button-area flex justify-center items-center text-white w-1/4">
                                             <button type="button" class="js-task-reset w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
                                         </div>
@@ -40,7 +40,7 @@
                                     @for ($i = 1; $i < 5; $i++) 
                                         <div class="task flex justify-between items-center py-2">
                                             <input type="hidden" name="child_id" value="{{ $child->id }}">
-                                            <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-1 rounded-lg text-xl" value="{{ old('contents.' . $i) }}">
+                                            <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-1 rounded-lg text-xl @error('contents.' .$i) border-red-400 border-2 @enderror" value="{{ old('contents.' . $i) }}">
                                             <div class="judge-button-area flex justify-center items-center text-white w-1/4">
                                                 <button type="button" class="js-task-reset w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
                                             </div>
