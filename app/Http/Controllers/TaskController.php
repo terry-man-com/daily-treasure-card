@@ -33,14 +33,14 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $child_id = $request->input('child_id');
-        $contents    = $request->input('contents');
+        $contents = $request->input('contents');
 
         // フォーム全てが空かどうかを確認
-        // if (collect($contents)->filter()->isEmpty()) {
-        //     return redirect()->back()
-        //         ->withErrors(['contents' => '1つ以上入力してください'])
-        //         ->withInput();
-        // }
+        if (collect($contents)->filter()->isEmpty()) {
+            return redirect()->back()
+                ->withErrors(['contents' => '1つ以上入力してください'])
+                ->withInput();
+        }
 
         // 通常のバリデーション
         $request->validate([

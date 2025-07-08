@@ -86,4 +86,7 @@
             </div>
         </main> 
     @include('components.my-footer')
+    @push('scripts')
+    <script type="module" src="{{ asset('js/index.js') }}"></script>
+    @endpush
 </x-app-layout>

@@ -8,19 +8,16 @@
                         戻る
                     </a>
                 </div>
-                @error("contents")
-                    <div class="text-center pb-2 text-red-400 font-bold">{{ $message }}</div>
-                @enderror
-                @error("contents.*")
-                    <div class="text-center pb-2 text-red-400 font-bold">{{ $message }}</div>
-                @enderror
+                @if (session('success'))
+                    <div class="message">{{ session('success')}}</div>
+                @endif
                 <!-- タブ部分 -->
                     {{-- タブ切り替えボタン --}}
                     {{-- for文でリファクタリング --}}
                     <div class="flex justify-center gap-4 text-white text-lx font-medium z-10 relative">
                         @foreach ($children as $index => $child)
                             <button data-tab="{{ $index }}" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} ">{{ $child->child_name }}</button>
-                        @endforeach
+                                            @endforeach
                     </div>
                     <!-- タスク表示部分 -->
                     @foreach ($children as $panelIndex => $child)
@@ -30,9 +27,9 @@
                                 <div class="flex flex-col gap-4 px-20">
                                     <div class="task flex justify-between items-center py-2">
                                         <input type="hidden" name="child_id" value="{{ $child->id }}">
-                                        <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-1 rounded-lg text-xl" placeholder="15文字以内で入力してください" value="{{ old('contents.0') }}">
+                                        <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2" placeholder="15文字以内で入力してください" value="{{ isset($child->tasks[0]) ? $child->tasks[0]->contents : '' }}">
                                         <div class="judge-button-area flex justify-center items-center text-white w-1/4">
-                                            <button type="button" class="js-task-reset w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
+                                            <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
                                         </div>
                                     </div>
                                     {{-- 所持タスク数問わずフォームを５つ表示させるため --}}
@@ -40,13 +37,14 @@
                                     @for ($i = 1; $i < 5; $i++) 
                                         <div class="task flex justify-between items-center py-2">
                                             <input type="hidden" name="child_id" value="{{ $child->id }}">
-                                            <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-1 rounded-lg text-xl" value="{{ old('contents.' . $i) }}">
+                                            <input type="type" name="contents[]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2" value="{{ isset($child->tasks[$i]) ? $child->tasks[$i]->contents : '' }}">
+                                                {{-- {{$task->contents}} --}}
                                             <div class="judge-button-area flex justify-center items-center text-white w-1/4">
-                                                <button type="button" class="js-task-reset w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
+                                                <button data-result="false" class="js-judge-button w-3/4 h-10 bg-custom-blue indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-custom-blue">消す</button>
                                             </div>
                                         </div>
                                     @endfor
-                                    <button type="submit" class="block text-3xl text-white text-center font-bold bg-custom-pink mx-auto mt-5 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em]">
+                                    <button type="submit" class="js-reward-button block text-3xl text-white text-center font-bold bg-custom-pink mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em]">
                                         登録
                                     </button>
                                 </div>
@@ -98,7 +96,4 @@
             </div>
         </main> 
     @include('components.my-footer')
-    @push('scripts')
-    <script type="module" src="{{ asset('js/create.js') }}"></script>
-    @endpush
 </x-app-layout>
