@@ -61,4 +61,12 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'タスクを登録しました！');
     }
 
+    // 「おやくそく登録」遷移用（タスク登録）
+    public function edit()
+    {
+        $children = auth()->user()->children; // リレーションで取得
+        return view('tasks.edit', compact('children'));
+    }
+
+
 }
