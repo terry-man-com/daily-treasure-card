@@ -43,7 +43,7 @@
                                 ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                             </button>
                             <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
-                            <a href="{{ route("tasks.create") }}" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
+                            @livewire('modal')
                             <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
                             <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
                             </div>
@@ -78,13 +78,13 @@
                             ★<span class="text-custom-gray">ごほうびガチャ</span>★
                         </button>
                         <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
-                            <a href="#" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
+                            <a href="javascript:void(0);" wire:click="$emit('openModal')" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
                             <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
                             <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
                         </div>
                     </div>
             </div>
-        </main> 
+        </main>
     @include('components.my-footer')
     @push('scripts')
     <script type="module" src="{{ asset('js/index.js') }}"></script>

@@ -9,7 +9,10 @@ Route::get('/', [TaskController::class, 'home'])->name('home');
 
 Route::get('/dashboard', [TaskController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
-Route::resource('tasks', TaskController::class);
+// タスク編集ページ遷移用ルーティング（IDが不要のため独自にルーティング設定）
+Route::get('/tasks/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::resource('tasks', TaskController::class)
+->except(['edit','update']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
