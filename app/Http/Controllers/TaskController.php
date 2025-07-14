@@ -64,7 +64,8 @@ class TaskController extends Controller
     // 「おやくそく登録」遷移用（タスク登録）
     public function edit()
     {
-        $children = auth()->user()->children; // リレーションで取得
+        // リレーションで取得　+ childに紐づいたtasksも取得する
+        $children = auth()->user()->children()->with('tasks')->get();
         return view('tasks.edit', compact('children'));
     }
 

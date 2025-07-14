@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", () => {
+    setupTabSwitching();
+});
+
 export const setupTabSwitching = () => {
     const tabButtons = document.querySelectorAll(".js-tab-button");
     const tabPanels = document.querySelectorAll(".js-tab-panel1");

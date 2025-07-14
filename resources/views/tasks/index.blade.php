@@ -17,17 +17,17 @@
                         @endforeach
                     </div>
                     <!-- タスク表示部分 -->
-                    <div data-panel="0" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto">
-                        <div class="flex flex-col gap-6 mt-10 px-20">
-                            @foreach($children as $child)
+                    @foreach ($children as $index => $child)
+                        <div data-panel="{{ $index }}" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto {{ $index === 0 ? '' : 'hidden' }}">
+                            <div class="flex flex-col gap-6 mt-10 px-20">
                                 @foreach($child->tasks as $task)
-                                    <div class="task flex justify-between items-center mx-2 px-20 py-1 h-10">
-                                        <div class="task-name tracking-[0.5em] text-left">
+                                    <div class="js-task flex justify-between items-center mx-2 px-20 py-1 h-10">
+                                        <div class="tracking-[0.5em] text-left">
                                             {{ $task->contents }}
                                         </div>
                                         <div class="judge-button-area flex justify-center items-center gap-2 text-white w-1/4">
                                             <button data-result="true" class="js-judge-button w-24 h-10 bg-custom-pink rounded-full hover:bg-custom-pink/50">◯</button>
-                                            <button data-result="false" class="js-judge-button w-24 h-10 bg-custom-blue rounded-full hover:bg-custom-blue">✖︎</button>
+                                            <button data-result="false" class="js-judge-button w-24 h-10 bg-custom-blue rounded-full hover:bg-custom-blue/50">✖︎</button>
                                         </div>
                                         {{-- ○×ボタン押下後、表示される --}}
                                         <div class="js-judge-wrapper w-[250px] text-center bg-white indent-[0.2em] tracking-[0.2em] hidden">
@@ -36,53 +36,19 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @endforeach
-                        </div>
-                        <div>
-                            <button class="js-reward-button block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                                ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
-                            </button>
-                            <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
-                            @livewire('modal')
-                            <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
-                            <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
+                            </div>
+                            <div>
+                                <button class="js-reward-button block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
+                                </button>
+                                <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
+                                @livewire('modal')
+                                <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
+                                <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div data-panel="1" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto hidden">
-                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            ★<span class="text-custom-gray">ごほうびガチャ</span>★
-                        </button>
-                        <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
-                            <a href="#" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
-                            <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
-                            <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
-                        </div>
-                    </div>
-                    <div data-panel="2" class="js-tab-panel1 hidden flex flex-col justify-between bg-white border-custom-gray text-center h-[60vh] border-2 overflow-y-auto">
-                        <div class="mt-5 px-20 flex flex-col gap-4">
-                            @for ($i = 0; $i < 5; $i++)
-                                <div class="grid grid-cols-3 items-center py-3">
-                                    <div class="tracking-[0.5em] text-left col-span-2">
-                                        ゆいとテストテストテストテストテスト
-                                        {{-- {{$task->contents}} --}}
-                                    </div>
-                                    <div class="flex justify-end items-center gap-2 text-white">
-                                        <button class="w-24 h-10 bg-custom-pink rounded-full hover:bg-custom-pink/50">◯</button>
-                                        <button class="w-24 h-10 bg-custom-blue rounded-full hover:bg-custom-blue/60">✖︎</button>
-                                    </div>
-                                </div>
-                            @endfor
-                        </div>
-                        <button class="block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-10 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            ★<span class="text-custom-gray">ごほうびガチャ</span>★
-                        </button>
-                        <div class="flex justify-center items-center gap-8 text-white text-lg font-bold py-2 mb-2">
-                            <a href="javascript:void(0);" wire:click="$emit('openModal')" class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">約束の登録・編集</a>
-                            <a href="#" class="w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.4em] tracking-[0.4em]">たからばこ</a>
-                            <button id="reset-button" class="w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.4em] tracking-[0.4em]">リセット</button>
-                        </div>
-                    </div>
+                    @endforeach
             </div>
         </main>
     @include('components.my-footer')

@@ -8,18 +8,25 @@ class Modal extends Component
 {
     public $show = false;
 
-    protected $listeners = ['openModal' => 'open'];
+    public function open()
+    {
+        $this->show = true;
+    }
 
-    public function open() { $this->show = true; }
-    public function close() { $this->show = false; }
+    public function close()
+    {
+        $this->show = false;
+    }
 
-    public function goToCreate() {
+    public function goToCreate()
+    {
         return redirect()->route('tasks.create');
     }
-    public function goToEdit() {
+    public function goToEdit()
+    {
         return redirect()->route('tasks.edit'); // 必要に応じてルート名を修正
     }
-    
+
     public function render()
     {
         return view('livewire.modal');
