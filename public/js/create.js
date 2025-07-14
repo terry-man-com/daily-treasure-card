@@ -13,7 +13,7 @@ function taskResetButton() {
             button.addEventListener("click", (e) => {
                 e.preventDefault();
                 const buttonArea = button.closest(".judge-button-area");
-                const task = buttonArea.closest(".task");
+                const task = buttonArea.closest(".js-task");
                 const input = task.querySelector('input[type="text"]');
                 if (input) {
                     input.value = "";

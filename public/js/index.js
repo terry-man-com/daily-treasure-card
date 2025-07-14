@@ -23,7 +23,7 @@ function setupJudgeButtons() {
             button.addEventListener("click", () => {
                 const result = button.dataset.result;
                 const buttonArea = button.closest(".judge-button-area");
-                const task = buttonArea.closest(".task");
+                const task = buttonArea.closest(".js-task");
                 const wrapper = task.querySelector(".js-judge-wrapper");
                 buttonArea
                     .querySelectorAll(".js-judge-button")
