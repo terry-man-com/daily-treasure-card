@@ -1,4 +1,4 @@
-import { setupTabSwitching } from "./main.js";
+import { setupTabSwitching } from "../main.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     setupTabSwitching();
