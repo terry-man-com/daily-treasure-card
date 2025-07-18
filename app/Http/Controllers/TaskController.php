@@ -69,5 +69,10 @@ class TaskController extends Controller
         return view('tasks.edit', compact('children'));
     }
 
+    // タスク編集
+    public function update()
+    {
+        
+    }
 
 }

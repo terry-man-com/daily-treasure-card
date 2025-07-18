@@ -12,12 +12,14 @@ class DeleteConfirmModal extends Component
     public $errorMessage = '';
 
     protected $listeners = ['openDeleteModal' => 'open'];
-
+    
     public function open($params = [])
     {
         $this->show = true;
         $this->checkedTasks = $params['checkedTasks'] ?? [];
         $this->errorMessage = '';
+        // デバッグ
+
     }
 
     public function close()
@@ -29,6 +31,8 @@ class DeleteConfirmModal extends Component
 
     public function clickedDeleteButton()
     {
+        // デバッグ
+        // dd($this->checkedTasks);
         // チェックボックスが全てのからの場合
         // エラーメッセージを表示する
         if(empty($this->checkedTasks)) {
