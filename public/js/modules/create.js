@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     taskResetButton();
 });
 
-function taskResetButton() {
+const taskResetButton = () => {
     const tabPanels = document.querySelectorAll("[data-panel]");
     tabPanels.forEach((panel) => {
         const resetButtons = panel.querySelectorAll(".js-task-reset");

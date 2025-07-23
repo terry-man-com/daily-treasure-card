@@ -11,7 +11,7 @@
                 <!-- タブ部分 -->
                     {{-- タブ切り替えボタン --}}
                     {{-- for文でリファクタリング --}}
-                    <div class="flex justify-center gap-4 text-white text-lx font-medium z-10 relative">
+                    <div class="flex justify-center gap-4 text-white text-xl font-medium z-10 relative">
                         @foreach ($children as $index => $child)
                             <button data-tab="{{ $index }}" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} ">{{ $child->child_name }}</button>
                         @endforeach
@@ -37,7 +37,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div>
+                            <div class="mt-5">
                                 <button class="js-reward-button block text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-4 px-6 rounded-full w-full max-w-2xl indent-[0.4em] tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                                     ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                                 </button>
