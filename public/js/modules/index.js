@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pushedResetButton();
 });
 
-function updateRewardButton(panel) {
+const updateRewardButton = (panel) => {
     const allButtons = panel.querySelectorAll(".js-judge-button");
     const isAllJudged = Array.from(allButtons).every((btn) => btn.disabled);
     const rewardButton = panel.querySelector(".js-reward-button");
@@ -15,7 +15,7 @@ function updateRewardButton(panel) {
     }
 }
 
-function setupJudgeButtons() {
+const setupJudgeButtons = () => {
     const tabPanels = document.querySelectorAll("[data-panel]");
     tabPanels.forEach((panel) => {
         const judgeButtons = panel.querySelectorAll(".js-judge-button");
@@ -48,7 +48,7 @@ function setupJudgeButtons() {
     });
 }
 
-function pushedResetButton() {
+const pushedResetButton = () => {
     const tabPanels = document.querySelectorAll("[data-panel]");
     tabPanels.forEach((panel) => {
         const resetButton = panel.querySelector("#reset-button");

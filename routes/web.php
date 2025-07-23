@@ -11,6 +11,11 @@ Route::get('/dashboard', [TaskController::class, 'index'])->middleware(['auth'])
 
 // タスク編集ページ遷移用ルーティング（IDが不要のため独自にルーティング設定）
 Route::get('/tasks/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+
+// バルク更新・削除用ルート
+Route::put('/tasks/bulk-update', [TaskController::class, 'bulkUpdate'])->name('tasks.bulkUpdate');
+Route::delete('/tasks/bulk-delete', [TaskController::class, 'bulkDelete'])->name('tasks.bulkDelete');
+
 Route::resource('tasks', TaskController::class)
 ->except(['edit','update']);
 

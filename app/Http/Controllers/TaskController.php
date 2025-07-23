@@ -61,7 +61,7 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'タスクを登録しました！');
     }
 
-    // 「おやくそく登録」遷移用（タスク登録）
+    // 「おやくそく登録」遷移用（タスク編集）
     public function edit()
     {
         // リレーションで取得　+ childに紐づいたtasksも取得する
@@ -69,10 +69,38 @@ class TaskController extends Controller
         return view('tasks.edit', compact('children'));
     }
 
-    // タスク編集
-    public function update()
+    // バルク更新
+    public function bulkUpdate(Request $request)
     {
-        
+        $child_id = $request->input('child_id');
+        $contents = $request->input('contents', []);
+        $update_ids = $request->input('update_ids');
+
+        // チェックされたタスクのみ更新
+        if (!empty($update_ids)) {
+            $ids = explode(',', $update_ids);
+            foreach ($ids as $task_id) {
+                if (isset($contents[$task_id]) && !empty($contents[$task_id])) {
+                    Task::where('id', $task_id)
+                        ->where('child_id', $child_id)
+                        ->update(['contents' => $contents[$task_id]]);
+                }
+            }
+        }
+
+        return redirect()->route('tasks.edit')->with('success', '選択したタスクを更新しました！');
     }
 
+    // バルク削除
+    public function bulkDelete(Request $request)
+    {
+        $delete_ids = $request->input('delete_ids');
+
+        if (!empty($delete_ids)) {
+            $ids = explode(',', $delete_ids);
+            Task::whereIn('id', $ids)->delete();
+        }
+
+        return redirect()->route('tasks.edit')->with('success', '選択したタスクを削除しました！');
+    }
 }
