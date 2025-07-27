@@ -5,7 +5,7 @@
             <div class="relative bg-white rounded-xl px-8 py-10 shadow-lg w-[340px] flex flex-col items-center justify-center">
                 <!-- 閉じるボタン（モーダル本体の右上に絶対配置） -->
                 <button wire:click="close"
-                    class="absolute top-1 right-2 text-2xl text-gray-400 hover:text-gray-600 focus:outline-none">
+                    class="absolute top-1 right-4 text-2xl text-gray-400 hover:text-gray-600 focus:outline-none">
                     &times;
                 </button>
                 <div class="flex flex-col items-center justify-center gap-8 w-full mt-6">

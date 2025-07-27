@@ -58,4 +58,5 @@
     @push('scripts')
     <script type="module" src="{{ asset('js/modules/create.js') }}"></script>
     @endpush
+    @livewire('child-manage-modal')
 </x-app-layout>
