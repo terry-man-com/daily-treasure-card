@@ -6,12 +6,12 @@
                     <h1 class="text-h1 font-bold mb-4 tracking-[0.5em]">きょうのおやくそく</h1>
                 </div>
                 @if (session('success'))
-                    <div class="text-red-100">{{ session('success')}}</div>
+                    <div class="text-center text-red-400 mb-2">{{ session('success')}}</div>
                 @endif
                 <!-- タブ部分 -->
                     {{-- タブ切り替えボタン --}}
                     {{-- for文でリファクタリング --}}
-                    <div class="flex justify-center gap-4 text-white text-xl font-medium z-10 relative">
+                    <div class="flex justify-center gap-4 text-white font-medium z-10 relative">
                         @foreach ($children as $index => $child)
                             <button data-tab="{{ $index }}" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} ">{{ $child->child_name }}</button>
                         @endforeach
@@ -55,4 +55,5 @@
     @push('scripts')
     <script type="module" src="{{ asset('js/modules/index.js') }}"></script>
     @endpush
+    @livewire('child-manage-modal')
 </x-app-layout>
