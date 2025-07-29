@@ -3,7 +3,7 @@
     <main class="text-custom-gray flex flex-grow">
         <div class="container px-24 py-5 mx-auto">
             <div class="relative mb-10">
-                <h1 class="text-h1 font-bold text-center indent-[0.5em] tracking-[0.5em]">子供編集・削除</h1>
+                <h1 class="text-h1 font-bold text-center indent-[0.5em] tracking-[0.5em]">こども編集・削除</h1>
                 <a href="{{ route('tasks.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white text-xl px-6 py-2 indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-green-400/50 shadow">
                     戻る
                 </a>

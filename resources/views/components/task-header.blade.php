@@ -10,7 +10,7 @@
             ガチャ編集
         </a>
         <button onclick="Livewire.dispatch('openChildModal'); console.log('Livewireイベント発火')" class="flex justify-center items-center px-4 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/60">
-            こども登録
+            こども管理
         </button>
         <a href="#" class="flex justify-center items-center px-4 bg-fuchsia-400 border border-transparent rounded-full hover:bg-fuchsia-400/50">
             アカウント

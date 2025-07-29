@@ -11,7 +11,9 @@ class ChildController extends Controller
     public function index()
     {
         $children = auth()->user()->children;
+        
         return view('children.index', compact('children'));
+
     }
 
     // 新規作成画面表示
