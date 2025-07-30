@@ -2,8 +2,8 @@
     @include('components.task-header')
         <main class="text-custom-gray flex flex-grow">
             <div class="container px-24 py-5 mx-auto">
-                <div class="relative mb-10">
-                    <h1 class="text-h1 font-bold text-center indent-[0.5em] tracking-[0.5em]">ユーザー情報</h1>
+                <div class="relative mb-20">
+                    <h1 class="text-h1 font-bold text-center indent-[0.5em] tracking-[0.5em]">こども情報</h1>
                     <a href="{{ route('tasks.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white  text-xl px-6 py-2 indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-green-400/50 shadow">
                         戻る
                     </a>
@@ -11,56 +11,42 @@
                 @if (session('success'))
                     <div class="text-center text-red-400 mb-2">{{ session('success')}}</div>
                 @endif
-                <!-- タブ部分 -->
-                    {{-- タブ切り替えボタン --}}
-                    <div class="flex justify-center gap-4 text-white font-medium z-10 relative">
-                        @foreach ($children as $index => $child)
-                            <button data-tab="{{ $index }}" class="js-tab-button w-[216px] px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} ">{{ $child->child_name }}</button>
+                    <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
+                <div class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-lg mx-auto min-h-[400px]">
+                    <!-- 子ども情報エリア -->
+                    <div class="flex-1 flex flex-col gap-6 justify-between items-center px-3">
+                        @foreach ($children as $child)
+                            <div class="flex justify-between items-center w-full">
+                                <p class="font-bold indent-[0.4em] tracking-[0.4em]">{{ $child->child_name }}</p>
+                                <div class="flex ">
+                                    @if ($child->child_gender === 'girl')
+                                        <span class="inline-block px-8 py-1.5 font-bold text-white bg-custom-pink rounded-full">女の子</span>
+                                    @elseif ($child->child_gender === 'boy')
+                                        <span class="inline-block px-8 py-1.5 font-bold text-white bg-custom-blue rounded-full">男の子</span>
+                                    @endif
+                                </div>
+                            </div>
                         @endforeach
                     </div>
-                    <!-- タスク表示部分 -->
-                    @foreach ($children as $panelIndex => $child)
-                        <div data-panel="{{ $panelIndex }}" class="js-tab-panel1 {{ $panelIndex === 0 ? '' : 'hidden' }} flex flex-col bg-gray-100 border-custom-gray text-center font-medium h-[60vh] px-20 py-10 border-2 overflow-y-auto relative z-0">
-                            {{-- 更新用フォーム --}}
-                            <form id="update-form-{{ $child->id }}" method="POST" action="{{ route('tasks.bulkUpdate') }}">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="child_id" value="{{ $child->id }}">
-                                <input type="hidden" name="update_ids" id="update_ids_{{ $child->id }}">
-                            </form>
-                            {{-- 削除用フォーム --}}
-                            <form id="delete-form-{{ $child->id }}" method="POST" action="{{ route('tasks.bulkDelete') }}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="delete_ids" id="delete_ids_{{ $child->id }}">
-                            </form>
-                            {{-- タスク一覧（上寄せ） --}}
-                            <div class="flex flex-col gap-4 px-20 flex-1">
-                                @foreach ($child->tasks as $task)
-                                <div class="flex justify-center items-center py-2 gap-6">
-                                    <input type="checkbox" class="task-checkbox w-6 h-6 accent-gray-400" value="{{ $task->id }}">
-                                    <input type="text" form="update-form-{{ $child->id }}" name="contents[{{ $task->id }}]" class="task-name pl-2 tracking-[0.5em] w-4/5 border-2 text-xl font-bold" value="{{ $task->contents }}">
-                                </div>
-                                @endforeach
-                            </div>
-                            {{-- ボタンエリア（下部固定） --}}
-                            <div class="flex justify-center text-white font-bold text-center mt-10 gap-6">
-                                <button type="button" 
-                                    class="update-btn font-bold bg-green-400 w-[300px] px-6 py-2 rounded-full indent-[0.4em] tracking-[0.4em] hover:bg-green-400/60 shadow">
-                                    更新
-                                </button>
-                                <button type="button"
-                                    class="delete-btn w-[300px] px-4 py-2 bg-red-400 border border-transparent rounded-full hover:bg-red-400/60">
-                                    削除
-                                </button>
-                            </div>
-                        </div>
-                    @endforeach
+
+                    <!-- ボタンエリア（常に下に配置） -->
+                    <div class="flex justify-between text-white font-bold text-center mt-10">
+                        <button type="button" 
+                            class="update-btn font-bold bg-custom-pink w-[200px] px-6 py-2 rounded-full indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/60">
+                            新規登録
+                        </button>
+                        <button type="button"
+                            class="font-bold bg-green-400 w-[200px] px-4 py-2 rounded-full hover:bg-green-400/60">
+                            編集・削除
+                        </button>
+                    </div>
+                </div>
+            </div>
         </main> 
     @include('components.my-footer')
     @push('scripts')
     <script type="module" src="{{ asset('js/modules/delete.js') }}"></script>
     @endpush
-    @livewire('delete-confirm-modal')
+    @livewire('child-manage-modal')
 
 </x-app-layout>
