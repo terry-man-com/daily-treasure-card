@@ -12,29 +12,31 @@
                     <div class="text-center text-red-400 mb-2">{{ session('success')}}</div>
                 @endif
                     <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
-                <div class="bg-white border rounded-lg shadow p-10 max-w-2xl mx-auto flex flex-col min-h-[400px]">
+                <div class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-lg mx-auto min-h-[400px]">
                     <!-- 子ども情報エリア -->
-                    <div class="flex-1 flex flex-col gap-6 justify-center items-center">
+                    <div class="flex-1 flex flex-col gap-6 justify-between items-center px-3">
                         @foreach ($children as $child)
-                            <div class="flex items-center text-center">
-                                <p class="font-bold mb-2">{{ $child->child_name }}</p>
-                                @if ($child->child_gender === 'girl')
-                                    <span class="inline-block px-3 font-bold text-white bg-custom-pink rounded-full">女の子</span>
-                                @elseif ($child->child_gender === 'boy')
-                                    <span class="inline-block px-3 font-semibold text-white bg-custom-blue rounded-full">男の子</span>
-                                @endif
+                            <div class="flex justify-between items-center w-full">
+                                <p class="font-bold indent-[0.4em] tracking-[0.4em]">{{ $child->child_name }}</p>
+                                <div class="flex ">
+                                    @if ($child->child_gender === 'girl')
+                                        <span class="inline-block px-8 py-1.5 font-bold text-white bg-custom-pink rounded-full">女の子</span>
+                                    @elseif ($child->child_gender === 'boy')
+                                        <span class="inline-block px-8 py-1.5 font-bold text-white bg-custom-blue rounded-full">男の子</span>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
                     </div>
 
                     <!-- ボタンエリア（常に下に配置） -->
-                    <div class="flex justify-center text-white font-bold text-center mt-10 gap-6">
+                    <div class="flex justify-between text-white font-bold text-center mt-10">
                         <button type="button" 
-                            class="update-btn font-bold bg-custom-pink w-[200px] px-6 py-2 rounded-full indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/60 shadow">
+                            class="update-btn font-bold bg-custom-pink w-[200px] px-6 py-2 rounded-full indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/60">
                             新規登録
                         </button>
                         <button type="button"
-                            class="w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60">
+                            class="font-bold bg-green-400 w-[200px] px-4 py-2 rounded-full hover:bg-green-400/60">
                             編集・削除
                         </button>
                     </div>
