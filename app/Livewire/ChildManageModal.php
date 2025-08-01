@@ -35,12 +35,6 @@ class ChildManageModal extends Component
         return redirect()->route('children.create');
     }
 
-    public function goToChildEdit()
-    {
-        $this->close();
-        return redirect()->route('children.edit');
-    }
-
     public function render()
     {
         return view('livewire.child-manage-modal');

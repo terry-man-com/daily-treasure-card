@@ -50,7 +50,7 @@ class ChildController extends Controller
     {
         $request->validate([
             'children' => 'required|array',
-            'children.*.child_name' => 'required|string|max:20',
+            'children.*.child_name' => 'required|string|max:7',
             'children.*.gender' => 'required|in:男の子,女の子',
         ]);
 
@@ -69,17 +69,9 @@ class ChildController extends Controller
     }
 
     // 削除処理
-    public function destroy($id)
+    public function destroy(Child $child)
     {
-        $child = Child::where('id', $id)
-                     ->where('user_id', auth()->id()) // セキュリティチェック
-                     ->first();
-
-        if ($child) {
-            $child->delete();
-            return redirect()->route('children.edit')->with('success', '子供を削除しました！');
-        }
-
-        return redirect()->route('children.edit')->with('error', '削除に失敗しました。');
+        $child->delete();
+        return redirect()->route('children.index')->with('success', '削除しました！');
     }
 }

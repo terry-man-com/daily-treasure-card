@@ -2,10 +2,10 @@
     @include('components.task-header')
     <main class="text-custom-gray flex flex-grow">
         <div class="container px-24 py-5 mx-auto">
-            <div class="relative mb-10">
-                <h1 class="text-h1 font-bold text-center indent-[0.5em] tracking-[0.5em]">こども編集・削除</h1>
-                <a href="{{ route('tasks.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white text-xl px-6 py-2 indent-[0.4em] tracking-[0.4em] rounded-full hover:bg-green-400/50 shadow">
-                    戻る
+            <div class="relative mb-20">
+                <h1 class="text-h1 font-bold text-center indent-[0.5em] tracking-[0.5em]">こども編集</h1>
+                <a href="{{ route('children.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white font-bold text-xl px-6 py-2 rounded-full hover:bg-green-400/50">
+                    こども一覧
                 </a>
             </div>
 
@@ -26,73 +26,46 @@
                     </ul>
                 </div>
             @endif
-
-            @if($children->count() > 0)
-                <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
-                    <form method="POST" action="{{ route('children.update', 0) }}">
+                    <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
+                <div class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-3xl mx-auto min-h-[400px]">
+                    <!-- 子ども情報エリア -->
+                    <form method="POST" action="" class="flex flex-col flex-between">
                         @csrf
-                        @method('PUT')
-                        
-                        @foreach($children as $child)
-                            <div class="border-b border-gray-200 py-6 last:border-b-0">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-lg font-bold">子供 {{ $loop->iteration }}</h3>
-                                    <form method="POST" action="{{ route('children.destroy', $child->id) }}" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" 
-                                                class="bg-red-400 text-white px-4 py-2 rounded-full hover:bg-red-500 transition"
-                                                onclick="return confirm('本当に削除しますか？')">
-                                            削除
-                                        </button>
-                                    </form>
-                                </div>
-                                
-                                <input type="hidden" name="children[{{ $loop->index }}][id]" value="{{ $child->id }}">
-                                
-                                <div class="mb-4">
-                                    <label class="block text-lg font-bold mb-2">名前</label>
-                                    <input type="text" name="children[{{ $loop->index }}][child_name]" 
-                                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-custom-pink focus:outline-none"
-                                           value="{{ $child->child_name }}" maxlength="20" required>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-lg font-bold mb-2">性別</label>
-                                    <div class="flex gap-4">
-                                        <label class="flex items-center">
-                                            <input type="radio" name="children[{{ $loop->index }}][gender]" value="男の子" 
-                                                   {{ $child->gender == '男の子' ? 'checked' : '' }} required class="mr-2">
-                                            <span>男の子</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="radio" name="children[{{ $loop->index }}][gender]" value="女の子" 
-                                                   {{ $child->gender == '女の子' ? 'checked' : '' }} required class="mr-2">
-                                            <span>女の子</span>
-                                        </label>
-                                    </div>
+                        @method("PUT")
+                        <div class="flex-1 flex flex-col gap-6 items-center px-2">
+                            @foreach ($children as $index => $child)
+                            <div class="flex justify-between items-center w-full">
+                                <input type="text" class="font-bold text-base indent-[0.2em] tracking-[0.2em] w-1/2 pl-2 border-2 rounded-lg" name="children[{{ $child->id }}][child_name]" value="{{ $child->child_name}}"></input>
+                                {{-- 性別選択ボタン --}}
+                                <div class="flex flex-end gap-4">
+                                    <input type="hidden" name="children[{{ $child->id }}][gender]" value="{{ $child->child_gender }}" id="gender_{{ $child->id }}">
+                                    <button type="button"
+                                            class="gender-btn px-8 py-2 rounded-full font-bold text-white {{ $child->child_gender === 'boy' ? 'bg-custom-blue' : 'bg-gray-300' }}"
+                                            data-index="{{ $child->id }}"
+                                            data-gender="boy">
+                                        男の子
+                                    </button>
+                                    <button type="button" 
+                                            class="gender-btn px-8 py-2 rounded-full font-bold text-white {{ $child->child_gender === 'girl' ? 'bg-custom-pink' : 'bg-gray-300' }}"
+                                            data-index="{{ $child->id }}"
+                                            data-gender="girl">
+                                        女の子
+                                    </button>
                                 </div>
                             </div>
-                        @endforeach
-
-                        <div class="text-center mt-8">
-                            <button type="submit" 
-                                    class="bg-green-400 text-white font-bold py-3 px-8 rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-green-500 transition">
+                            @endforeach
+                        </div>
+                    <!-- ボタンエリア（常に下に配置） -->
+                        <div class="flex justify-center mt-10">
+                            <button type="submit"
+                                class="text-white font-bold text-center mt-10  bg-custom-pink w-2/5 px-6 py-2 rounded-full indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/60">
                                 更新
                             </button>
                         </div>
                     </form>
                 </div>
-            @else
-                <div class="text-center py-12">
-                    <p class="text-xl text-gray-600 mb-4">登録されている子供がいません</p>
-                    <a href="{{ route('children.create') }}" 
-                       class="bg-custom-pink text-white font-bold py-3 px-8 rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/80 transition">
-                        子供を登録する
-                    </a>
-                </div>
-            @endif
         </div>
     </main>
     @include('components.my-footer')
+    <script type="module" src="{{ asset('js/modules/gender.js') }}"></script>
 </x-app-layout> 
