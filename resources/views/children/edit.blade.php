@@ -29,13 +29,13 @@
                     <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
                 <div class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-3xl mx-auto min-h-[400px]">
                     <!-- 子ども情報エリア -->
-                    <form method="POST" action="" class="flex flex-col flex-between">
+                    <form method="POST" action="{{ route('children.update') }}" class="flex flex-col flex-between">
                         @csrf
                         @method("PUT")
                         <div class="flex-1 flex flex-col gap-6 items-center px-2">
                             @foreach ($children as $index => $child)
                             <div class="flex justify-between items-center w-full">
-                                <input type="text" class="font-bold text-base indent-[0.2em] tracking-[0.2em] w-1/2 pl-2 border-2 rounded-lg" name="children[{{ $child->id }}][child_name]" value="{{ $child->child_name}}"></input>
+                                <input type="text" class="font-bold text-base indent-[0.2em] tracking-[0.2em] w-1/2 pl-2 border-2 rounded-lg" name="children[{{ $child->id }}][child_name]" value="{{ $child->child_name }}"></input>
                                 {{-- 性別選択ボタン --}}
                                 <div class="flex flex-end gap-4">
                                     <input type="hidden" name="children[{{ $child->id }}][gender]" value="{{ $child->child_gender }}" id="gender_{{ $child->id }}">

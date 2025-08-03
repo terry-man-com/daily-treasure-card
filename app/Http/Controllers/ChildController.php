@@ -51,21 +51,20 @@ class ChildController extends Controller
         $request->validate([
             'children' => 'required|array',
             'children.*.child_name' => 'required|string|max:7',
-            'children.*.gender' => 'required|in:男の子,女の子',
+            'children.*.gender' => 'required|in:boy,girl',
         ]);
 
-        foreach ($request->children as $childData) {
-            if (isset($childData['id'])) {
-                Child::where('id', $childData['id'])
-                    ->where('user_id', auth()->id()) // セキュリティチェック
-                    ->update([
-                        'child_name' => $childData['child_name'],
-                        'gender' => $childData['gender'],
-                    ]);
-            }
+        foreach ($request->children as $childId => $childData) {
+            // $childIdは実際のchildのID
+            Child::where('id', $childId)
+                ->where('user_id', auth()->id()) // セキュリティチェック
+                ->update([
+                    'child_name' => $childData['child_name'],
+                    'child_gender' => $childData['gender'],
+                ]);
         }
 
-        return redirect()->route('tasks.index')->with('success', '子供情報を更新しました！');
+        return redirect()->route('children.index')->with('success', '子供情報を更新しました！');
     }
 
     // 削除処理
