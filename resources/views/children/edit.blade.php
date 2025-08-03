@@ -35,7 +35,7 @@
                         <div class="flex-1 flex flex-col gap-6 items-center px-2">
                             @foreach ($children as $index => $child)
                             <div class="flex justify-between items-center w-full">
-                                <input type="text" class="font-bold text-base indent-[0.2em] tracking-[0.2em] w-1/2 pl-2 border-2 rounded-lg" name="children[{{ $child->id }}][child_name]" value="{{ $child->child_name }}"></input>
+                                <input type="text" class="font-bold text-base indent-[0.2em] tracking-[0.2em] w-1/2 pl-2 border-2 rounded-lg @error('children.' . $child->id . '.child_name') border-red-400 border-2 @enderror" name="children[{{ $child->id }}][child_name]" value="{{ $child->child_name }}"></input>
                                 {{-- 性別選択ボタン --}}
                                 <div class="flex flex-end gap-4">
                                     <input type="hidden" name="children[{{ $child->id }}][gender]" value="{{ $child->child_gender }}" id="gender_{{ $child->id }}">
