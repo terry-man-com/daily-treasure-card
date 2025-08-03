@@ -27,8 +27,9 @@
                 </div>
             @endif
                     <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
+                <div class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-3xl mx-auto min-h-[400px]">
                     <!-- 子ども情報エリア -->
-                    <form method="POST" action="{{ route('children.update') }}" class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-3xl mx-auto min-h-[400px]">
+                    <form method="POST" action="{{ route('children.update') }}" class="flex flex-col flex-between">
                         @csrf
                         @method("PUT")
                         <div class="flex-1 flex flex-col gap-6 items-center px-2">
@@ -62,6 +63,7 @@
                             </button>
                         </div>
                     </form>
+                </div>
         </div>
     </main>
     @include('components.my-footer')
