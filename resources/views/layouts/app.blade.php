@@ -18,6 +18,7 @@
         <!-- Scripts -->
         @livewireStyles
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://kit.fontawesome.com/0645383f85.js" crossorigin="anonymous"></script>
     </head>
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col justify-between">
         {{ $slot }}

@@ -35,7 +35,7 @@ class ChildController extends Controller
             'gender' => $request->gender,
         ]);
 
-        return redirect()->route('tasks.index')->with('success', '子供を登録しました！');
+        return redirect()->route('children.index')->with('success', '子供を登録しました！');
     }
 
     // 編集画面表示
@@ -50,36 +50,27 @@ class ChildController extends Controller
     {
         $request->validate([
             'children' => 'required|array',
-            'children.*.child_name' => 'required|string|max:20',
-            'children.*.gender' => 'required|in:男の子,女の子',
+            'children.*.child_name' => 'required|string|max:7',
+            'children.*.gender' => 'required|in:boy,girl',
         ]);
 
-        foreach ($request->children as $childData) {
-            if (isset($childData['id'])) {
-                Child::where('id', $childData['id'])
-                    ->where('user_id', auth()->id()) // セキュリティチェック
-                    ->update([
-                        'child_name' => $childData['child_name'],
-                        'gender' => $childData['gender'],
-                    ]);
-            }
+        foreach ($request->children as $childId => $childData) {
+            // $childIdは実際のchildのID
+            Child::where('id', $childId)
+                ->where('user_id', auth()->id()) // セキュリティチェック
+                ->update([
+                    'child_name' => $childData['child_name'],
+                    'child_gender' => $childData['gender'],
+                ]);
         }
 
-        return redirect()->route('tasks.index')->with('success', '子供情報を更新しました！');
+        return redirect()->route('children.index')->with('success', '更新しました！');
     }
 
     // 削除処理
-    public function destroy($id)
+    public function destroy(Child $child)
     {
-        $child = Child::where('id', $id)
-                     ->where('user_id', auth()->id()) // セキュリティチェック
-                     ->first();
-
-        if ($child) {
-            $child->delete();
-            return redirect()->route('children.edit')->with('success', '子供を削除しました！');
-        }
-
-        return redirect()->route('children.edit')->with('error', '削除に失敗しました。');
+        $child->delete();
+        return redirect()->route('children.index')->with('success', '削除しました！');
     }
 }

@@ -8,9 +8,8 @@
                     &times;
                 </button>
                 <div class="flex flex-col items-center justify-center gap-8 w-full mt-6">
-                        <button wire:click="goToChildIndex" class="black w-full py-3 mb-4 bg-custom-pink text-white font-bold rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/40 transition">こども情報</button>
-                        <button wire:click="goToChildCreate" class="black w-full py-3 mb-4 bg-custom-brown text-white font-bold rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-custom-brown/40 transition">こども登録</button>
-                        <button wire:click="goToChildEdit" class="black w-full py-3 mb-4 bg-green-400 text-white font-bold rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-green-400/40 transition">こども編集</button>
+                    <button wire:click="goToChildIndex" class="black w-full py-3 mb-4 bg-custom-brown text-white font-bold rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-custom-brown/40 transition">こども情報</button>
+                    <button wire:click="goToChildCreate" class="black w-full py-3 mb-4 bg-custom-pink text-white font-bold rounded-full text-xl indent-[0.4em] tracking-[0.4em] hover:bg-custom-pink/40 transition">こども登録</button>
                 </div>
             </div>
         </div>
