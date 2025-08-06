@@ -185,6 +185,13 @@ return [
         ],
         'children.*.gender' => [
             'required' => '性別の入力は必須です。',
+        ],
+        'child_name' => [
+            'max' => '名前は７文字以内で入力してください。',
+            'required' => 'お子さまの名前は必須です。',
+        ],
+        'child_gender' => [
+            'required' => '性別の入力は必須です。',
         ]
     ],
 

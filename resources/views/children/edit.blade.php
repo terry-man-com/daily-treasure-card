@@ -9,10 +9,6 @@
                 </a>
             </div>
 
-            @if (session('success'))
-                <div class="text-center text-green-400 mb-2">{{ session('success') }}</div>
-            @endif
-
             @if (session('error'))
                 <div class="text-center text-red-400 mb-2">{{ session('error') }}</div>
             @endif
@@ -65,5 +61,5 @@
         </div>
     </main>
     @include('components.my-footer')
-    <script type="module" src="{{ asset('js/modules/gender.js') }}"></script>
+    <script type="module" src="{{ asset('js/modules/update-gender.js') }}"></script>
 </x-app-layout> 
