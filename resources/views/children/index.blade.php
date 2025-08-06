@@ -9,9 +9,10 @@
                     </a>
                 </div>
                 @if (session('success'))
-                    <div class="text-center text-red-400 mb-2">{{ session('success')}}</div>
+                    <div class="text-center text-red-400 font-bold">{{ session('success')}}</div>
                 @endif
-                    <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
+
+                <!-- こども表示部分 + ボタンエリア: 全体を白いカードで囲う -->
                 <div class="flex flex-col bg-white border-2 border-custom-gray p-10 max-w-lg mx-auto min-h-[400px]">
                     <!-- 子ども情報エリア -->
                     <div class="flex-1 flex flex-col gap-6 items-center px-2">

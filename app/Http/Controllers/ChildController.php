@@ -19,23 +19,33 @@ class ChildController extends Controller
     // 新規作成画面表示
     public function create()
     {
-        return view('children.create');
+        $children = auth()->user()->children;
+        return view('children.create', compact('children'));
     }
 
     // 新規作成処理
     public function store(Request $request)
     {
+        // 現在の子ども数をチェック
+        $currenChildrenCount = auth()->user()->children()->count();
+        if ($currenChildrenCount >= 3) {
+            return redirect()->back()
+                ->withErrors(['limit' => '子どもの登録は3人までです。'])
+                ->withInput();
+        }
+        
         $request->validate([
-            'child_name' => 'required|string|max:20',
-            'gender' => 'required|in:男の子,女の子',
+            'child_name' => 'required|string|max:7',
+            'child_gender' => 'required|in:boy,girl',
         ]);
 
+        // 子どもの登録数が３人未満なら登録処理
         auth()->user()->children()->create([
             'child_name' => $request->child_name,
-            'gender' => $request->gender,
+            'child_gender' => $request->child_gender,
         ]);
 
-        return redirect()->route('children.index')->with('success', '子供を登録しました！');
+        return redirect()->route('children.index')->with('success', 'お子さまを登録しました！');
     }
 
     // 編集画面表示
@@ -71,6 +81,6 @@ class ChildController extends Controller
     public function destroy(Child $child)
     {
         $child->delete();
-        return redirect()->route('children.index')->with('success', '削除しました！');
+        return redirect()->route('children.index')->with('success', 'お子さまを削除しました');
     }
 }
