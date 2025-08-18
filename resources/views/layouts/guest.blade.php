@@ -20,12 +20,22 @@
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col">
         @include('components.welcome-header')
 
-        <main class="flex-grow flex justify-center items-start pt-20 px-4">
-            <div class="bg-white max-w-md h-[50vh] overflow-hidden shadow-md rounded-xl flex flex-col w-[362px] ">
-                <div class="px-6 py-4 overflow-y-auto">
-                    {{ $slot }}
+        <main class="flex-grow flex justify-center items-center px-4 py-8">
+            @if(request()->routeIs('register'))
+                <!-- 新規登録画面：固定高さ + 内部スクロール -->
+                <div class="bg-white max-w-md w-full sm:w-[400px] lg:w-[420px] h-[75vh] sm:h-[70vh] lg:h-[65vh] shadow-lg rounded-xl overflow-hidden flex flex-col">
+                    <div class="px-6 py-6 sm:px-8 sm:py-8 overflow-y-auto flex-grow">
+                        {{ $slot }}
+                    </div>
                 </div>
-            </div>
+            @else
+                <!-- ログイン・パスワードリセット画面：コンテンツサイズに応じた高さ -->
+                <div class="bg-white max-w-md w-full sm:w-[400px] lg:w-[420px] shadow-lg rounded-xl overflow-hidden">
+                    <div class="px-6 py-6 sm:px-8 sm:py-8">
+                        {{ $slot }}
+                    </div>
+                </div>
+            @endif
         </main>
 
         @include('components.my-footer')

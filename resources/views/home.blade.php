@@ -24,45 +24,55 @@
     </head>
     <body class="bg-beige text-base text-custom-gray min-h-screen flex flex-col">
         @include('components.welcome-header')
-        <main class="text-custom-gray flex-grow">
-            <div class="container px-24 py-5 mx-auto">
-                <div class="text-center mb-10">
-                    <h1 class="text-h1 font-bold mb-4 tracking-widest">ワ ク ワ ク <span class="text-[#FF8EE1]">宝 </span>集 め</h1>
-                    <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto font-medium">ワクワク宝石集めとは、お子さまがパパ・ママと決めたお約束を守ることで宝石や可愛い動物をゲットできる習慣化支援アプリです。</p>
-                    <div class="flex mt-6 justify-center gap-20">
-                        <a href="{{ route('register') }}" class="w-auto md:w-48 px-8 py-4 text-base leading-6 bg-custom-green border border-transparent rounded-full hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-200">
+        <main class="text-custom-gray flex-grow flex items-center">
+            <div class="container px-4 sm:px-6 md:px-8 lg:px-24 2xl:px-32 py-3 sm:py-4 md:py-5 2xl:py-8 mx-auto w-full">
+                <div class="text-center mb-6 sm:mb-8 md:mb-10 2xl:mb-16">
+                    <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold mb-3 sm:mb-4 2xl:mb-6 tracking-wider sm:tracking-widest">ワ ク ワ ク <span class="text-[#FF8EE1]">宝 </span>集 め</h1>
+                    <p class="text-sm sm:text-base 2xl:text-lg leading-relaxed w-full sm:w-4/5 md:w-3/4 lg:w-2/4 2xl:w-2/5 mx-auto font-medium px-4 sm:px-0 2xl:mb-2">ワクワク宝石集めとは、お子さまがパパ・ママと決めたお約束を守ることで宝石や可愛い動物をゲットできる習慣化支援アプリです。</p>
+                    <div class="flex flex-col sm:flex-row mt-4 sm:mt-6 2xl:mt-10 justify-center items-center gap-3 sm:gap-8 md:gap-20 2xl:gap-24 px-4 sm:px-0">
+                        <a href="{{ route('register') }}" class="w-40 sm:w-auto md:w-48 2xl:w-56 px-6 sm:px-8 2xl:px-10 py-3 sm:py-4 2xl:py-5 text-sm sm:text-base 2xl:text-lg leading-6 bg-custom-green border border-transparent rounded-full hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-200 text-center">
                             始める
                         </a>
-                        <a href="{{ route('login') }}" class="w-auto md:w-48 px-8 py-4 text-base leading-6 bg-custom-brown border border-transparent rounded-full hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200">
+                        <a href="{{ route('login') }}" class="w-40 sm:w-auto md:w-48 2xl:w-56 px-6 sm:px-8 2xl:px-10 py-3 sm:py-4 2xl:py-5 text-sm sm:text-base 2xl:text-lg leading-6 bg-custom-brown border border-transparent rounded-full hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200 text-center">
                             ログイン
                         </a>
                     </div>
                 </div>
-                <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
-                    <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
-                        <div class="flex-grow">
-                            <h2 class="text-base font-bold mb-3">1.約束を決めよう</h2>
-                            <p class="leading-relaxed text-small-base px-10 font-bold mb-10">「約束の編集・追加」画面で、<br>今日頑張るお約束を決めよう。</p>
-                            <div class="w-44 inline-flex">
-                                <image src="{{ asset('images/top/e9eaceb7f1a2da3794aa72528d83f916.png')}}"></image>
+                <!-- 大画面では横3つ並び、iPad Proでは上2つ・下1つのレイアウト -->
+                <div class="flex flex-col lg:flex-row lg:flex-wrap xl:flex-nowrap justify-center items-stretch gap-6 lg:gap-8 2xl:gap-12 px-4 lg:px-0 max-w-7xl mx-auto">
+                    <!-- セクション1 -->
+                    <div class="w-full lg:w-[calc(50%-1rem)] xl:w-1/3 flex flex-col text-center items-center bg-white lg:bg-transparent rounded-lg lg:rounded-none p-4 lg:p-6 2xl:p-8 shadow-sm lg:shadow-none min-h-[320px] lg:min-h-[400px] 2xl:min-h-[480px]">
+                        <div class="flex-grow flex flex-col justify-between">
+                            <div>
+                                <h2 class="text-sm sm:text-base 2xl:text-xl font-bold mb-2 sm:mb-3 2xl:mb-4">1.約束を決めよう</h2>
+                                <p class="leading-relaxed text-xs sm:text-small-base 2xl:text-base px-2 sm:px-6 lg:px-4 2xl:px-6 font-bold mb-4 sm:mb-6 lg:mb-10 2xl:mb-12">「約束の編集・追加」画面で、<br class="hidden sm:block">今日頑張るお約束を決めよう。</p>
+                            </div>
+                            <div class="w-32 sm:w-40 lg:w-44 2xl:w-56 inline-flex mx-auto">
+                                <image src="{{ asset('images/top/e9eaceb7f1a2da3794aa72528d83f916.png')}}" class="w-full h-auto"></image>
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
-                        <div class="flex-grow">
-                            <h2 class="text-base font-bold mb-3">2.約束を守ろう</h2>
-                            <p class="leading-relaxed text-small-base px-10 font-bold mb-10 min-h-[80px]">約束を守って、ガチャを引こう。<br>ぜんぶ守ると可愛いアイテムが出るかも。</p>
-                            <div class="w-56 inline-flex pt-6">
-                                <image src="{{ asset('images/top/9dd2bbc98a51cdbff49a5bd3c8af12a6.png')}}"></image>
+                    <!-- セクション2 -->
+                    <div class="w-full lg:w-[calc(50%-1rem)] xl:w-1/3 flex flex-col text-center items-center bg-white lg:bg-transparent rounded-lg lg:rounded-none p-4 lg:p-6 2xl:p-8 shadow-sm lg:shadow-none min-h-[320px] lg:min-h-[400px] 2xl:min-h-[480px]">
+                        <div class="flex-grow flex flex-col justify-between">
+                            <div>
+                                <h2 class="text-sm sm:text-base 2xl:text-xl font-bold mb-2 sm:mb-3 2xl:mb-4">2.約束を守ろう</h2>
+                                <p class="leading-relaxed text-xs sm:text-small-base 2xl:text-base px-2 sm:px-6 lg:px-4 2xl:px-6 font-bold mb-4 sm:mb-6 lg:mb-10 2xl:mb-12 min-h-[60px] sm:min-h-[80px] 2xl:min-h-[100px]">約束を守って、ガチャを引こう。<br class="hidden sm:block">ぜんぶ守ると可愛いアイテムが出るかも。</p>
+                            </div>
+                            <div class="w-40 sm:w-48 lg:w-56 2xl:w-72 inline-flex mx-auto pt-2 sm:pt-4 lg:pt-6 2xl:pt-8">
+                                <image src="{{ asset('images/top/9dd2bbc98a51cdbff49a5bd3c8af12a6.png')}}" class="w-full h-auto"></image>
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
-                        <div class="flex-grow">
-                            <h2 class="text-base font-bold mb-3">３.宝箱を見に行こう</h2>
-                            <p class="leading-relaxed text-small-base px-10 font-bold mb-10">アイテムは宝箱で確認できるよ。約束を守って、可愛いアイテムをたくさん集めちゃおう。</p>
-                            <div class="w-60 inline-flex pt-6">
-                                <image src="{{ asset('images/top/7850e685adfb01ae8baa570985f41931.png')}}"></image>
+                    <!-- セクション3 (iPad Proサイズで中央に配置、大画面では3つ目として横並び) -->
+                    <div class="w-full lg:w-full xl:w-1/3 lg:max-w-md lg:mx-auto xl:mx-0 xl:max-w-none flex flex-col text-center items-center bg-white lg:bg-transparent rounded-lg lg:rounded-none p-4 lg:p-6 2xl:p-8 shadow-sm lg:shadow-none min-h-[320px] lg:min-h-[400px] 2xl:min-h-[480px]">
+                        <div class="flex-grow flex flex-col justify-between">
+                            <div>
+                                <h2 class="text-sm sm:text-base 2xl:text-xl font-bold mb-2 sm:mb-3 2xl:mb-4">３.宝箱を見に行こう</h2>
+                                <p class="leading-relaxed text-xs sm:text-small-base 2xl:text-base px-2 sm:px-6 lg:px-4 2xl:px-6 font-bold mb-4 sm:mb-6 lg:mb-10 2xl:mb-12">アイテムは宝箱で確認できるよ。約束を守って、可愛いアイテムをたくさん集めちゃおう。</p>
+                            </div>
+                            <div class="w-44 sm:w-52 lg:w-60 2xl:w-80 inline-flex mx-auto pt-2 sm:pt-4 lg:pt-6 2xl:pt-8">
+                                <image src="{{ asset('images/top/7850e685adfb01ae8baa570985f41931.png')}}" class="w-full h-auto"></image>
                             </div>
                         </div>
                     </div>
