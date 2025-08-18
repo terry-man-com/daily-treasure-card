@@ -8,6 +8,10 @@ class Modal extends Component
 {
     public $show = false;
 
+        protected $listeners = [
+        'openModal' => 'open'
+    ];
+
     public function open()
     {
         $this->show = true;

@@ -45,7 +45,7 @@ class ChildController extends Controller
             'child_gender' => $request->child_gender,
         ]);
 
-        return redirect()->route('children.index')->with('success', 'お子さまを登録しました！');
+        return redirect()->route('children.index')->with('success', 'お子さまを登録しました');
     }
 
     // 編集画面表示
@@ -74,7 +74,7 @@ class ChildController extends Controller
                 ]);
         }
 
-        return redirect()->route('children.index')->with('success', '更新しました！');
+        return redirect()->route('children.index')->with('success', 'お子さまの名前・性別を更新しました');
     }
 
     // 削除処理

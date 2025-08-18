@@ -17,7 +17,9 @@ class TaskController extends Controller
     public function index()
     {
          // リレーションで取得　+ childに紐づいたtasksも取得する
-        $children = auth()->user()->children()->with('tasks')->get();
+        $children = auth()->user()->children()->with(['tasks' => function($query) {
+            $query->orderBy('id');
+        }])->get();
         return view('tasks.index', compact('children'));
     }
 
@@ -58,7 +60,7 @@ class TaskController extends Controller
             } // タスク登録を繰り返す
         }
         
-        return redirect()->route('tasks.index')->with('success', 'タスクを登録しました！');
+        return redirect()->route('tasks.index')->with('success', 'タスクを登録しました');
     }
 
     // 「おやくそく登録」遷移用（タスク編集）
@@ -76,19 +78,33 @@ class TaskController extends Controller
         $contents = $request->input('contents', []);
         $update_ids = $request->input('update_ids');
 
+                // 通常のバリデーション
+        $request->validate([
+            'contents' => 'required|array',
+            'contents.*' => 'nullable|string|max:15',
+            'child_id' => 'required|integer|exists:children,id',
+            'update_ids' => 'required|string' // カンマ区切りの文字列として受け取る
+        ]);
+
         // チェックされたタスクのみ更新
         if (!empty($update_ids)) {
             $ids = explode(',', $update_ids);
+            
+            // 各タスクIDの存在確認とChild_idと照合
             foreach ($ids as $task_id) {
                 if (isset($contents[$task_id]) && !empty($contents[$task_id])) {
-                    Task::where('id', $task_id)
+                    $task = Task::where('id', $task_id)
                         ->where('child_id', $child_id)
-                        ->update(['contents' => $contents[$task_id]]);
+                        ->first();
+
+                    if ($task) {
+                        $task->update(['contents' => $contents[$task_id]]);
+                    }
                 }
             }
         }
 
-        return redirect()->route('tasks.edit')->with('success', '選択したタスクを更新しました！');
+        return redirect()->route('tasks.index')->with('success', '選択したタスクを更新しました');
     }
 
     // バルク削除
@@ -101,6 +117,6 @@ class TaskController extends Controller
             Task::whereIn('id', $ids)->delete();
         }
 
-        return redirect()->route('tasks.edit')->with('success', '選択したタスクを削除しました！');
+        return redirect()->route('tasks.edit')->with('success', '選択したタスクを削除しました');
     }
 }
