@@ -8,7 +8,7 @@
         </div>
 
         <!-- デスクトップ用ナビゲーション (xl以上で表示) -->
-        <div class="hidden xl:flex text-[#ffffff] text-small-base font-bold gap-3 indent-[0.2em] tracking-[0.2em]">
+        <div class="hidden xl:flex text-[#ffffff] text-small-base font-bold gap-3 indent-[0.1em] tracking-[0.1em]">
             <a href="#" class="flex justify-center items-center px-4 py-0 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">
                 ガチャ編集
             </a>

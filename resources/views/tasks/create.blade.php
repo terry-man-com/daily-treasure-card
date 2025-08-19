@@ -4,7 +4,7 @@
             <div class="container px-4 sm:px-6 md:px-8 lg:px-24 py-3 sm:py-4 md:py-5 mx-auto">
                 <div class="relative mb-10 sm:mb-8 md:mb-0 sm:min-h-[140px] md:min-h-[160px] sm:flex sm:items-center sm:justify-center">
                     <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold text-center mb-3 sm:mb-0 sm:py-6 md:py-8 indent-[0.2em] lg:indent-[0.5em] tracking-[0.2em] lg:tracking-[0.5em]">おやくそく登録</h1>
-                    <a href="{{ route('tasks.index') }}" class="absolute right- top-1/2 -translate-y-1/2 bg-green-400 text-white text-sm sm:text-base md:text-xl px-3 sm:px-4 md:px-6 py-2 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-green-500 shadow">
+                    <a href="{{ route('tasks.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white text-sm sm:text-base md:text-xl px-3 sm:px-4 md:px-6 py-2 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-green-500 shadow">
                         戻る
                     </a>
                 </div>
@@ -28,8 +28,10 @@
                             <form method="post" action="{{ route('tasks.store') }}" class="flex flex-col h-full">
                                 @csrf
                                 <div class="flex-1 flex flex-col gap-4 px-4 sm:px-8 md:px-12 lg:px-20 py-6 sm:py-8 md:py-10 overflow-y-auto">
+                                    <!-- 正しいchild_idを設定 -->
+                                    <input type="hidden" name="child_id" value="{{ $children[$panelIndex]->id }}">
+                                    
                                     <div class="js-task flex flex-col sm:flex-row justify-between items-center py-2 gap-3 sm:gap-0 bg-white sm:bg-transparent rounded sm:rounded-none p-3 sm:px-6 md:px-12">
-                                        <input type="hidden" name="child_id" value="{{ $child->id }}">
                                         <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-1 rounded-lg text-base sm:text-xl @error('contents.' ."0") border-red-400 border-2 @enderror order-1" placeholder="15文字以内で入力してください" value="{{ old('contents.0') }}">
                                         <div class="judge-button-area flex justify-center items-center text-white w-full sm:w-1/4 order-2">
                                             <button type="button" class="js-task-reset w-3/4 h-8 sm:h-10 bg-custom-blue indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-custom-blue text-lg sm:text-base">消す</button>
@@ -39,7 +41,6 @@
                                     {{-- $iの初期値を０にするとタスク数が５個未満ときにフォームが消える --}}
                                     @for ($i = 1; $i < 5; $i++) 
                                         <div class="js-task flex flex-1 flex-col sm:flex-row justify-between items-center py-2 gap-3 sm:gap-0 bg-white sm:bg-transparent rounded sm:rounded-none p-3 sm:px-6 md:px-12">
-                                            <input type="hidden" name="child_id" value="{{ $child->id }}">
                                             <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-1 rounded-lg text-base sm:text-xl @error('contents.' .$i) border-red-400 border-2 @enderror order-1" value="{{ old('contents.' . $i) }}">
                                             <div class="judge-button-area flex justify-center items-center text-white w-full sm:w-1/4 order-2">
                                                 <button type="button" class="js-task-reset w-3/4 h-8 sm:h-10 bg-custom-blue indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-custom-blue text-lg sm:text-base">消す</button>

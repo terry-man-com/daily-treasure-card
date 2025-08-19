@@ -4,10 +4,13 @@
             <div class="container px-4 sm:px-6 md:px-8 lg:px-24 py-3 sm:py-4 md:py-5 mx-auto">
                 <div class="relative mb-10 sm:mb-8 md:mb-0 sm:min-h-[140px] md:min-h-[160px] sm:flex sm:items-center sm:justify-center">
                     <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold text-center mb-3 sm:mb-0 sm:py-6 md:py-8 indent-[0.2em] lg:indent-[0.5em] tracking-[0.2em] lg:tracking-[0.5em]">おやくそく編集</h1>
+                    <a href="{{ route('tasks.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white text-sm sm:text-base md:text-xl px-3 sm:px-4 md:px-6 py-2 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-green-500 shadow">
+                        戻る
+                    </a>
                 </div>
                 {{-- 成功メッセージ --}}
                 @if (session('success'))
-                    <div class="text-center text-red-400 mb-2">{{ session('success')}}</div>
+                    <div class="text-center pb-2 text-red-400 font-bold">{{ session('success')}}</div>
                 @endif
                 {{-- エラーメッセージ --}}
                 @error("contents")
@@ -42,9 +45,9 @@
                             {{-- タスク一覧（上寄せ） --}}
                             <div class="flex flex-col gap-4 px-2 sm:px-8 md:px-12 lg:px-20 flex-1">
                                 @foreach ($child->tasks as $task)
-                                <div class="flex flex-col sm:flex-row justify-center items-center py-2 gap-3 sm:gap-6 bg-white sm:bg-transparent rounded sm:rounded-none p-3 sm:p-0">
+                                <div class="flex flex-col sm:flex-row justify-center items-center py-2 gap-3 sm:gap-6 bg-white sm:bg-transparent p-3 sm:p-0">
                                     <input type="checkbox" class="task-checkbox w-5 sm:w-6 h-5 sm:h-6 accent-gray-400 order-2 sm:order-1" value="{{ $task->id }}">
-                                    <input type="text" form="update-form-{{ $child->id }}" name="contents[{{ $task->id }}]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-2 text-base font-bold order-1 sm:order-2 rounded @error('contents.' .$task->id) border-red-400 border-2 @enderror" value="{{ $task->contents }}">
+                                    <input type="text" form="update-form-{{ $child->id }}" name="contents[{{ $task->id }}]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-1 text-base font-bold order-1 sm:order-2 rounded-lg @error('contents.' .$task->id) border-red-400 border-2 @enderror" value="{{ $task->contents }}">
                                 </div>
                                 @endforeach
                             </div>
