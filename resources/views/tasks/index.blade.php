@@ -9,6 +9,7 @@
                     <div class="text-center text-red-400 font-bold mb-2">{{ session('success')}}</div>
                 @endif
                 <!-- タブ部分 -->
+                @if($children->count() > 0)
                     {{-- タブ切り替えボタン --}}
                     {{-- for文でリファクタリング --}}
                     <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white font-medium z-10 relative">
@@ -49,6 +50,26 @@
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <!-- 子どもが登録されていない場合のデフォルトパネル -->
+                    <div data-panel="0" class="js-tab-panel1 flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto">
+                        <div class="flex flex-col gap-4 sm:gap-6 mt-6 sm:mt-10 px-4 lg:px-20">
+                            <div class="flex items-center justify-center h-full">
+                                <p class="text-xl text-custom-gray">まずは「こども管理」から子どもを登録してください</p>
+                            </div>
+                        </div>
+                        <div class="mt-5">
+                            <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
+                            </button>
+                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
+                                <button href="#" onclick="Livewire.dispatch('openModal');" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
+                                <a href="#" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">たからばこ</a>
+                                <button id="reset-button" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">リセット</button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </main>
     @include('components.my-footer')

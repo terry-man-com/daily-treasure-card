@@ -20,6 +20,7 @@
                     <div class="text-center pb-2 text-red-400 font-bold">{{ $message }}</div>
                 @enderror
                 <!-- タブ部分 -->
+                @if($children->count() > 0)
                     {{-- タブ切り替えボタン --}}
                     <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white font-medium z-10 relative">
                         @foreach ($children as $index => $child)
@@ -64,6 +65,14 @@
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <!-- 子どもが登録されていない場合のデフォルトパネル -->
+                    <div data-panel="0" class="js-tab-panel1 flex flex-col justify-center items-center bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto">
+                        <div class="flex items-center justify-center h-full">
+                            <p class="text-xl text-custom-gray">まずは「こども管理」からお子さまを登録してください</p>
+                        </div>
+                    </div>
+                @endif
         </main> 
     @include('components.my-footer')
     @push('scripts')
