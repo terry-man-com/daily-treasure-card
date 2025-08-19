@@ -67,7 +67,9 @@ class TaskController extends Controller
     public function edit()
     {
         // リレーションで取得　+ childに紐づいたtasksも取得する
-        $children = auth()->user()->children()->with('tasks')->get();
+        $children = auth()->user()->children()->with(['tasks' => function($query) {
+            $query->orderBy('id');
+        }])->get();
         return view('tasks.edit', compact('children'));
     }
 

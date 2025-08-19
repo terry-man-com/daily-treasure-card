@@ -6,7 +6,7 @@
                     <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold mb-3 sm:mb-0 sm:py-6 md:py-8 indent-[0.2em] lg:indent-[0.5em] tracking-[0.2em] lg:tracking-[0.5em]">きょうのおやくそく</h1>
                 </div>
                 @if (session('success'))
-                    <div class="text-center text-red-400 mb-2">{{ session('success')}}</div>
+                    <div class="text-center text-red-400 font-bold mb-2">{{ session('success')}}</div>
                 @endif
                 <!-- タブ部分 -->
                     {{-- タブ切り替えボタン --}}
