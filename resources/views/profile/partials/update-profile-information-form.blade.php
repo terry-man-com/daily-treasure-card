@@ -1,11 +1,11 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+        <h2 class="text-lg font-bold text-custom-gray mb-4">
+            プロフィール情報
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            アカウントのプロフィール情報とメールアドレスを更新できます。
         </p>
     </header>
 
@@ -48,7 +48,9 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <button type="submit" class="bg-custom-pink text-white px-6 py-2 rounded-full font-bold hover:bg-custom-pink/60 indent-[0.2em] tracking-[0.2em]">
+                保存
+            </button>
 
             @if (session('status') === 'profile-updated')
                 <p
@@ -56,8 +58,8 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                    class="text-sm text-green-600 font-bold"
+                >保存されました</p>
             @endif
         </div>
     </form>

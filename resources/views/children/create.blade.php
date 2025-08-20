@@ -77,4 +77,5 @@
     </main>
     @include('components.my-footer')
     <script type="module" src="{{ asset('js/modules/create-gender.js') }}"></script>
+    @livewire('child-manage-modal')
 </x-app-layout>
