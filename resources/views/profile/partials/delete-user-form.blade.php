@@ -1,30 +1,31 @@
 <section class="space-y-6">
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Delete Account') }}
+        <h2 class="text-lg font-bold text-custom-gray mb-4">
+            アカウント削除
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+            アカウントを削除すると、すべてのデータが完全に削除されます。
         </p>
     </header>
 
-    <x-danger-button
+    <button type="button"
+        class="bg-red-500 text-white px-6 py-2 rounded-full font-bold hover:bg-red-500/60 indent-[0.2em] tracking-[0.2em]"
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+    >アカウント削除</button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
             @csrf
             @method('delete')
 
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Are you sure you want to delete your account?') }}
+            <h2 class="text-lg font-bold text-custom-gray">
+                本当にアカウントを削除しますか？
             </h2>
 
             <p class="mt-1 text-sm text-gray-600">
-                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                アカウントを削除すると、すべてのデータが完全に削除されます。
             </p>
 
             <div class="mt-6">
@@ -41,14 +42,16 @@
                 <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
             </div>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
+            <div class="mt-6 flex justify-end gap-4">
+                <button type="button" 
+                    class="bg-gray-500 text-white px-4 py-2 rounded-full font-bold hover:bg-gray-500/60"
+                    x-on:click="$dispatch('close')">
+                    キャンセル
+                </button>
 
-                <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
-                </x-danger-button>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full font-bold hover:bg-red-500/60">
+                    削除する
+                </button>
             </div>
         </form>
     </x-modal>

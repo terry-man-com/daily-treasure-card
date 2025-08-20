@@ -12,10 +12,10 @@
             <a href="#" class="flex justify-center items-center px-4 py-0 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">
                 ガチャ編集
             </a>
-            <button onclick="Livewire.dispatch('openChildModal'); console.log('Livewireイベント発火')" class="flex justify-center items-center px-4 py-0 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/60 text-center">
+            <button onclick="Livewire.dispatch('openChildModal');" class="flex justify-center items-center px-4 py-0 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/60 text-center">
                 こども管理
             </button>
-            <a href="#" class="flex justify-center items-center px-4 py-0 bg-fuchsia-400 border border-transparent rounded-full hover:bg-fuchsia-400/50 text-center">
+            <a href="{{ route('profile.edit') }}" class="flex justify-center items-center px-4 py-0 bg-fuchsia-400 border border-transparent rounded-full hover:bg-fuchsia-400/50 text-center">
                 アカウント
             </a>
             <form method="POST" action="{{ route('logout')}}" class="inline">
@@ -53,7 +53,7 @@
             <button onclick="Livewire.dispatch('openChildModal'); console.log('Livewireイベント発火')" class="flex justify-center items-center py-3 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/60 text-center transition-colors">
                 こども管理
             </button>
-            <a href="#" class="flex justify-center items-center py-3 bg-fuchsia-400 border border-transparent rounded-full hover:bg-fuchsia-400/50 text-center transition-colors">
+            <a href="{{ route('profile.edit') }}" class="flex justify-center items-center py-3 bg-fuchsia-400 border border-transparent rounded-full hover:bg-fuchsia-400/50 text-center transition-colors">
                 アカウント
             </a>
             <form method="POST" action="{{ route('logout')}}">

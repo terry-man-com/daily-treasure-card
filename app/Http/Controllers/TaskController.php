@@ -51,6 +51,12 @@ class TaskController extends Controller
             'child_id' => 'required|integer|exists:children,id',
         ]);
 
+        // セキュリティチェック: 認証されたユーザーの子どもかどうか確認
+        $child = auth()->user()->children()->find($child_id);
+        if (!$child) {
+            abort(403, 'この操作は許可されていません。');
+        }
+
         foreach ($contents as $content) {
             if (!empty($content)) {
                 Task::create([
@@ -88,6 +94,12 @@ class TaskController extends Controller
             'update_ids' => 'required|string' // カンマ区切りの文字列として受け取る
         ]);
 
+        // セキュリティチェック: 認証されたユーザーの子どもかどうか確認
+        $child = auth()->user()->children()->find($child_id);
+        if (!$child) {
+            abort(403, 'この操作は許可されていません。');
+        }
+
         // チェックされたタスクのみ更新
         if (!empty($update_ids)) {
             $ids = explode(',', $update_ids);
@@ -116,7 +128,13 @@ class TaskController extends Controller
 
         if (!empty($delete_ids)) {
             $ids = explode(',', $delete_ids);
-            Task::whereIn('id', $ids)->delete();
+            
+            // セキュリティチェック: 認証されたユーザーに属する子どものタスクのみ削除
+            $userChildrenIds = auth()->user()->children()->pluck('id');
+            
+            Task::whereIn('id', $ids)
+                ->whereIn('child_id', $userChildrenIds)
+                ->delete();
         }
 
         return redirect()->route('tasks.edit')->with('success', '選択したタスクを削除しました');

@@ -80,6 +80,11 @@ class ChildController extends Controller
     // 削除処理
     public function destroy(Child $child)
     {
+        // セキュリティチェック: 認証されたユーザーの子どもかどうか確認
+        if ($child->user_id !== auth()->id()) {
+            abort(403, 'この操作は許可されていません。');
+        }
+        
         $child->delete();
         return redirect()->route('children.index')->with('success', 'お子さまを削除しました');
     }
