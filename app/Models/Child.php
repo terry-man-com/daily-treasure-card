@@ -21,4 +21,9 @@ class Child extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function rewardCollections()
+    {
+        return $this->hasMany(ChildRewardCollection::class);
+    }
 }
