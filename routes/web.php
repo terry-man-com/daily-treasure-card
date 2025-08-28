@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ChildController;
+use App\Http\Controllers\RewardController;
 
 Route::get('/', [TaskController::class, 'home'])->name('home');
 
