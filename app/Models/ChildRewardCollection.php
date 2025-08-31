@@ -10,7 +10,7 @@ class ChildRewardCollection extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'child_id', 'item_id', 'bucket', 'earned_at', 'reward_selection_id'
+        'child_id', 'item_id', 'earned_at', 'reward_selection_id'
     ];
 
     // earned_at は日時キャスト
