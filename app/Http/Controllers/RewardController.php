@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Rarity;
 use App\Models\ChildRewardCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RewardController extends Controller
 {
@@ -71,16 +72,38 @@ class RewardController extends Controller
 
         $selectedItem = $items->random();
 
-        // 獲得したアイテムをChildRewardCollectionに保存する
-        $rewardCollection = ChildRewardCollection::create([
-            'child_id' => $childId,
-            'item_id' => $selectedItem->id,
-            'earned_at' => now(),
-        ]);
+                // 🔥 日別でガチャ制限を実装
+        $today = now()->startOfDay();
+        $tomorrow = now()->startOfDay()->addDay();
 
-        // アイテム情報も含めて返す
+        // 今日のガチャ記録を検索
+        $existingReward = ChildRewardCollection::where('child_id', $childId)
+            ->whereBetween('earned_at', [$today, $tomorrow])
+            ->first();
+
+        if ($existingReward) {
+            // 更新
+            $existingReward->update([
+                'item_id' => $selectedItem->id,
+                'earned_at' => now(),
+            ]);
+            $rewardCollection = $existingReward;
+            $isNewRecord = false;
+        } else {
+            // 新規作成
+            $rewardCollection = ChildRewardCollection::create([
+                'child_id' => $childId,
+                'item_id' => $selectedItem->id,
+                'earned_at' => now(),
+            ]);
+            $isNewRecord = true;
+        }
+
+        // フロント側で表示するためのJSON返却
         return response()->json([
             'success' => true,
+            'is_new' => $isNewRecord, // フロントで「初回」「更新」を区別可能
+            'message' => $isNewRecord ? '今日の宝物をゲット！' : '今日の宝物を更新しました！',
             'item' => [
                 'id' => $selectedItem->id,
                 'item_name' => $selectedItem->item_name,
@@ -116,8 +139,8 @@ class RewardController extends Controller
         $start = $request->input('start');
         $end = $request->input('end');
 
-        $child = Child::where('id', $childId);
-            ->where('user_id', Auth::id());
+        $child = Child::where('id', $childId)
+            ->where('user_id', Auth::id())
             ->firstOrFail();
 
         $rewards = $child->rewardCollections()

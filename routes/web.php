@@ -35,6 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // ガチャ機能のルート
+    Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
+    Route::post('/gacha/draw', [RewardController::class, 'drawGacha'])->name('gacha.draw');
+    
+    // FullCalendar用API
+    Route::get('/api/rewards/{childId}/events', [RewardController::class, 'getEvents']);
+    Route::get('/api/rewards/{childId}/{date}', [RewardController::class, 'getRewardsByDate']);
 });
 
 require __DIR__.'/auth.php';

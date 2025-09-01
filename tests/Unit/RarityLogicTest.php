@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Http\Controllers\RewardController;
 use App\Models\Rarity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,7 +21,7 @@ class RarityLogicTest extends TestCase
         Rarity::create(['rarity_name' => 'fail']);
     }
 
-    // 全タスク達成時にperfectレアリティが返される
+    /** @test */
     public function perfect_rarity_is_returned_when_all_tasks_completed()
     {
         $controller = new RewardController();
@@ -34,8 +34,8 @@ class RarityLogicTest extends TestCase
         $this->assertEquals('perfect', $result->rarity_name);
     }
 
-    // 一部タスク達成時にpartialレアリティが返される
-    public function perfect_rarity_is_returned_when_some_tasks_completed()
+    /** @test */
+    public function partial_rarity_is_returned_when_some_tasks_completed()
     {
         $controller = new RewardController();
         $reflection = new \ReflectionClass($controller);
@@ -47,8 +47,8 @@ class RarityLogicTest extends TestCase
         $this->assertEquals('partial', $result->rarity_name);
     }
 
-    // 一部タスク達成時にfailレアリティが返される
-    public function perfect_rarity_is_returned_when_no_tasks_completed()
+    /** @test */
+    public function fail_rarity_is_returned_when_no_tasks_completed()
     {
         $controller = new RewardController();
         $reflection = new \ReflectionClass($controller);
@@ -60,8 +60,8 @@ class RarityLogicTest extends TestCase
         $this->assertEquals('fail', $result->rarity_name);
     }
 
-    // タスク数とtrue数が同じ場合はperfect
-    public function perfect_rarity_is_returned_when_task_count_equals_true_count()
+    /** @test */
+    public function perfect_is_returned_when_task_count_equals_true_count()
     {
         $controller = new RewardController();
         $reflection = new \ReflectionClass($controller);
