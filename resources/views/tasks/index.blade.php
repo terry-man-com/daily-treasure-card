@@ -75,6 +75,7 @@
     @include('components.my-footer')
     @push('scripts')
     <script type="module" src="{{ asset('js/modules/index.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     @endpush
     @livewire('child-manage-modal')
     @livewire('modal')
