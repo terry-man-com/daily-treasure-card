@@ -39,7 +39,7 @@
                                 @endforeach
                             </div>
                             <div class="mt-5">
-                                <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" onclick="triggerGacha({{ $child->id }})" disabled>
                                     ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                                 </button>
                                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="mt-5">
-                            <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" onclick="triggerGacha({{ $child->id }})" disabled>
                                 ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                             </button>
                             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
@@ -73,10 +73,40 @@
             </div>
         </main>
     @include('components.my-footer')
+    {{-- JavaScript関数 --}}
+    <script>
+    function triggerGacha(childId) {
+        console.log("🎯 Gacha button clicked for child:", childId);
+        const panel = event.target.closest('.js-tab-panel1');
+        const taskResults = collectTaskResults(panel);
+        console.log("📊 Task results:", taskResults);
+
+        // Livewireコンポーネントにガチャ開始を通知
+        console.log("🔗 Dispatching openGachaModal event");
+        Livewire.dispatch('openGachaModal', [childId, taskResults.trueCount, taskResults.totalTasks]);
+    }
+
+    function collectTaskResults(panel) {
+        const judgeWrappers = panel.querySelectorAll('.js-judge-wrapper');
+        let trueCount = 0;
+        let totalTasks = judgeWrappers.length;
+
+        judgeWrappers.forEach(wrapper => {
+            const trueSpan = wrapper.querySelector('[data-result="true"]');
+            if (trueSpan && !trueSpan.classList.contains('hidden')) {
+                trueCount++;
+            }
+        });
+
+        return { trueCount, totalTasks };
+    }
+    </script>
     @push('scripts')
     <script type="module" src="{{ asset('js/modules/index.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script type="module" src="{{ asset('js/modules/gacha.js') }}"></script>
     @endpush
     @livewire('child-manage-modal')
     @livewire('modal')
+    @livewire('gacha-modal')
 </x-app-layout>
