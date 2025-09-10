@@ -44,7 +44,7 @@
                                 </button>
                                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
                                     <button href="#" onclick="Livewire.dispatch('openModal');" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
-                                    <a href="#" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">たからばこ</a>
+                                    <a href="{{ route('rewards.index') }}" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">たからばこ</a>
                                     <button id="reset-button" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">リセット</button>
                                 </div>
                             </div>

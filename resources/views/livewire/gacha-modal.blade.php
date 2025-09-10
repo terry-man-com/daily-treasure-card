@@ -8,10 +8,11 @@
                 <div class="gacha-machine-container relative">
                     <img src="{{ asset('images/items/gacha_effect/gachagacha_1.png') }}"
                          alt="ガチャマシン"
-                         class="gacha-machine w-80 h-96 object-contain">
+                         class="gacha-machine w-80 h-96 object-contain"
+                         style="transform: scale(0,0); opacity: 0;">
 
                     {{-- カプセル出現エリア --}}
-                    <div class="gacha-capsule absolute bottom-20 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full border-4 border-white shadow-lg hidden"></div>
+                    <div class="gacha-capsule absolute bottom-20 left-1/2 transform -translate-x-1/2 w-80 h-96 hidden"></div>
                 </div>
             @endif
 

@@ -4,17 +4,13 @@ class GachaAnimationSystem {
     }
 
     init() {
-        console.log("🎬 GachaAnimationSystem initialized");
-
         // 即座にイベントリスナーを設定
         if (typeof Livewire !== "undefined") {
-            console.log("🔗 Setting up Livewire event listeners immediately");
             this.setupEventListeners();
         }
 
         // Livewire初期化後にも設定（保険）
         document.addEventListener("livewire:init", () => {
-            console.log("🔗 Livewire initialized, setting up event listeners");
             this.setupEventListeners();
         });
     }
@@ -42,55 +38,40 @@ class GachaAnimationSystem {
     }
 
     async handleGachaAnimation(data) {
-        console.log("🎮 handleGachaAnimation called with:", data);
-        const { step, childId, trueCount, totalTasks } = data;
+        const { childId, trueCount, totalTasks } = data;
+        // ✅ RewardController API呼び出し
+        try {
+            await this.showGachaMachine();
+            await this.playExcitementAnimation();
 
-        switch (step) {
-            case "start":
-                console.log("🎬 Starting gacha machine animation");
-                await this.showGachaMachine();
-                console.log("🎭 Starting excitement animation");
-                await this.playExcitementAnimation();
+            const response = await fetch("/gacha/draw", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+                body: JSON.stringify({
+                    child_id: childId,
+                    true_count: trueCount,
+                    total_tasks: totalTasks,
+                }),
+            });
 
-                // ✅ RewardController API呼び出し
-                try {
-                    const response = await fetch("/gacha/draw", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document.querySelector(
-                                'meta[name="csrf-token"]'
-                            ).content,
-                        },
-                        body: JSON.stringify({
-                            child_id: childId,
-                            true_count: trueCount,
-                            total_tasks: totalTasks,
-                        }),
-                    });
+            const result = await response.json();
+            console.log("🎉 API response received:", result);
 
-                    const result = await response.json();
-                    console.log("🎉 API response received:", result);
+            // カプセルアニメーション開始
+            await this.showCapsuleAnimation(result.rarity);
 
-                    // カプセルアニメーション開始
-                    await this.showCapsuleAnimation(result.rarity);
-
-                    // 結果を直接表示（シンプルアプローチ）
-                    this.showResultDirectly(result);
-                } catch (error) {
-                    console.error("ガチャAPIエラー:", error);
-                    Livewire.dispatch("showError", {
-                        message: "ガチャの実行中にエラーが発生しました",
-                    });
-                }
-                break;
-
-            case "capsule":
-                await this.showCapsuleAnimation(data.rarity);
-
-                // Livewireに結果表示を通知
-                Livewire.dispatch("triggerAnimation", { step: "result" });
-                break;
+            // 結果を直接表示（シンプルアプローチ）
+            this.showResultDirectly(result);
+        } catch (error) {
+            console.error("ガチャAPIエラー:", error);
+            Livewire.dispatch("showError", {
+                message: "ガチャの実行中にエラーが発生しました",
+            });
         }
     }
 
@@ -100,30 +81,12 @@ class GachaAnimationSystem {
         await new Promise((resolve) => setTimeout(resolve, 100));
 
         const machine = document.querySelector(".gacha-machine");
-        console.log("🔍 Machine element found:", machine);
-        console.log(
-            "🔍 All gacha-related elements:",
-            document.querySelectorAll('[class*="gacha"]')
-        );
 
-        if (!machine) {
-            console.error("❌ .gacha-machine element not found!");
-            console.log(
-                "🔍 Modal container:",
-                document.querySelector('[wire\\:click\\.self="closeModal"]')
-            );
-            return;
-        }
-
-        // 初期状態を設定
-        machine.style.transform = "scale(0)";
-        machine.style.opacity = "0";
-
-        // マシン登場アニメーション
+        // マシン登場アニメーション（初期状態は既にCSSで設定済み）
         console.log("🎬 Starting machine appearance animation");
         await anime({
             targets: machine,
-            scale: [0, 1],
+            scale: [1, 1],
             opacity: [0, 1],
             duration: 800,
             easing: "easeOutBack",
@@ -145,20 +108,26 @@ class GachaAnimationSystem {
         }).finished;
     }
 
-    // 🎬 Step 3: カプセル出現・消失
+    // 🎬 Step 3: ガチャマシン消失 → カプセル出現・消失
     async showCapsuleAnimation(rarity) {
+        const machine = document.querySelector(".gacha-machine");
         const capsule = document.querySelector(".gacha-capsule");
-        const rarityColors = {
-            perfect: "#FFD700",
-            partial: "#87CEEB",
-            fail: "#DDA0DD",
-        };
 
-        // カプセルの色を設定
-        capsule.style.backgroundColor = rarityColors[rarity];
+        // 1. ガチャマシンを消す
+        await anime({
+            targets: machine,
+            scale: [1, 0],
+            opacity: [1, 0],
+            duration: 500,
+            easing: "easeInQuad",
+        }).finished;
+
+        // 2. カプセル画像を表示
+        capsule.innerHTML =
+            '<img src="/images/items/gacha_effect/cupsule.png" alt="カプセル" class="w-full h-full object-contain">';
         capsule.classList.remove("hidden");
 
-        // カプセル出現（回転しながら落下）
+        // 3. カプセル出現（回転しながら落下）
         await anime({
             targets: capsule,
             translateY: [-100, 0],
@@ -169,13 +138,14 @@ class GachaAnimationSystem {
             easing: "easeOutBounce",
         }).finished;
 
-        // 少し待つ
+        // 4. 少し待つ
         await new Promise((resolve) => setTimeout(resolve, 800));
 
-        // カプセル消失（フェードアウト）
+        // 5. カプセル消失（回転しながら消える）
         await anime({
             targets: capsule,
             scale: [1, 0],
+            rotate: "1turn",
             opacity: [1, 0],
             duration: 600,
             easing: "easeInQuad",
@@ -236,10 +206,6 @@ class GachaAnimationSystem {
             itemImage.alt = result.item.item_name;
         }
 
-        // テキストを更新
-        const itemName = resultArea.querySelector("h3");
-        if (itemName) itemName.textContent = result.item.item_name;
-
         const rarityDisplay = resultArea.querySelector(".text-lg");
         if (rarityDisplay) {
             const rarityNames = {
@@ -297,22 +263,19 @@ class GachaAnimationSystem {
                          class="result-item-image w-40 h-40 mx-auto rounded-lg shadow-lg">
                 </div>
                 
-                <h3 class="text-2xl font-bold mb-3 text-custom-gray">${
-                    result.item.item_name
-                }</h3>
                 <p class="text-lg mb-3 font-semibold">${
                     rarityNames[result.rarity] || result.rarity
                 }</p>
                 <p class="text-sm text-gray-600 mb-6">${result.message}</p>
                 
                 <div class="flex gap-4 justify-center">
-                    <button onclick="this.closeGachaModal()" 
+                    <button onclick="Livewire.dispatch('closeGachaModal');" 
                             class="bg-custom-pink text-white px-6 py-3 rounded-full hover:bg-custom-pink/80 font-bold">
                         戻る
                     </button>
                     <button onclick="window.location.href='/rewards'" 
                             class="bg-custom-blue text-white px-6 py-3 rounded-full hover:bg-custom-blue/80 font-bold">
-                        たからばこを見る
+                        たからばこ
                     </button>
                 </div>
             </div>
