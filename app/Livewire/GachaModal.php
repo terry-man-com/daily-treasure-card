@@ -17,7 +17,8 @@ class GachaModal extends Component
     public $message = '';
 
     protected $listeners = [
-        'openGachaModal' => 'startGacha'
+        'openGachaModal' => 'startGacha',
+        'closeGachaModal' => 'closeModal'
     ];
 
     public function startGacha($childId, $trueCount, $totalTasks)
@@ -30,7 +31,6 @@ class GachaModal extends Component
         // gacha.jsにアニメーション開始を通知
         logger('🔗 GachaModal: Dispatching triggerGachaAnimation');
         $this->dispatch('triggerGachaAnimation', 
-            step: 'start',
             childId: $childId,
             trueCount: $trueCount,
             totalTasks: $totalTasks
