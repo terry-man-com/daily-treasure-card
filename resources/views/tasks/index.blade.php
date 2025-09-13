@@ -73,37 +73,10 @@
             </div>
         </main>
     @include('components.my-footer')
-    {{-- JavaScript関数 --}}
-    <script>
-    function triggerGacha(childId) {
-        console.log("🎯 Gacha button clicked for child:", childId);
-        const panel = event.target.closest('.js-tab-panel1');
-        const taskResults = collectTaskResults(panel);
-        console.log("📊 Task results:", taskResults);
-
-        // Livewireコンポーネントにガチャ開始を通知
-        console.log("🔗 Dispatching openGachaModal event");
-        Livewire.dispatch('openGachaModal', [childId, taskResults.trueCount, taskResults.totalTasks]);
-    }
-
-    function collectTaskResults(panel) {
-        const judgeWrappers = panel.querySelectorAll('.js-judge-wrapper');
-        let trueCount = 0;
-        let totalTasks = judgeWrappers.length;
-
-        judgeWrappers.forEach(wrapper => {
-            const trueSpan = wrapper.querySelector('[data-result="true"]');
-            if (trueSpan && !trueSpan.classList.contains('hidden')) {
-                trueCount++;
-            }
-        });
-
-        return { trueCount, totalTasks };
-    }
-    </script>
     @push('scripts')
     <script type="module" src="{{ asset('js/modules/index.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script type="module" src="{{ asset('js/modules/collect-task-results.js') }}"></script>
     <script type="module" src="{{ asset('js/modules/gacha.js') }}"></script>
     @endpush
     @livewire('child-manage-modal')
