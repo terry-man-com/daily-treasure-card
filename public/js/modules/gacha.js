@@ -1,22 +1,9 @@
 class GachaAnimationSystem {
     constructor() {
-        this.init();
-    }
-
-    init() {
-        // 即座にイベントリスナーを設定
-        if (typeof Livewire !== "undefined") {
-            this.setupEventListeners();
-        }
-
-        // Livewire初期化後にも設定（保険）
-        document.addEventListener("livewire:init", () => {
-            this.setupEventListeners();
-        });
+        this.setupEventListeners();
     }
 
     setupEventListeners() {
-        // Livewire v3 の正しい形式
         document.addEventListener("triggerGachaAnimation", (event) => {
             console.log(
                 "🎯 triggerGachaAnimation event received:",
@@ -24,55 +11,44 @@ class GachaAnimationSystem {
             );
             this.handleGachaAnimation(event.detail);
         });
-
-        // 旧形式も試行（保険）
-        if (typeof Livewire !== "undefined" && Livewire.on) {
-            Livewire.on("triggerGachaAnimation", (data) => {
-                console.log(
-                    "🎯 triggerGachaAnimation event received (old format):",
-                    data
-                );
-                this.handleGachaAnimation(data);
-            });
-        }
     }
 
     async handleGachaAnimation(data) {
         const { childId, trueCount, totalTasks } = data;
         // ✅ RewardController API呼び出し
         try {
-            await this.showGachaMachine();
-            await this.playExcitementAnimation();
+                await this.showGachaMachine();
+                await this.playExcitementAnimation();
 
-            const response = await fetch("/gacha/draw", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content,
-                },
-                body: JSON.stringify({
-                    child_id: childId,
-                    true_count: trueCount,
-                    total_tasks: totalTasks,
-                }),
-            });
+                const response = await fetch("/gacha/draw", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content,
+                    },
+                    body: JSON.stringify({
+                        child_id: childId,
+                        true_count: trueCount,
+                        total_tasks: totalTasks,
+                    }),
+                });
 
-            const result = await response.json();
-            console.log("🎉 API response received:", result);
+                const result = await response.json();
+                console.log("🎉 API response received:", result);
 
-            // カプセルアニメーション開始
-            await this.showCapsuleAnimation(result.rarity);
+                // カプセルアニメーション開始
+                await this.showCapsuleAnimation(result.rarity);
 
-            // 結果を直接表示（シンプルアプローチ）
-            this.showResultDirectly(result);
-        } catch (error) {
-            console.error("ガチャAPIエラー:", error);
-            Livewire.dispatch("showError", {
-                message: "ガチャの実行中にエラーが発生しました",
-            });
-        }
+                // 結果を直接表示（シンプルアプローチ）
+                await this.showResultDirectly(result);
+            } catch (error) {
+                console.error("ガチャAPIエラー:", error);
+                Livewire.dispatch("showError", {
+                    message: "ガチャの実行中にエラーが発生しました",
+                });
+            }
     }
 
     // 🎬 Step 1: ガチャマシン表示
@@ -131,6 +107,7 @@ class GachaAnimationSystem {
         await anime({
             targets: capsule,
             translateY: [-100, 0],
+            translateX: [0, 0], // 横位置を固定
             rotate: "2turn",
             scale: [0, 1],
             opacity: [0, 1],
@@ -147,80 +124,25 @@ class GachaAnimationSystem {
             scale: [1, 0],
             rotate: "1turn",
             opacity: [1, 0],
-            duration: 600,
+            duration: 2000,
             easing: "easeInQuad",
         }).finished;
 
         capsule.classList.add("hidden");
     }
 
-    // レアリティ別エフェクト
-    playRarityEffect(rarity) {
-        const resultArea = document.querySelector(".gacha-result");
-
-        if (rarity === "perfect") {
-            // ゴールドの輝き
-            anime({
-                targets: resultArea,
-                boxShadow: [
-                    "0 0 20px rgba(255, 215, 0, 0.8)",
-                    "0 0 40px rgba(255, 215, 0, 0.4)",
-                    "0 0 20px rgba(255, 215, 0, 0.8)",
-                ],
-                duration: 2000,
-                direction: "alternate",
-                loop: true,
-            });
-        } else if (rarity === "partial") {
-            // ブルーのパルス
-            anime({
-                targets: resultArea,
-                scale: [1, 1.05, 1],
-                duration: 1500,
-                direction: "alternate",
-                loop: 3,
-            });
-        }
-    }
-
     // 純粋なJavaScriptで結果を直接表示
-    showResultDirectly(result) {
+    async showResultDirectly(result) {
         console.log("🎯 Showing result directly with JavaScript");
 
-        // 既存の結果表示エリアを探す
-        const resultArea = document.querySelector(".gacha-result");
-        if (resultArea) {
-            // 既存の結果エリアを更新
-            this.updateResultContent(resultArea, result);
-        } else {
-            // 新しい結果エリアを作成
-            this.createResultModal(result);
-        }
-    }
+        // 新しい結果エリアを作成
+        this.createResultModal(result);
 
-    updateResultContent(resultArea, result) {
-        // 画像を更新
-        const itemImage = resultArea.querySelector(".result-item-image");
-        if (itemImage) {
-            itemImage.src = result.item.item_image_path;
-            itemImage.alt = result.item.item_name;
-        }
+        // 結果表示エリアが生成されるまで少し待つ
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
-        const rarityDisplay = resultArea.querySelector(".text-lg");
-        if (rarityDisplay) {
-            const rarityNames = {
-                perfect: "★★★ パーフェクト！",
-                partial: "★★ がんばった！",
-                fail: "★ またあした！",
-            };
-            rarityDisplay.textContent =
-                rarityNames[result.rarity] || result.rarity;
-        }
-
-        const message = resultArea.querySelector(".text-sm");
-        if (message) message.textContent = result.message;
-
-        console.log("✅ Result content updated successfully");
+        // レアリティエフェクトを再生
+        this.playRarityEffect(result.rarity);
     }
 
     createResultModal(result) {
@@ -233,11 +155,8 @@ class GachaAnimationSystem {
             return;
         }
 
-        // 既存のコンテンツを非表示
-        const existingContent = modalContainer.children;
-        for (let child of existingContent) {
-            child.style.display = "none";
-        }
+        // 既存のコンテンツを削除（シンプルに）
+        modalContainer.innerHTML = "";
 
         // 結果表示HTMLを作成
         const resultHTML = this.createResultHTML(result);
@@ -288,6 +207,35 @@ class GachaAnimationSystem {
         );
         if (modalContainer) {
             modalContainer.style.display = "none";
+        }
+    }
+
+    // レアリティ別エフェクト
+    playRarityEffect(rarity) {
+        const resultArea = document.querySelector(".gacha-result");
+
+        if (rarity === "perfect") {
+            // ゴールドの輝き
+            anime({
+                targets: resultArea,
+                boxShadow: [
+                    "0 0 20px rgba(255, 215, 0, 0.8)",
+                    "0 0 40px rgba(255, 215, 0, 0.4)",
+                    "0 0 20px rgba(255, 215, 0, 0.8)",
+                ],
+                duration: 2000,
+                direction: "alternate",
+                loop: true,
+            });
+        } else if (rarity === "partial") {
+            // ブルーのパルス
+            anime({
+                targets: resultArea,
+                scale: [1, 1.05, 1],
+                duration: 1500,
+                direction: "alternate",
+                loop: 3,
+            });
         }
     }
 }
