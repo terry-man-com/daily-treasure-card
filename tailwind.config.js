@@ -1,5 +1,5 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+import defaultTheme from "tailwindcss/defaultTheme";
+import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,6 +7,7 @@ export default {
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
+        "./resources/js/**/*.js",
     ],
 
     theme: {
@@ -37,6 +38,9 @@ export default {
                 "form-gray": "#F5F5F4",
                 "custom-blue": "#00AAFF",
                 "custom-pink": "#FD8DFD",
+                "calendar-title": "#849ab9",
+                "stamp-gold": "#fbbf24",
+                "stamp-blue": "#60a5fa",
             },
         },
     },

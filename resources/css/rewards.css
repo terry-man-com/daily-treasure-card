@@ -1,0 +1,111 @@
+/* リワードページ専用CSS - FullCalendar Tailwindスタイル */
+
+/* カレンダー全体 */
+.fc {
+    @apply bg-white rounded-lg shadow-sm;
+}
+
+/* ヘッダー部分 */
+.fc-toolbar {
+    @apply bg-gray-50 p-0.5 text-lg rounded-t-lg border-b border-gray-200;
+}
+
+.fc-toolbar-title {
+    @apply font-bold text-custom-gray;
+}
+
+.fc-button {
+    @apply bg-blue-500 text-white border-0 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200;
+}
+
+.fc-button:hover {
+    @apply bg-blue-600;
+}
+
+.fc-button:disabled {
+    @apply bg-gray-300 cursor-not-allowed;
+}
+
+/* 曜日ヘッダー */
+.fc-col-header-cell {
+    @apply bg-gray-100 text-gray-700 font-semibold text-center py-2 border-r border-gray-200;
+}
+
+/* 日付セル */
+.fc-daygrid-day {
+    @apply bg-white border-r border-b border-gray-200 min-h-[80px] transition-colors duration-200;
+}
+
+.fc-daygrid-day:hover {
+    @apply bg-gray-50;
+}
+
+.fc-daygrid-day.fc-day-today {
+    @apply bg-blue-100;
+}
+
+/* 日付数字 */
+.fc-daygrid-day-number {
+    @apply text-gray-700 font-medium text-sm p-2;
+}
+
+.fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    @apply text-blue-600 font-bold;
+}
+
+/* 他月の日付 */
+.fc-daygrid-day.fc-day-other-month {
+    @apply bg-gray-50 text-gray-400;
+}
+
+/* flower-stamp仕様のスタイル */
+.gacha-stamp-container {
+    @apply flex justify-center items-center w-full h-full rounded-full cursor-pointer transition-transform duration-200;
+}
+
+.gacha-stamp-container:hover {
+    @apply scale-110;
+}
+
+.flower-stamp {
+    @apply w-6 h-6;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* レアリティ別背景色 */
+.stamp-bg-perfect { 
+    @apply bg-stamp-gold;
+}
+
+.stamp-bg-partial { 
+    @apply bg-stamp-blue;
+}
+
+.stamp-bg-fail { 
+    @apply bg-gray-400;
+}
+
+/* イベント表示の調整 */
+.fc-event {
+    border: none !important;
+    background: transparent !important;
+}
+
+.fc-event-title {
+    @apply hidden;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .fc-daygrid-day {
+        @apply min-h-[60px];
+    }
+    
+    .fc-daygrid-day-number {
+        @apply text-xs p-1;
+    }
+    
+    .flower-stamp {
+        @apply w-5 h-5;
+    }
+}

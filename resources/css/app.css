@@ -1,3 +1,6 @@
+/* リワードページ専用CSS */
+@import './rewards.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

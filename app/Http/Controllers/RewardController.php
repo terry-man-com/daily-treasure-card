@@ -19,10 +19,8 @@ class RewardController extends Controller
     {
         $user = Auth::user();
         $children = $user->children()->with(['rewardCollections.item.category', 'rewardCollections.item.rarity'])->get();
-
         // 最初の子どもをデフォルト選択
         $selectedChild = $children->first();
-
         // 月別にグループ化した景品履歴
         $rewardsByMonth = [];
         if ($selectedChild) {
@@ -136,35 +134,91 @@ class RewardController extends Controller
      */
     public function getEvents(Request $request, $childId)
     {
-        $start = $request->input('start');
-        $end = $request->input('end');
+        try {
+            $start = $request->input('start');
+            $end = $request->input('end');
 
-        $child = Child::where('id', $childId)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+            // 受け取った日時文字列をログに出力
+            \Log::info('Raw datetime strings', [
+                'start_raw' => $start,
+                'end_raw' => $end
+            ]);
 
-        $rewards = $child->rewardCollections()
-            ->with(['item.category', 'item.rarity'])
-            ->whereBetween('earned_at',[$start, $end])
-            ->get();
+            // URL デコードしてみる
+            $start = urldecode($start);
+            $end = urldecode($end);
 
-        // FullCalendar形式に変換
-        $events = $rewards->map(function($reward) {
-            return [
-                'id' => $reward->id,
-                'title' => $reward->item->item_name,
-                'start' => $reward->earned_at->toISOString(),
-                'backgroundColor' => $this->getRarityColor($reward->item->rarity->rarity_name),
-                'borderColor' => $this->getRarityColor($reward->item->rarity->rarity_name),
-                'extendedProps' => [
-                    'item' => $reward->item,
-                    'rarity' => $reward->item->rarity,
-                    'earned_at' => $reward->earned_at
-                ]
-            ];
-        });
+            \Log::info('After URL decode', [
+                'start_decoded' => $start,
+                'end_decode' => $end
+            ]);
 
-        return response()->json($events);
+            // Carbonでパース
+            // 日時フォーマットを修正
+            try {
+                $start = \Carbon\Carbon::parse($start)->format('Y-m-d H:i:s');
+                $end = \Carbon\Carbon::parse($end)->format('Y-m-d H:i:s');
+            } catch (\Exception $parseError) {
+                \Log::error('Carbon parse error', [
+                    'error' => $parseError->getMessage(),
+                    'start' => $start,
+                    'end' => $end
+                ]);
+                $start = substr($start, 0, 10) . ' 00:00:00';
+                $end = substr($end, 0, 10) . ' 23:59:59';
+            }
+
+
+            // デバッグ情報をログに出力
+            \Log::info('getEvents called', [
+                'childId' => $childId,
+                'userId' => Auth::id(),
+                'start' => $start,
+                'end' => $end
+            ]);
+
+            $child = Child::where('id', $childId)
+                ->where('user_id', Auth::id())
+                ->first();
+
+            if (!$child) {
+                \Log::error('Child not found', [
+                    'childId' => $childId,
+                    'userId' => Auth::id()
+                ]);
+                return response()->json(['error' => 'Child not found'], 404);
+            }
+
+            $rewards = $child->rewardCollections()
+                ->with(['item.category', 'item.rarity'])
+                ->whereBetween('earned_at',[$start, $end])
+                ->get();
+
+            // FullCalendar形式に変換（flower-stamp仕様）
+            $events = $rewards->map(function($reward) {
+                return [
+                    'id' => $reward->id,
+                    'title' => $reward->item->item_name,
+                    'start' => $reward->earned_at->toISOString(),
+                    'extendedProps' => [
+                        'hasGacha' => true, // ガチャ実行日フラグ
+                        'item' => $reward->item,
+                        'rarity' => $reward->item->rarity,
+                        'earned_at' => $reward->earned_at
+                    ]
+                ];
+            });
+
+            \Log::info('Events found', ['count' => $events->count()]);
+            return response()->json($events);
+            
+        } catch (\Exception $e) {
+            \Log::error('getEvents error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 
     /**
