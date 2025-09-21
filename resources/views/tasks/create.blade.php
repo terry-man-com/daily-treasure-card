@@ -66,6 +66,7 @@
                         </div>
                     </div>
                 @endif
+            </div>
         </main>
     @include('components.my-footer')
     @push('scripts')

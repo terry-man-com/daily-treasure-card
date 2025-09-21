@@ -50,16 +50,6 @@ class GachaModal extends Component
         $this->reset(['selectedItem', 'rarity', 'isNewRecord', 'message']);
     }
 
-    public function getRarityDisplayName($rarityName)
-    {
-        $rarityNames = [
-            'perfect' => '★★★ パーフェクト！',
-            'partial' => '★★ がんばった！',
-            'fail' => '★ またあした！'
-        ];
-        return $rarityNames[$rarityName] ?? $rarityName;
-    }
-    
     public function render()
     {
         return view('livewire.gacha-modal');

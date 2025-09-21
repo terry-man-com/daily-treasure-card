@@ -1,3 +1,5 @@
+import axios from "axios";
+
 class GachaAnimationSystem {
     constructor() {
         this.setupAxios();
@@ -60,7 +62,7 @@ class GachaAnimationSystem {
 
         // マシン登場アニメーション（初期状態は既にCSSで設定済み）
         console.log("🎬 Starting machine appearance animation");
-        await anime({
+        await window.anime({
             targets: machine,
             scale: [1, 1],
             opacity: [0, 1],
@@ -75,7 +77,7 @@ class GachaAnimationSystem {
         const machine = document.querySelector(".gacha-machine");
 
         // 小刻みに揺れる
-        await anime({
+        await window.anime({
             targets: machine,
             translateX: [0, -5, 5, -3, 3, 0],
             translateY: [0, -2, 2, -1, 1, 0],
@@ -90,7 +92,7 @@ class GachaAnimationSystem {
         const capsule = document.querySelector(".gacha-capsule");
 
         // 1. ガチャマシンを消す
-        await anime({
+        await window.anime({
             targets: machine,
             scale: [1, 0],
             opacity: [1, 0],
@@ -104,7 +106,7 @@ class GachaAnimationSystem {
         capsule.classList.remove("hidden");
 
         // 3. カプセル出現（回転しながら落下）
-        await anime({
+        await window.anime({
             targets: capsule,
             translateY: [-100, 0],
             translateX: [0, 0], // 横位置を固定
@@ -119,7 +121,7 @@ class GachaAnimationSystem {
         await new Promise((resolve) => setTimeout(resolve, 800));
 
         // 5. カプセル消失（回転しながら消える）
-        await anime({
+        await window.anime({
             targets: capsule,
             scale: [1, 0],
             rotate: "1turn",
@@ -216,7 +218,7 @@ class GachaAnimationSystem {
 
         if (rarity === "perfect") {
             // ゴールドの輝き
-            anime({
+            window.anime({
                 targets: resultArea,
                 boxShadow: [
                     "0 0 20px rgba(255, 215, 0, 0.8)",
@@ -229,7 +231,7 @@ class GachaAnimationSystem {
             });
         } else if (rarity === "partial") {
             // ブルーのパルス
-            anime({
+            window.anime({
                 targets: resultArea,
                 scale: [1, 1.05, 1],
                 duration: 1500,

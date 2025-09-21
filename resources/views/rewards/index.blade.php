@@ -1,50 +1,35 @@
+{{-- @dd($selectedChild->id); --}}
 <x-app-layout>
     @include('components.task-header')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('たからばこ') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {{-- 子ども選択タブ --}}
+    <main class="text-custom-gray flex flex-grow">
+        <div class="container px-4 sm:px-6 md:px-8 lg:px-24 py-3 sm:py-4 md:py-5 mx-auto">
+            <div class="relative mb-10 sm:mb-8 md:mb-0 sm:min-h-[140px] md:min-h-[160px] sm:flex sm:items-center sm:justify-center">
+                <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold text-center mb-3 sm:mb-0 sm:py-6 md:py-8 indent-[0.2em] lg:indent-[0.5em] tracking-[0.2em] lg:tracking-[0.5em]">たからばこ</h1>
+                <a href="{{ route('tasks.index') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white text-sm sm:text-base md:text-xl px-3 sm:px-4 md:px-6 py-2 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-green-500 shadow">
+                    戻る
+                </a>
+            </div> 
+            <!-- タブ部分 -->
             @if($children->count() > 0)
-                <div class="mb-6">
-                    <div class="flex space-x-2 overflow-x-auto">
-                        @foreach($children as $index => $child)
-                            <button 
-                                data-child-id="{{ $child->id }}"
-                                class="child-tab px-4 py-2 rounded-full text-white whitespace-nowrap
-                                    {{ $child->id === $selectedChild?->id ? 'bg-custom-pink active' : 'bg-custom-blue' }}"
-                                onclick="switchChild({{ $child->id }})">
-                                {{ $child->child_name }}
-                            </button>
-                        @endforeach
+                {{-- タブ切り替えボタン --}}
+                <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white font-medium z-10 relative">
+                    @foreach ($children as $index => $child)
+                        <button data-tab="{{ $index }}" class="js-tab-button flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base">{{ $child->child_name }}</button>
+                    @endforeach
+                </div>
+                {{-- カレンダー表示エリア --}}
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        @if($selectedChild)
+                            <div id="calendar"></div>
+                        @endif
                     </div>
                 </div>
             @endif
-
-            {{-- カレンダー表示エリア --}}
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    @if($selectedChild)
-                        <div class="mb-4">
-                            <h3 class="text-lg font-semibold">{{ $selectedChild->child_name }}の宝物カレンダー</h3>
-                        </div>
-                        <div id="calendar"></div>
-                    @else
-                        <div class="text-center py-8">
-                            <p class="text-gray-500">子どもが登録されていません</p>
-                            <a href="{{ route('dashboard') }}" class="text-blue-500 hover:underline">
-                                子どもを登録する
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-            {{-- 景品詳細モーダル --}}
+        </div>
+    </main> 
+    @include('components.my-footer')
+            {{-- 景品詳細モーダル
             <div id="reward-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-white rounded-lg p-6 max-w-md mx-4">
                     <div class="flex justify-between items-center mb-4">
@@ -59,129 +44,18 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
+            </div> --}}
     @push('styles')
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
-    <style>
-        .fc-event-title { font-size: 12px; }
-        .rarity-perfect { background-color: #FFD700 !important; border-color: #FFD700 !important; }
-        .rarity-partial { background-color: #87CEEB !important; border-color: #87CEEB !important; }
-        .rarity-fail { background-color: #DDA0DD !important; border-color: #DDA0DD !important; }
-    </style>
     @endpush
 
     @push('scripts')
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script>
-        let calendar;
-        let currentChildId = {{ $selectedChild->id ?? 'null' }};
-
-        document.addEventListener('DOMContentLoaded', function() {
-            if (currentChildId) {
-                initializeCalendar();
-            }
-        });
-
-        function initializeCalendar() {
-            const calendarEl = document.getElementById('calendar');
-
-            calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'ja',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,listWeek'
-                },
-                events: function(info, successCallback, failureCallback) {
-                    if (!currentChildId) {
-                        successCallback([]);
-                        return;
-                    }
-
-                    fetch(`/api/rewards/${currentChildId}/events?start=${info.startStr}&end=${info.endStr}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            successCallback(data);
-                        })
-                        .catch(error => {
-                            console.error('Error loading events:', error);
-                            failureCallback(error);
-                        });
-                },
-                eventClick: function(info) {
-                    showRewardDetail(info.event);
-                },
-                eventClassNames: function(arg) {
-                    return [`rarity-${arg.event.extendedProps.rarity.rarity_name}`];
-                }
-            });
-
-            calendar.render();
-        }
-
-        function switchChild(childId) {
-            currentChildId = childId;
-
-            // タブの表示を更新
-            document.querySelectorAll('.child-tab').forEach(tab => {
-                tab.classList.remove('bg-custom-pink', 'active');
-                tab.classList.add('bg-custom-blue');
-            });
-            document.querySelector(`[data-child-id="${childId}"]`).classList.remove('bg-custom-blue');
-            document.querySelector(`[data-child-id="${childId}"]`).classList.add('bg-custom-pink', 'active');
-
-            // カレンダーを再読み込み
-            if (calendar) {
-                calendar.refetchEvents();
-            }
-        }
-
-        function showRewardDetail(event) {
-            const modal = document.getElementById('reward-modal');
-            const title = document.getElementById('modal-title');
-            const content = document.getElementById('modal-content');
-
-            const item = event.extendedProps.item;
-            const rarity = event.extendedProps.rarity;
-            const earnedAt = new Date(event.extendedProps.earned_at);
-
-            title.textContent = `${earnedAt.toLocaleDateString('ja-JP')} の景品`;
-
-            content.innerHTML = `
-                <img src="${item.item_image_path}" alt="${item.item_name}"
-                     class="w-32 h-32 mx-auto mb-4 rounded-lg shadow-lg">
-                <h4 class="text-lg font-bold mb-2">${item.item_name}</h4>
-                <p class="text-sm text-gray-600 mb-2">レアリティ: ${getRarityDisplayName(rarity.rarity_name)}</p>
-                <p class="text-sm text-gray-600">カテゴリ: ${item.category.category_name}</p>
-                <p class="text-xs text-gray-400 mt-2">獲得時刻: ${earnedAt.toLocaleTimeString('ja-JP')}</p>
-            `;
-
-            modal.classList.remove('hidden');
-        }
-
-        function closeRewardModal() {
-            document.getElementById('reward-modal').classList.add('hidden');
-        }
-
-        function getRarityDisplayName(rarity) {
-            const rarityNames = {
-                'perfect': '★★★ パーフェクト！',
-                'partial': '★★ がんばった！',
-                'fail': '★ またあした！'
-            };
-            return rarityNames[rarity] || rarity;
-        }
-
-        // ESCキーでモーダルを閉じる
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeRewardModal();
-            }
-        });
+        // グローバル変数として設定
+        window.currentChildId = {{ $selectedChild->id ?? 'null' }};
     </script>
+    <script type="module" src="{{ asset('js/modules/reward-calendar.js') }}"></script>
+
     @endpush
 </x-app-layout>
