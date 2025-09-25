@@ -70,7 +70,7 @@ class RewardController extends Controller
 
         $selectedItem = $items->random();
 
-                // 🔥 日別でガチャ制限を実装
+        // 🔥 日別でガチャ制限を実装
         $today = now()->startOfDay();
         $tomorrow = now()->startOfDay()->addDay();
 
@@ -138,54 +138,16 @@ class RewardController extends Controller
             $start = $request->input('start');
             $end = $request->input('end');
 
-            // 受け取った日時文字列をログに出力
-            \Log::info('Raw datetime strings', [
-                'start_raw' => $start,
-                'end_raw' => $end
-            ]);
-
-            // URL デコードしてみる
-            $start = urldecode($start);
-            $end = urldecode($end);
-
-            \Log::info('After URL decode', [
-                'start_decoded' => $start,
-                'end_decode' => $end
-            ]);
-
-            // Carbonでパース
             // 日時フォーマットを修正
-            try {
-                $start = \Carbon\Carbon::parse($start)->format('Y-m-d H:i:s');
-                $end = \Carbon\Carbon::parse($end)->format('Y-m-d H:i:s');
-            } catch (\Exception $parseError) {
-                \Log::error('Carbon parse error', [
-                    'error' => $parseError->getMessage(),
-                    'start' => $start,
-                    'end' => $end
-                ]);
-                $start = substr($start, 0, 10) . ' 00:00:00';
-                $end = substr($end, 0, 10) . ' 23:59:59';
-            }
+            $start = substr($start, 0, 10) . ' 00:00:00';
+            $end = substr($end, 0, 10) . ' 23:59:59';
 
-
-            // デバッグ情報をログに出力
-            \Log::info('getEvents called', [
-                'childId' => $childId,
-                'userId' => Auth::id(),
-                'start' => $start,
-                'end' => $end
-            ]);
 
             $child = Child::where('id', $childId)
                 ->where('user_id', Auth::id())
                 ->first();
 
             if (!$child) {
-                \Log::error('Child not found', [
-                    'childId' => $childId,
-                    'userId' => Auth::id()
-                ]);
                 return response()->json(['error' => 'Child not found'], 404);
             }
 
@@ -195,6 +157,7 @@ class RewardController extends Controller
                 ->get();
 
             // FullCalendar形式に変換（flower-stamp仕様）
+            // extentedPropsはカスタムデータ
             $events = $rewards->map(function($reward) {
                 return [
                     'id' => $reward->id,
@@ -209,9 +172,8 @@ class RewardController extends Controller
                 ];
             });
 
-            \Log::info('Events found', ['count' => $events->count()]);
             return response()->json($events);
-            
+
         } catch (\Exception $e) {
             \Log::error('getEvents error', [
                 'message' => $e->getMessage(),
