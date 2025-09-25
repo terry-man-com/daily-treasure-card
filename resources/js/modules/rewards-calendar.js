@@ -18,7 +18,7 @@ class RewardsCalendar {
     initializeCalendar() {
         const calendarEl = document.getElementById("calendar");
         if (!calendarEl) return;
-
+        // カレンダーの初期設定
         this.calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
             locale: "ja",
@@ -29,6 +29,10 @@ class RewardsCalendar {
                 center: "title",
                 right: "next",
             },
+
+            // カレンダーを表示後の処理
+            // RewardControllerのgetEventsを叩きにいき
+            // 成功すれば、successCallbackに返り値を格納、失敗すれば何も返さない。
             events: (info, successCallback, failureCallback) => {
                 if (!this.currentChildId) {
                     successCallback([]);
@@ -49,6 +53,7 @@ class RewardsCalendar {
                         credentials: "same-origin",
                     }
                 )
+                    // HTTPレスポンスを確認し、RewardControllerからのJSONデータを抽出する
                     .then((response) => {
                         if (!response.ok) {
                             throw new Error(
@@ -57,6 +62,7 @@ class RewardsCalendar {
                         }
                         return response.json();
                     })
+                    // 実際のデータ（当月のガチャ情報を抽出し、successCallbackに代入する）
                     .then((data) => {
                         console.log("Events loaded:", data);
                         successCallback(data);
@@ -66,19 +72,21 @@ class RewardsCalendar {
                         failureCallback(error);
                     });
             },
+            // 各日付の処理を記載
+            // 今回はガチャ実施日にアイテムを表示する。
             eventContent: (arg) => {
-                // ガチャ実行日のみflower-stampを表示
+                // 獲得したアイテムをそのまま表示
                 const hasGacha = arg.event.extendedProps.hasGacha;
-                const rarity =
-                    arg.event.extendedProps.rarity?.rarity_name || "fail";
+                const item = arg.event.extendedProps.item;
 
-                if (hasGacha) {
+                if (hasGacha && item) {
                     return {
                         html: `
-                            <div class="gacha-stamp-container stamp-bg-${rarity}">
-                                <img src="/images/stamp-card-items/flower-stamp.png" 
-                                     class="flower-stamp" 
-                                     alt="ガチャ実績">
+                            <div class="item-container">
+                                <img src="${item.item_image_path}" 
+                                     class="item-image" 
+                                     alt="${item.item_name}"
+                                     title="${item.item_name}">
                             </div>
                         `,
                     };
