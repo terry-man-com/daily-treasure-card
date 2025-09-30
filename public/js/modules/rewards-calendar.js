@@ -94,7 +94,16 @@ class RewardsCalendar {
                 return null; // ガチャなしの日は何も表示しない
             },
             eventClick: (info) => {
-                this.showRewardDetail(info.event);
+                // Livewireイベントを発火
+                const item = info.event.extendedProps.item;
+                const earnedAt = info.event.extendedProps.earned_at;
+
+                // プロパティを直接設定
+
+                Livewire.dispatch("show-reward-modal", {
+                    item: item,
+                    earnedAt: earnedAt,
+                });
             },
         });
 
@@ -105,7 +114,7 @@ class RewardsCalendar {
         this.currentChildId = childId;
 
         // タブの表示を更新
-        document.querySelectorAll(".child-tab").forEach((tab) => {
+        document.querySelectorAll(".js-tab-button").forEach((tab) => {
             tab.classList.remove("bg-custom-pink", "active");
             tab.classList.add("bg-custom-blue");
         });
@@ -121,73 +130,21 @@ class RewardsCalendar {
             this.calendar.refetchEvents();
         }
     }
-
-    showRewardDetail(event) {
-        // Livewireイベントを発火（後でLivewireモーダルと連携）
-        const item = event.extendedProps.item;
-        const earnedAt = event.extendedProps.earned_at;
-
-        // 一時的に既存のモーダル表示を使用
-        const modal = document.getElementById("reward-modal");
-        const title = document.getElementById("modal-title");
-        const content = document.getElementById("modal-content");
-
-        const earnedDate = new Date(earnedAt);
-        title.textContent = `${earnedDate.toLocaleDateString("ja-JP")} の景品`;
-
-        content.innerHTML = `
-            <img src="${item.item_image_path}" alt="${item.item_name}"
-                 class="w-32 h-32 mx-auto mb-4 rounded-lg shadow-lg">
-            <h4 class="text-lg font-bold mb-2">${item.item_name}</h4>
-            <p class="text-sm text-gray-600 mb-2">レアリティ: ${this.getRarityDisplayName(
-                item.rarity.rarity_name
-            )}</p>
-            <p class="text-sm text-gray-600">カテゴリ: ${
-                item.category.category_name
-            }</p>
-            <p class="text-xs text-gray-400 mt-2">獲得時刻: ${earnedDate.toLocaleTimeString(
-                "ja-JP"
-            )}</p>
-        `;
-
-        modal.classList.remove("hidden");
-    }
-
-    getRarityDisplayName(rarity) {
-        const rarityNames = {
-            perfect: "★★★ パーフェクト！",
-            partial: "★★ がんばった！",
-            fail: "★ またあした！",
-        };
-        return rarityNames[rarity] || rarity;
-    }
-
-    closeRewardModal() {
-        document.getElementById("reward-modal").classList.add("hidden");
-    }
 }
-
-// グローバル関数として公開（HTMLから呼び出し可能にするため）
-window.switchChild = function (childId) {
-    if (window.rewardsCalendar) {
-        window.rewardsCalendar.switchChild(childId);
-    }
-};
-
-window.closeRewardModal = function () {
-    if (window.rewardsCalendar) {
-        window.rewardsCalendar.closeRewardModal();
-    }
-};
-
-// ESCキーでモーダルを閉じる
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-        window.closeRewardModal();
-    }
-});
 
 // DOMContentLoadedで初期化
 document.addEventListener("DOMContentLoaded", function () {
     window.rewardsCalendar = new RewardsCalendar();
+
+    // タブ切り替えイベントを追加
+    document.querySelectorAll(".js-tab-button").forEach((button) => {
+        button.addEventListener("click", () => {
+            const childId = parseInt(button.dataset.childId);
+            const tabIndex = parseInt(button.dataset.tab);
+
+            // カレンダーを切り替え
+            window.rewardsCalendar.switchChild(childId);
+
+        });
+    });
 });

@@ -99,13 +99,17 @@
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
+    .fc {
+        height: 600px !important;
+    }
+    /* カレンダー全体を縦長に */
     .fc-daygrid-day {
-        height: 35px !important;
+        height: 80px !important;
     }
     
     .fc-daygrid-day-frame {
-        height: 35px !important;
-        min-height: 35px !important;
+        height: 80px !important;
+        min-height: 80px !important;
     }
     
     .fc-col-header-cell {
@@ -116,7 +120,17 @@
         @apply text-xs p-1;
     }
     
+    /* アイテム表示エリアを縦長に */
+    .item-container {
+        @apply flex-col;
+    }
+    
     .item-image {
         @apply w-6 h-6;
+    }
+}
+@media (max-width: 1024px) {
+    .item-image {
+        @apply w-12 h-12;
     }
 }
