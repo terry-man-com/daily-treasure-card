@@ -14,7 +14,7 @@
                 {{-- タブ切り替えボタン --}}
                 <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white font-medium z-10 relative">
                     @foreach ($children as $index => $child)
-                        <button data-tab="{{ $index }}" class="js-tab-button flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base">{{ $child->child_name }}</button>
+                        <button data-tab="{{ $index }}" data-child-id="{{ $child->id }}" class="js-tab-button flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base">{{ $child->child_name }}</button>
                     @endforeach
                 </div>
                 {{-- カレンダー表示エリア --}}
@@ -29,22 +29,6 @@
         </div>
     </main> 
     @include('components.my-footer')
-            {{-- 景品詳細モーダル
-            <div id="reward-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div class="bg-white rounded-lg p-6 max-w-md mx-4">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 id="modal-title" class="text-xl font-bold"></h3>
-                        <button onclick="closeRewardModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
-                    </div>
-                    <div id="modal-content" class="text-center"></div>
-                    <div class="flex justify-center mt-6">
-                        <button onclick="closeRewardModal()" 
-                                class="bg-custom-pink text-white px-6 py-2 rounded-full hover:bg-custom-pink/80">
-                            閉じる
-                        </button>
-                    </div>
-                </div>
-            </div> --}}
     @push('styles')
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
     @endpush
@@ -58,4 +42,5 @@
     </script>
     <script type="module" src="{{ asset('js/modules/rewards-calendar.js') }}"></script>
     @endpush
+    @livewire('reward-modal')
 </x-app-layout>

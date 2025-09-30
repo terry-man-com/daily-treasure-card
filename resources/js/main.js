@@ -31,33 +31,49 @@ export const setupTabSwitching = () => {
         });
     });
 
+    // URLパラメータからタブ番号を取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetTab = urlParams.get("tab");
+
     // 初期状態：data-tab="0"(左のタブ)をデフォルトでアクティブ状態
     // ただし、フォーム送信時は現在のアクティブタブを保持する
-    const activePanel = document.querySelector(".js-tab-panel1:not(.hidden)");
-    if (!activePanel) {
-        // アクティブなパネルがない場合のみ、デフォルトタブを設定
-        const defaultTab = document.querySelector(
-            '.js-tab-button[data-tab="0"]'
+    if (targetTab !== null) {
+        // URLパラメータで指定されたタブをアクティブにする
+        const targetButton = document.querySelector(
+            `.js-tab-button[data-tab="${targetTab}"]`
         );
-        if (defaultTab) {
-            defaultTab.click();
+        if (targetButton) {
+            targetButton.click();
         }
     } else {
-        // アクティブなパネルに対応するタブボタンをアクティブ状態にする
-        const activeIndex = activePanel.getAttribute("data-panel");
-        const activeTab = document.querySelector(
-            `.js-tab-button[data-tab="${activeIndex}"]`
+        const activePanel = document.querySelector(
+            ".js-tab-panel1:not(.hidden)"
         );
-        if (activeTab) {
-            // タブボタンの色を一度リセット
-            const allTabs = document.querySelectorAll(".js-tab-button");
-            allTabs.forEach((btn) => {
-                btn.classList.remove("bg-custom-pink");
-                btn.classList.add("bg-custom-blue");
-            });
-            // アクティブタブをピンクに
-            activeTab.classList.remove("bg-custom-blue");
-            activeTab.classList.add("bg-custom-pink");
+        if (!activePanel) {
+            // アクティブなパネルがない場合のみ、デフォルトタブを設定
+            const defaultTab = document.querySelector(
+                '.js-tab-button[data-tab="0"]'
+            );
+            if (defaultTab) {
+                defaultTab.click();
+            }
+        } else {
+            // アクティブなパネルに対応するタブボタンをアクティブ状態にする
+            const activeIndex = activePanel.getAttribute("data-panel");
+            const activeTab = document.querySelector(
+                `.js-tab-button[data-tab="${activeIndex}"]`
+            );
+            if (activeTab) {
+                // タブボタンの色を一度リセット
+                const allTabs = document.querySelectorAll(".js-tab-button");
+                allTabs.forEach((btn) => {
+                    btn.classList.remove("bg-custom-pink");
+                    btn.classList.add("bg-custom-blue");
+                });
+                // アクティブタブをピンクに
+                activeTab.classList.remove("bg-custom-blue");
+                activeTab.classList.add("bg-custom-pink");
+            }
         }
     }
 };

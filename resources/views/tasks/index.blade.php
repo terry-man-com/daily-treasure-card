@@ -11,7 +11,6 @@
                 <!-- タブ部分 -->
                 @if($children->count() > 0)
                     {{-- タブ切り替えボタン --}}
-                    {{-- for文でリファクタリング --}}
                     <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white font-medium z-10 relative">
                         @foreach ($children as $index => $child)
                             <button data-tab="{{ $index }}" class="js-tab-button flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base">{{ $child->child_name }}</button>
@@ -43,7 +42,7 @@
                                     ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                                 </button>
                                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
-                                    <button href="#" onclick="Livewire.dispatch('openModal');" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
+                                    <button onclick="Livewire.dispatch('openModal', { tabIndex: {{ $index }} });" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
                                     <a href="{{ route('rewards.index') }}" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">たからばこ</a>
                                     <button id="reset-button" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">リセット</button>
                                 </div>
@@ -63,7 +62,7 @@
                                 ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
                             </button>
                             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
-                                <button href="#" onclick="Livewire.dispatch('openModal');" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
+                                <button onclick="Livewire.dispatch('openModal', { tabIndex: 0 });" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
                                 <a href="{{ route('rewards.index') }}" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-pink border border-transparent rounded-full hover:bg-custom-pink/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">たからばこ</a>
                                 <button id="reset-button" class="w-4/5 sm:w-[200px] px-4 py-2 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/50 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] text-center">リセット</button>
                             </div>

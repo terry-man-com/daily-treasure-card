@@ -21,21 +21,8 @@ class RewardController extends Controller
         $children = $user->children()->with(['rewardCollections.item.category', 'rewardCollections.item.rarity'])->get();
         // 最初の子どもをデフォルト選択
         $selectedChild = $children->first();
-        // 月別にグループ化した景品履歴
-        $rewardsByMonth = [];
-        if ($selectedChild) {
-            $rewards = $selectedChild->rewardCollections()
-                ->with(['item.category', 'item.rarity'])
-                ->orderBy('earned_at', 'desc')
-                ->get()
-                ->groupBy(function($reward) {
-                    return $reward->earned_at->format('Y-m');
-                });
 
-            $rewardsByMonth = $rewards;
-        }
-
-        return view('rewards.index', compact('children', 'selectedChild', 'rewardsByMonth'));
+        return view('rewards.index', compact('children', 'selectedChild'));
     }
 
     /**
@@ -141,7 +128,6 @@ class RewardController extends Controller
             // 日時フォーマットを修正
             $start = substr($start, 0, 10) . ' 00:00:00';
             $end = substr($end, 0, 10) . ' 23:59:59';
-
 
             $child = Child::where('id', $childId)
                 ->where('user_id', Auth::id())
