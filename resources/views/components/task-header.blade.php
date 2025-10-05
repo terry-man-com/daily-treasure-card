@@ -9,9 +9,9 @@
 
         <!-- デスクトップ用ナビゲーション (xl以上で表示) -->
         <div class="hidden xl:flex text-[#ffffff] text-small-base font-bold gap-3 indent-[0.1em] tracking-[0.1em]">
-            <a href="#" class="flex justify-center items-center px-4 py-0 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">
+            {{-- <a href="#" class="flex justify-center items-center px-4 py-0 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">
                 ガチャ編集
-            </a>
+            </a> --}}
             <button onclick="Livewire.dispatch('openChildModal');" class="flex justify-center items-center px-4 py-0 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/60 text-center">
                 こども管理
             </button>
@@ -47,9 +47,9 @@
         
         <!-- メニュー項目 -->
         <div class="flex flex-col text-[#ffffff] text-sm font-bold px-4 space-y-3 indent-[0.1em] tracking-[0.1em]">
-            <a href="#" class="flex justify-center items-center py-3 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center transition-colors">
+            {{-- <a href="#" class="flex justify-center items-center py-3 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center transition-colors">
                 ガチャ編集
-            </a>
+            </a> --}}
             <button onclick="Livewire.dispatch('openChildModal'); console.log('Livewireイベント発火')" class="flex justify-center items-center py-3 bg-custom-blue border border-transparent rounded-full hover:bg-custom-blue/60 text-center transition-colors">
                 こども管理
             </button>

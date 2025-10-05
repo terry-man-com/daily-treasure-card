@@ -16,10 +16,6 @@ class GachaAnimationSystem {
 
     setupEventListeners() {
         document.addEventListener("triggerGachaAnimation", (event) => {
-            console.log(
-                "🎯 triggerGachaAnimation event received:",
-                event.detail
-            );
             this.handleGachaAnimation(event.detail);
         });
     }
@@ -201,15 +197,6 @@ class GachaAnimationSystem {
                 </div>
             </div>
         `;
-    }
-
-    closeGachaModal() {
-        const modalContainer = document.querySelector(
-            '[wire\\:click\\.self="closeModal"]'
-        );
-        if (modalContainer) {
-            modalContainer.style.display = "none";
-        }
     }
 
     // レアリティ別エフェクト

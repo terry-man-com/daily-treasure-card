@@ -1,7 +1,4 @@
-import { setupTabSwitching } from "../main.js";
-
 document.addEventListener("DOMContentLoaded", () => {
-    setupTabSwitching();
     setupDeleteButtons();
     setupUpdateButtons();
 });
@@ -11,11 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
 const setupUpdateButtons = () => {
     document.querySelectorAll(".update-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
-            // ボタンが属するパネルを取得
-            const panel = btn.closest("[data-panel]");
-            const childId = panel.querySelector('input[name="child_id"]').value;
+            // フォームから直接 child_id を取得
+            const updateForm = document.getElementById("update-form");
+            const childId = updateForm.querySelector('input[name="child_id"]').value;
+
             const checked = Array.from(
-                panel.querySelectorAll(".task-checkbox:checked")
+                document.querySelectorAll(".task-checkbox:checked")
             ).map((cb) => cb.value);
 
             if (checked.length === 0) {
@@ -24,9 +22,9 @@ const setupUpdateButtons = () => {
             }
 
             // チェック済みIDをhiddenにセットしてフォーム送信
-            document.getElementById(`update_ids_${childId}`).value =
+            document.getElementById('update_ids').value =
                 checked.join(",");
-            document.getElementById(`update-form-${childId}`).submit();
+            updateForm.submit();
         });
     });
 };
@@ -36,12 +34,12 @@ const setupUpdateButtons = () => {
 const setupDeleteButtons = () => {
     document.querySelectorAll(".delete-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
-            console.log("削除ボタンが押された");
+
             // ボタンが属するパネルを取得
-            const panel = btn.closest("[data-panel]");
-            const childId = panel.querySelector('input[name="child_id"]').value;
+            const deleteForm = document.getElementById("delete-form");
+            const childId = deleteForm.querySelector('input[name="child_id"]').value;
             const checked = Array.from(
-                panel.querySelectorAll(".task-checkbox:checked")
+                document.querySelectorAll(".task-checkbox:checked")
             ).map((cb) => cb.value);
 
             if (checked.length === 0) {
@@ -63,10 +61,10 @@ const setupDeleteButtons = () => {
 // モーダルのOKボタンで呼び出される関数
 window.confirmDelete = () => {
     if (window.checkedDeleteIds && window.checkedDeleteIds.length > 0) {
-        document.getElementById(`delete_ids_${window.currentChildId}`).value =
+        document.getElementById('delete_ids').value =
             window.checkedDeleteIds.join(",");
         document
-            .getElementById(`delete-form-${window.currentChildId}`)
+            .getElementById('delete-form')
             .submit();
     }
 };

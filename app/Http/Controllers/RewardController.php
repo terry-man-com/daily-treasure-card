@@ -72,30 +72,27 @@ class RewardController extends Controller
                 'item_id' => $selectedItem->id,
                 'earned_at' => now(),
             ]);
-            $rewardCollection = $existingReward;
-            $isNewRecord = false;
+            $message = '今日の宝物を更新しました！';
         } else {
             // 新規作成
-            $rewardCollection = ChildRewardCollection::create([
+            ChildRewardCollection::create([
                 'child_id' => $childId,
                 'item_id' => $selectedItem->id,
                 'earned_at' => now(),
             ]);
-            $isNewRecord = true;
+            $message = '今日の宝物をゲット！！';
         }
 
         // フロント側で表示するためのJSON返却
         return response()->json([
             'success' => true,
-            'is_new' => $isNewRecord, // フロントで「初回」「更新」を区別可能
-            'message' => $isNewRecord ? '今日の宝物をゲット！' : '今日の宝物を更新しました！',
+            'message' => $message,
             'item' => [
                 'id' => $selectedItem->id,
                 'item_name' => $selectedItem->item_name,
                 'item_image_path' => $selectedItem->item_image_path,
             ],
             'rarity' => $rarity->rarity_name,
-            'earned_at' => $rewardCollection->earned_at->format('Y-m-d H:i:s')
         ]);
     }
 
@@ -167,37 +164,5 @@ class RewardController extends Controller
             ]);
             return response()->json(['error' => 'Internal server error'], 500);
         }
-    }
-
-    /**
-     * 日別景品取得API（カレンダーのモーダル表示用）
-     * 特定の日付の景品一覧をJSONで返す
-     */
-    public function getRewardsByDate(Request $request, $childId, $date)
-    {
-        $child = Child::where('id', $childId)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
-
-        $rewards = $child->rewardCollections()
-            ->with(['item.category', 'item.rarity'])
-            ->whereDate('earned_at', $date)
-            ->orderBy('earned_at', 'desc')
-            ->get();
-
-        return response()->json($rewards);
-    }
-
-    /**
-     * レアリティに応じた色を取得
-     */
-    private function getRarityColor($rarityName)
-    {
-        return match($rarityName) {
-            'perfect' => '#FFD700', // ゴールド
-            'partial' => '#87CEEB', // スカイブルー
-            'fail' => '#DDA0DD',    // プラム
-            default => '#CCCCCC'
-        };
     }
 }

@@ -8,27 +8,28 @@ use App\Http\Controllers\RewardController;
 
 Route::get('/', [TaskController::class, 'home'])->name('home');
 
+// 利用規約・プライバシーポリシー・お問い合わせ
+Route::view('/terms', 'legal.terms')->name('terms');
+Route::view('/privacy', 'legal.privacy')->name('privacy');
+Route::view('/contact', 'legal.contact')->name('contact');
+
+
 Route::get('/dashboard', [TaskController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
-
-// タスク管理用ルーティング管理
-// タスク編集ページ遷移用ルーティング（IDが不要のため独自にルーティング設定）
+// タスク管理用ルーティング
+// 個別ページ方式（child_id パラメータを受け取る）
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 Route::get('/tasks/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-// バルク更新・削除用ルート
 Route::put('/tasks/bulk-update', [TaskController::class, 'bulkUpdate'])->name('tasks.bulkUpdate');
 Route::delete('/tasks/bulk-delete', [TaskController::class, 'bulkDelete'])->name('tasks.bulkDelete');
-// タスク管理用ルーティングここまで
-Route::resource('tasks', TaskController::class)
-->except(['edit','update','destroy']);
 
-// 子ども管理用ルーティング管理
-// 子ども編集用ページ遷移
+// 子ども管理用ルーティング
 Route::get('/children/edit', [ChildController::class, 'edit'])->name('children.edit');
-// バルク更新用ルート￥
 Route::put('/children/update', [ChildController::class, 'update'])->name('children.update');
-// 子ども管理用ルーティングここまで
 Route::resource('children', ChildController::class)
-->except(['edit','update',]);
+->except(['edit','update']);
 
 
 Route::middleware('auth')->group(function () {

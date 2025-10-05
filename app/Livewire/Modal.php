@@ -7,15 +7,16 @@ use Livewire\Component;
 class Modal extends Component
 {
     public $show = false;
-    public $currentTabIndex = 0; // タブのインデックスを保持
+    public $currentChildId = null; // child_id を保持
 
     protected $listeners = [
         'openModal' => 'open'
     ];
 
-    public function open($tabIndex = 0) // タブインデックスを受け取る
+    public function open($childId = null) // child_id を受け取る
     {
-        $this->currentTabIndex = $tabIndex;
+        \Log::info('Modal open called', ['childId' => $childId]);
+        $this->currentChildId = $childId;
         $this->show = true;
     }
 
@@ -26,12 +27,14 @@ class Modal extends Component
 
     public function goToCreate()
     {
-        return redirect()->route('tasks.create', ['tab' => $this->currentTabIndex]);
+        \Log::info('goToCreate called', ['currentChildId' => $this->currentChildId]);
+        return redirect()->route('tasks.create', ['child_id' => $this->currentChildId]);
     }
     
     public function goToEdit()
     {
-        return redirect()->route('tasks.edit', ['tab' => $this->currentTabIndex]);
+        \Log::info('goToEdit called', ['currentChildId' => $this->currentChildId]);
+        return redirect()->route('tasks.edit', ['child_id' => $this->currentChildId]);
     }
 
     public function render()
