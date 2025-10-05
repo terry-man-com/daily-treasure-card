@@ -7,6 +7,36 @@ export const setupTabSwitching = () => {
     const tabButtons = document.querySelectorAll(".js-tab-button");
     const tabPanels = document.querySelectorAll(".js-tab-panel1");
 
+    // 子供IDを取得する
+    const container = document.getElementById('task-container');
+    const selectedChildId = container ? container.dataset.selectedChildId : null;
+
+    // セッションで指定された子供のタブをアクティブする
+    if (selectedChildId) {
+        const selectedTabIndex = Array.from(tabButtons).findIndex(button => {
+            return button.dataset.childId === selectedChildId;
+        });
+
+        if (selectedTabIndex !== -1) {
+            tabButtons.forEach((btn) => {
+                btn.classList.remove("bg-custom-pink");
+                btn.classList.add("bg-custom-blue");
+            });
+
+            const selectedButton = tabButtons[selectedTabIndex];
+            selectedButton.classList.remove("bg-custom-blue");
+            selectedButton.classList.add("bg-custom-pink");
+
+            tabPanels.forEach((panel) => {
+                panel.classList.add("hidden")
+            });
+
+            if(tabPanels[selectedTabIndex]) {
+                tabPanels[selectedTabIndex].classList.remove("hidden");
+            }
+        }
+    }
+    
     tabButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const tabIndex = button.getAttribute("data-tab");
@@ -31,6 +61,7 @@ export const setupTabSwitching = () => {
         });
     });
 
+    // ページ遷移した時のタブ・パネル表示の処理
     // URLパラメータからタブ番号を取得
     const urlParams = new URLSearchParams(window.location.search);
     const targetTab = urlParams.get("tab");
@@ -57,24 +88,25 @@ export const setupTabSwitching = () => {
             if (defaultTab) {
                 defaultTab.click();
             }
-        } else {
-            // アクティブなパネルに対応するタブボタンをアクティブ状態にする
-            const activeIndex = activePanel.getAttribute("data-panel");
-            const activeTab = document.querySelector(
-                `.js-tab-button[data-tab="${activeIndex}"]`
-            );
-            if (activeTab) {
-                // タブボタンの色を一度リセット
-                const allTabs = document.querySelectorAll(".js-tab-button");
-                allTabs.forEach((btn) => {
-                    btn.classList.remove("bg-custom-pink");
-                    btn.classList.add("bg-custom-blue");
-                });
-                // アクティブタブをピンクに
-                activeTab.classList.remove("bg-custom-blue");
-                activeTab.classList.add("bg-custom-pink");
-            }
-        }
+        } 
+        // else {
+        //     // アクティブなパネルに対応するタブボタンをアクティブ状態にする
+        //     const activeIndex = activePanel.getAttribute("data-panel");
+        //     const activeTab = document.querySelector(
+        //         `.js-tab-button[data-tab="${activeIndex}"]`
+        //     );
+        //     if (activeTab) {
+        //         // タブボタンの色を一度リセット
+        //         const allTabs = document.querySelectorAll(".js-tab-button");
+        //         allTabs.forEach((btn) => {
+        //             btn.classList.remove("bg-custom-pink");
+        //             btn.classList.add("bg-custom-blue");
+        //         });
+        //         // アクティブタブをピンクに
+        //         activeTab.classList.remove("bg-custom-blue");
+        //         activeTab.classList.add("bg-custom-pink");
+        //     }
+        // }
     }
 };
 

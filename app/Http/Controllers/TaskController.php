@@ -14,21 +14,45 @@ class TaskController extends Controller
     }
 
     // 「きょうのおやくそく」画面遷移（タスク一覧）
-    public function index()
+    public function index(Request $request)
     {
          // リレーションで取得　+ childに紐づいたtasksも取得する
         $children = auth()->user()->children()->with(['tasks' => function($query) {
             $query->orderBy('id');
         }])->get();
-        return view('tasks.index', compact('children'));
+        // 選択された子供を特定
+        $selectedChildId = null;
+        // セッションから選択された子供IDを取得（優先度：セッション > URLパラメータ）
+        if(session('selected_child_id')) {
+            $selectedChildId = session('selected_child_id');
+            session()->forget('selected_child_id');
+        }
+        elseif ($request->input('child_id')) {
+            // URLパラメータで指定された子供を取得
+            $selectedChildId = $request->input('child_id');
+        }
+
+        // 選択された子どもが存在しない場合は最初は子供を選択
+        if(!$selectedChildId && $children->count() > 0) {
+            $selectedChildId = $children->first()->id;
+        }
+
+        return view('tasks.index', compact('children', 'selectedChildId'));
     }
 
     // 「おやくそく登録」遷移用（タスク登録）
-    public function create()
+    public function create(Request $request)
     {
-        
-        $children = auth()->user()->children; // リレーションで取得
-        return view('tasks.create', compact('children'));
+        $child_id = $request->input('child_id');
+        $child = auth()->user()->children()->find($child_id);
+
+        if(!$child) {
+            return redirect()->route('tasks.index')->with('error', '子どもが見つかりません');
+        }
+
+        // タブ表示用に全ての子どもも渡してあげる
+        $children = auth()->user()->children;
+        return view('tasks.create', compact('child', 'children'));
     }
 
     // タスク登録
@@ -65,18 +89,35 @@ class TaskController extends Controller
                 ]);
             } // タスク登録を繰り返す
         }
-        
-        return redirect()->route('tasks.index')->with('success', 'タスクを登録しました');
+        // セッションに保存してリダイレクト（URLパラメータなし）
+        session(['selected_child_id' => $child_id]);
+        return redirect()->route('tasks.index')->with('success', 'お約束を登録しました');
     }
 
     // 「おやくそく登録」遷移用（タスク編集）
-    public function edit()
+    public function edit(Request $request)
     {
-        // リレーションで取得　+ childに紐づいたtasksも取得する
-        $children = auth()->user()->children()->with(['tasks' => function($query) {
-            $query->orderBy('id');
-        }])->get();
-        return view('tasks.edit', compact('children'));
+        $child_id = $request->input('child_id');
+        // リレーションで取得 + childに紐づいたtasksも取得する
+        if($child_id) {
+            $child = auth()->user()->children()->with(['tasks' => function($query) {
+                $query->orderBy('id');
+            }])->find($child_id);
+
+            if(!$child) {
+                return redirect()->route('tasks.index')->with('error', '子どもが見つかりません');
+            }
+        } else {
+            // child_idが指定されていない場合は最初の子供を取得
+            $child = auth()->user()->children()->with(['tasks' => function($query) {
+                $query->orderBy('id');
+            }])->first();
+        }
+
+        // タブ表示用に全ての子供も渡してあげる
+        $children = auth()->user()->children;
+
+        return view('tasks.edit', compact('child', 'children'));
     }
 
     // バルク更新
@@ -118,13 +159,18 @@ class TaskController extends Controller
             }
         }
 
-        return redirect()->route('tasks.index')->with('success', '選択したタスクを更新しました');
+        // リダイレクトのためにセッション保存
+        // セッションに選択された子供IDを保存
+        session(['selected_child_id' => $child_id]);
+
+        return redirect()->route('tasks.index')->with('success', 'お約束を更新しました');
     }
 
     // バルク削除
     public function bulkDelete(Request $request)
     {
         $delete_ids = $request->input('delete_ids');
+        $child_id = $request->input('child_id'); 
 
         if (!empty($delete_ids)) {
             $ids = explode(',', $delete_ids);
@@ -136,7 +182,11 @@ class TaskController extends Controller
                 ->whereIn('child_id', $userChildrenIds)
                 ->delete();
         }
+        // セッションに選択された子供IDを保存
+        if($child_id) {
+            session(['selected_child_id' => $child_id]);
+        }
 
-        return redirect()->route('tasks.edit')->with('success', '選択したタスクを削除しました');
+        return redirect()->route('tasks.index')->with('success', 'お約束を削除しました');
     }
 }

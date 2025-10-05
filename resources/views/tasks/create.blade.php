@@ -19,18 +19,17 @@
                     {{-- タブ切り替えボタン --}}
                     {{-- for文でリファクタリング --}}
                     <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white text-base font-medium z-10 relative">
-                        @foreach ($children as $index => $child)
-                            <button data-tab="{{ $index }}" class="js-tab-button flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base">{{ $child->child_name }}</button>
+                        @foreach ($children as $index => $c)
+                            <a href="{{ route('tasks.create', ['child_id' => $c->id]) }}" class="flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $c->id === $child->id ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base text-center">{{ $c->child_name }}</a>
                         @endforeach
                     </div>
                     <!-- タスク表示部分 -->
-                    @foreach ($children as $panelIndex => $child)
-                        <div data-panel="{{ $panelIndex }}" class="js-tab-panel1 {{ $panelIndex === 0 ? '' : 'hidden' }} flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 relative z-0">
+                        <div class="flex flex-col justify-between bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 relative z-0">
                             <form method="post" action="{{ route('tasks.store') }}" class="flex flex-col h-full">
                                 @csrf
                                 <div class="flex-1 flex flex-col gap-4 px-4 sm:px-8 md:px-12 lg:px-20 py-6 sm:py-8 md:py-10 overflow-y-auto">
                                     <!-- 正しいchild_idを設定 -->
-                                    <input type="hidden" name="child_id" value="{{ $children[$panelIndex]->id }}">
+                                    <input type="hidden" name="child_id" value="{{ $child->id }}">
                                     
                                     <div class="js-task flex flex-col sm:flex-row justify-between items-center py-2 gap-3 sm:gap-0 bg-white sm:bg-transparent rounded sm:rounded-none p-3 sm:px-6 md:px-12">
                                         <input type="text" name="contents[]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-1 rounded-lg text-base sm:text-xl @error('contents.' ."0") border-red-400 border-2 @enderror order-1" placeholder="15文字以内で入力してください" value="{{ old('contents.0') }}">
@@ -57,7 +56,6 @@
                                 </div>
                             </form>
                         </div>
-                    @endforeach
                 @else
                     <!-- 子どもが登録されていない場合のデフォルトパネル -->
                     <div data-panel="0" class="js-tab-panel1 flex flex-col justify-center items-center bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 relative z-0">

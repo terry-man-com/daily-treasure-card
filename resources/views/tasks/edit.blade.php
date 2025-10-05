@@ -23,32 +23,32 @@
                 @if($children->count() > 0)
                     {{-- タブ切り替えボタン --}}
                     <div class="flex flex-row justify-between sm:justify-center gap-1 sm:gap-4 text-white font-medium z-10 relative">
-                        @foreach ($children as $index => $child)
-                            <button data-tab="{{ $index }}" class="js-tab-button flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $index === 0 ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base">{{ $child->child_name }}</button>
+                        @foreach ($children as $index => $c)
+                            <a href="{{ route('tasks.edit', ['child_id' => $c->id]) }}" class="flex-1 sm:flex-none sm:w-[180px] md:w-[216px] px-2 sm:px-6 py-2 rounded-t-lg {{ $c->id === $child->id ? 'bg-custom-pink' : 'bg-custom-blue '}} text-xs sm:text-base text-center">{{ $c->child_name }}</a>
                         @endforeach
                     </div>
                     <!-- タスク表示部分 -->
-                    @foreach ($children as $panelIndex => $child)
-                        <div data-panel="{{ $panelIndex }}" class="js-tab-panel1 {{ $panelIndex === 0 ? '' : 'hidden' }} flex flex-col bg-gray-100 border-custom-gray text-center font-medium h-[60vh] px-4 lg:px-20 py-6 sm:py-8 md:py-10 border-2 overflow-y-auto relative z-0">
+                        <div class="flex flex-col bg-gray-100 border-custom-gray text-center font-medium h-[60vh] px-4 lg:px-20 py-6 sm:py-8 md:py-10 border-2 overflow-y-auto relative z-0">
                             {{-- 更新用フォーム --}}
-                            <form id="update-form-{{ $child->id }}" method="POST" action="{{ route('tasks.bulkUpdate') }}">
+                            <form id="update-form" method="POST" action="{{ route('tasks.bulkUpdate') }}">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="child_id" value="{{ $child->id }}">
-                                <input type="hidden" name="update_ids" id="update_ids_{{ $child->id }}">
+                                <input type="hidden" name="update_ids" id="update_ids">
                             </form>
                             {{-- 削除用フォーム --}}
-                            <form id="delete-form-{{ $child->id }}" method="POST" action="{{ route('tasks.bulkDelete') }}">
+                            <form id="delete-form" method="POST" action="{{ route('tasks.bulkDelete') }}">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" name="delete_ids" id="delete_ids_{{ $child->id }}">
+                                <input type="hidden" name="child_id" value="{{ $child->id }}">
+                                <input type="hidden" name="delete_ids" id="delete_ids">
                             </form>
                             {{-- タスク一覧（上寄せ） --}}
                             <div class="flex flex-col gap-4 px-2 sm:px-8 md:px-12 lg:px-20 flex-1">
                                 @foreach ($child->tasks as $task)
                                 <div class="flex flex-col sm:flex-row justify-center items-center py-2 gap-3 sm:gap-6 bg-white sm:bg-transparent p-3 sm:p-0">
                                     <input type="checkbox" class="task-checkbox w-5 sm:w-6 h-5 sm:h-6 accent-gray-400 order-2 sm:order-1" value="{{ $task->id }}">
-                                    <input type="text" form="update-form-{{ $child->id }}" name="contents[{{ $task->id }}]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-1 text-base font-bold order-1 sm:order-2 rounded-lg @error('contents.' .$task->id) border-red-400 border-2 @enderror" value="{{ $task->contents }}">
+                                    <input type="text" form="update-form" name="contents[{{ $task->id }}]" class="task-name pl-2 tracking-[0.2em] sm:tracking-[0.5em] w-full sm:w-4/5 border-1 text-base font-bold order-1 sm:order-2 rounded-lg @error('contents.' .$task->id) border-red-400 border-2 @enderror" value="{{ $task->contents }}">
                                 </div>
                                 @endforeach
                             </div>
@@ -64,7 +64,6 @@
                                 </button>
                             </div>
                         </div>
-                    @endforeach
                 @else
                     <!-- 子どもが登録されていない場合のデフォルトパネル -->
                     <div data-panel="0" class="js-tab-panel1 flex flex-col justify-center items-center bg-gray-100 border-custom-gray text-center font-medium h-[60vh] border-2 overflow-y-auto">

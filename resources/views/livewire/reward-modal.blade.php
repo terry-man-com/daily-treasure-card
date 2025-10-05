@@ -3,7 +3,7 @@
         <!-- モーダルオーバーレイ -->
         <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" wire:click="closeModal">
             <!-- モーダルコンテンツ -->
-            <div class="bg-white rounded-lg p-6 max-w-md mx-4 shadow-xl md:max-w-2xl md:w-[50vw] md:h-[40vh] lg:w-[40vw] lg:h-[55vh] md:overflow-y-auto" wire:click.stop>
+            <div class="bg-white rounded-lg p-6 max-w-md mx-4 shadow-xl md:max-w-2xl md:w-[50vw] md:h-[40vh] lg:w-[40vw] lg:h-[35vh] xl:h-[50vh] md:overflow-y-auto" wire:click.stop>
                 <div class="flex justify-end items-center mb-4">
                     <button wire:click="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
                 </div>
