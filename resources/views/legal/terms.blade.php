@@ -2,16 +2,12 @@
     @include('components.task-header')
     <main class="text-custom-gray flex flex-grow">
         <div class="container px-4 sm:px-6 md:px-8 lg:px-24 py-3 sm:py-4 md:py-5 mx-auto">
-            <div class="relative sm:mb-8 md:mb-0 sm:min-h-[140px] md:min-h-[160px] sm:flex sm:items-center sm:justify-center">
-                <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold text-center mb-3 sm:mb-0 sm:py-6 md:py-8 indent-[0.2em] lg:indent-[0.5em] tracking-[0.2em] lg:tracking-[0.5em]">利用規約</h1>
-                <a href="{{ route('home') }}" class="absolute right-0 top-1/2 -translate-y-1/2 bg-green-400 text-white text-sm sm:text-base md:text-xl px-3 sm:px-4 md:px-6 py-2 indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] rounded-full hover:bg-green-500 shadow">
-                    戻る
-                </a>
-            </div>
+            <!-- タイトル -->
+            <h1 class="text-2xl sm:text-3xl md:text-h1 2xl:text-5xl font-bold text-center mb-8 py-6 md:py-8 indent-[0.2em] lg:indent-[0.5em] tracking-[0.2em] lg:tracking-[0.5em]">利用規約</h1>
 
             <div class="bg-white rounded-lg shadow-sm p-6 sm:p-8 md:p-10 prose prose-sm sm:prose max-w-none">
                 <p class="text-sm sm:text-base leading-relaxed mb-6">
-                    この利用規約（以下，「本規約」といいます。）は，デイリートレジャーカード（以下，「当サービス」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
+                    この利用規約（以下，「本規約」といいます。）は，ワクワク宝集め（以下，「当サービス」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
                 </p>
 
                 <h2 class="text-lg sm:text-xl font-bold mt-8 mb-4">第1条（適用）</h2>
@@ -133,19 +129,10 @@
                     ユーザーは，当サービスの書面による事前の承諾なく，利用契約上の地位または本規約に基づく権利もしくは義務を第三者に譲渡し，または担保に供することはできません。
                 </p>
 
-                <h2 class="text-lg sm:text-xl font-bold mt-8 mb-4">第15条（準拠法・裁判管轄）</h2>
+                <h2 class="text-lg sm:text-xl font-bold mt-8 mb-4">第15条（準拠法）</h2>
                 <ol class="list-decimal list-inside space-y-2 text-sm sm:text-base leading-relaxed">
                     <li>本規約の解釈にあたっては，日本法を準拠法とします。</li>
-                    <li>本サービスに関して紛争が生じた場合には，東京地方裁判所を第一審の専属的合意管轄裁判所とします。</li>
                 </ol>
-
-                <p class="text-right text-sm sm:text-base mt-8 text-gray-600">
-                    制定日：{{ date('Y年m月d日') }}
-                </p>
-
-                <p class="text-xs text-gray-500 mt-8 border-t pt-4">
-                    ※ この利用規約は、<a href="https://kiyaku.jp/hinagata/gp.html" target="_blank" class="text-blue-600 hover:underline">kiyaku.jp</a>のひな型を基に作成しています。
-                </p>
             </div>
         </div>
     </main>
