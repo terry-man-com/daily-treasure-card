@@ -1,61 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ワクワク宝集め / 親子向けタスク管理サービス
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ワクワク宝集めは、「子どもの日々の約束（タスク）達成を楽しくサポートする」という想いから作られた、親子向けタスク管理 Web アプリケーションです。
 
-## About Laravel
+パパ・ママと決めた約束（タスク）を達成するとガチャを引いて、ご褒美の宝石をゲットできます。また、ゲットしたアイテムは宝箱で確認することができます。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+子どもイヤイヤ期に、毎日の歯磨きやお片付け、着替えといった基本的な生活習慣をつけるのに苦労した経験から、「親子で楽しく習慣づけるサービスがあったらいいな」と思った経験から生まれています。**約束を守る → ガチャを引く → 宝石を集める**にするというステップを通じて、お子さまが生活習慣を楽しく身につけることをサポートします。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+※ 本アプリケーションは、スマートフォンおよび PC に対応したレスポンシブデザインを採用しています。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## スクリーンショット
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### トップページ
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+![service-image](./docs/images/top-page.jpeg)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 約束（タスク）確認
 
-## Laravel Sponsors
+![約束確認画面](docs/images/task-index.jpeg)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### ご褒美ガチャ
 
-### Premium Partners
+![ガチャ紹介](docs/images/gacha.gif)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+### たからばこ（獲得アイテム参照）
 
-## Contributing
+![たからばこ](docs/images/reward-collection.gif)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### レスポンシブデザイン
 
-## Code of Conduct
+![レスポンシブ](docs/images/responsive.jpg)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 主な機能
 
-## Security Vulnerabilities
+### ① 　タスク（約束）管理機能
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+登録した約束を確認して、達成できたか判定できます。
 
-## License
+![タスク管理機能](docs/images/task-index.jpeg)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### ② 　タスク（約束）登録・編集機能
+
+新規登録では約束を最大５個まで一括登録できます。
+
+![タスク管理機能](docs/images/task-create.jpeg)
+
+### ③ 　ガチャ機能
+
+約束達成でガチャ実行できます。ガチャで抽選されるアイテムは約束の達成度で変わります。
+
+![ガチャ機能](docs/images/gacha.gif)
+
+### ④ 　獲得アイテム確認機能
+
+カレンダーで獲得アイテムを表示。モーダル画面で拡大表示できます。
+
+![宝箱](docs/images/reward-collection.gif)
+
+### ⑤ 　子ども登録・編集機能（最大 3 人）
+
+最大３人まで子供を登録できます。登録した子どもの名前が ①〜④ のタブに反映され、表示を切り替えることができます。
+
+![子ども登録](docs/images/child-create.jpeg)
+
+## URL
+
+現在、Fly.io にてデプロイ準備中
+
+### テストアカウント（デプロイ後利用可能）
+
+-   メールアドレス: `test@example.com`
+-   パスワード: `password`
+
+---
+
+## ローカルセットアップ手順
+
+### 必要な環境
+
+-   Docker Desktop
+-   Git
+
+### セットアップ
+
+```bash
+# 1. リポジトリのクローン
+git clone [repository-url]
+cd daily-treasure-card
+
+# 2. 環境変数の設定
+cp .env.example .env
+
+# 3. Composerのインストール
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+
+# 4. Dockerコンテナの起動
+./vendor/bin/sail up -d
+
+# 5. PostgreSQL起動を待つ
+sleep 10
+
+# 6. データベースのマイグレーション＆シーディング
+./vendor/bin/sail artisan migrate --seed
+
+# 7. npmパッケージのインストール
+./vendor/bin/sail npm install
+
+# 8. Vite起動（別ターミナルで実行）
+./vendor/bin/sail npm run dev
+
+# 9. ブラウザでアクセス
+# http://localhost
+```
+
+### トラブルシューティング
+
+**PostgreSQL 接続エラーが出る場合:**
+
+```bash
+# キャッシュクリア
+./vendor/bin/sail artisan config:clear
+
+# コンテナ再起動
+./vendor/bin/sail down
+./vendor/bin/sail up -d
+sleep 10
+
+# 接続確認
+./vendor/bin/sail artisan db:show
+```
+
+## 使用技術
+
+### バックエンド
+
+-   PHP 8.4
+-   Laravel 12
+-   Livewire 3.6
+-   Composer
+
+### フロントエンド
+
+-   HTML5/CSS3
+-   Tailwind CSS 3
+-   JavaScript（ES6+）
+-   Vite 5
+-   Axios（HTTP 通信）
+-   FullCalendar.js（カレンダー表示）
+-   Node.js/npm
+
+### データベース
+
+-   PostgreSQL
+
+### 開発環境・インフラ
+
+-   Docker
+-   Git/GitHub
+
+---
+
+## 📊 ER 図
+
+![データベースER図](docs/images/database-schema.jpg)
+
+---
+
+## 🔄 今後の予定
+
+ガチャで獲得できる景品やレアリティをユーザーごとに編集できる「ガチャ編集機能」を実装する予定です。
