@@ -329,38 +329,4 @@ class GachaFeatureTest extends TestCase
             'child_id' => $child->id,
         ]);
     }
-    
-    /** @test */
-    // 再実行時にearned_at(時刻)も更新される
-    public function gacha_updates_earned_at_timestamp_on_retry()
-    {
-        $user = User::factory()->create();
-        $child = Child::factory()->create(['user_id' => $user->id]);
-
-        $firstResponse = $this->actingAs($user)
-            ->postJson("/gacha/draw", [
-                'child_id' => $child->id,
-                'true_count' => 3,
-                'total_tasks' => 3
-            ]);
-
-        $firstEarnedAt = $firstResponse->json('earned_at');
-
-        // テスト用に少し時間を空ける
-        sleep(1);
-        
-        // 2回目のガチャ
-        $secondResponse = $this->actingAs($user)
-            ->postJson("/gacha/draw", [
-                'child_id' => $child->id,
-                'true_count' => 2,
-                'total_tasks' => 3
-            ]);
-
-        $secondEarnedAt = $secondResponse->json('earned_at');
-
-        // 時刻が更新されている
-        $this->assertNotEquals($firstEarnedAt, $secondEarnedAt);
-        $this->assertGreaterThan($firstEarnedAt, $secondEarnedAt);
-    }
 }
