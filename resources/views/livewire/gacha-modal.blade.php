@@ -1,7 +1,6 @@
 <div>
     @if($isOpen)
-        <div class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-             wire:click.self="closeModal">
+        <div id="modalContainer" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
 
             {{-- ガチャマシン演出 --}}
             @if($currentStep === 'machine' || $currentStep === 'excitement')

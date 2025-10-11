@@ -9,6 +9,7 @@ class GachaModal extends Component
     // モーダル状態管理
     public $isOpen = false;
     public $currentStep = 'closed'; // closed, machine, capsule, result
+    public $isProcessing = false; // 処理中フラグ
 
     // 結果データ（Controllerから受信）
     public $selectedItem = null;
@@ -23,6 +24,14 @@ class GachaModal extends Component
 
     public function startGacha($childId, $trueCount, $totalTasks)
     {
+        // 二重送信防止
+        if ($this->isProcessing) {
+            logger('GachaModal: Already processing');
+            return;
+        }
+
+        $this->isProcessing = true; // フラグOK
+
         logger('🎯 GachaModal: startGacha called', ['childId' => $childId, 'trueCount' => $trueCount, 'totalTasks' => $totalTasks]);
         
         $this->isOpen = true;
@@ -40,6 +49,7 @@ class GachaModal extends Component
 
     public function goToTreasureBox()
     {
+        $this->isProcessing = false; 
         return redirect()->route('rewards.index');
     }
 
@@ -47,6 +57,8 @@ class GachaModal extends Component
     {
         $this->isOpen = false;
         $this->currentStep = 'closed';
+        $this->isProcessing = false; // フラグOFF
+
         $this->reset(['selectedItem', 'rarity', 'isNewRecord', 'message']);
     }
 
