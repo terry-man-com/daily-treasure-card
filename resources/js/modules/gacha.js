@@ -2,6 +2,7 @@ import axios from "axios";
 
 class GachaAnimationSystem {
     constructor() {
+        this.isProcessing = false; // 処理中フラク
         this.setupAxios();
         this.setupEventListeners();
     }
@@ -21,6 +22,13 @@ class GachaAnimationSystem {
     }
 
     async handleGachaAnimation(data) {
+        // 二重送信防止
+        if (this.isProcessing) {
+            console.log("Already processing gacha");
+            return;
+        }
+
+        this.isProcessing = true; // フラグOK
         const { childId, trueCount, totalTasks } = data;
         // ✅ RewardController API呼び出し
         try {
@@ -46,6 +54,8 @@ class GachaAnimationSystem {
             Livewire.dispatch("showError", {
                 message: "ガチャの実行中にエラーが発生しました",
             });
+        } finally {
+            this.isProcessing = false; // フラグOFF
         }
     }
 
@@ -86,6 +96,12 @@ class GachaAnimationSystem {
     async showCapsuleAnimation(rarity) {
         const machine = document.querySelector(".gacha-machine");
         const capsule = document.querySelector(".gacha-capsule");
+
+        // DOM要素の存在チェック
+        if (!machine || !capsule) {
+            console.error("❌ ガチャ要素が見つかりません");
+            return;
+        }
 
         // 1. ガチャマシンを消す
         await window.anime({
@@ -145,9 +161,7 @@ class GachaAnimationSystem {
 
     createResultModal(result) {
         // モーダルコンテナを取得
-        const modalContainer = document.querySelector(
-            '[wire\\:click\\.self="closeModal"]'
-        );
+        const modalContainer = document.getElementById("modalContainer");
         if (!modalContainer) {
             console.error("❌ Modal container not found");
             return;
