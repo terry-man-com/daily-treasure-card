@@ -66,75 +66,12 @@
 
 ## URL
 
-現在、Fly.io にてデプロイ準備中
+https://daily-treasure-card.fly.dev/
 
 ### テストアカウント（デプロイ後利用可能）
 
 -   メールアドレス: `test@example.com`
 -   パスワード: `password`
-
----
-
-## ローカルセットアップ手順
-
-### 必要な環境
-
--   Docker Desktop
--   Git
-
-### セットアップ
-
-```bash
-# 1. リポジトリのクローン
-git clone [repository-url]
-cd daily-treasure-card
-
-# 2. 環境変数の設定
-cp .env.example .env
-
-# 3. Composerのインストール
-docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php82-composer:latest \
-    composer install --ignore-platform-reqs
-
-# 4. Dockerコンテナの起動
-./vendor/bin/sail up -d
-
-# 5. PostgreSQL起動を待つ
-sleep 10
-
-# 6. データベースのマイグレーション＆シーディング
-./vendor/bin/sail artisan migrate --seed
-
-# 7. npmパッケージのインストール
-./vendor/bin/sail npm install
-
-# 8. Vite起動（別ターミナルで実行）
-./vendor/bin/sail npm run dev
-
-# 9. ブラウザでアクセス
-# http://localhost
-```
-
-### トラブルシューティング
-
-**PostgreSQL 接続エラーが出る場合:**
-
-```bash
-# キャッシュクリア
-./vendor/bin/sail artisan config:clear
-
-# コンテナ再起動
-./vendor/bin/sail down
-./vendor/bin/sail up -d
-sleep 10
-
-# 接続確認
-./vendor/bin/sail artisan db:show
-```
 
 ## 使用技術
 
@@ -163,6 +100,15 @@ sleep 10
 
 -   Docker
 -   Git/GitHub
+
+### デプロイ
+-   Fly.io
+
+【注意事項】
+
+・無料枠を使用しているため、一定時間アクセスがないとアプリやDBが自動でスリープします
+
+・初回アクセス時は、起動に少し時間がかかる場合があります（エラーが出ても再読み込みで復帰します）
 
 ---
 
