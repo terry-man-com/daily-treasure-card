@@ -1,0 +1,54 @@
+# fly.toml app configuration file generated for daily-treasure-card on 2025-10-13T01:20:40+09:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'daily-treasure-card'
+primary_region = 'nrt'
+console_command = 'php /var/www/html/artisan tinker'
+
+[build]
+  [build.args]
+    NODE_VERSION = '18'
+    PHP_VERSION = '8.2'
+
+[env]
+  APP_ENV = 'production'
+  LOG_CHANNEL = 'stderr'
+  LOG_LEVEL = 'info'
+  LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
+  SESSION_DRIVER = 'cookie'
+  SESSION_SECURE_COOKIE = 'true'
+  APP_NAME = 'Laravel'
+  APP_KEY= 'base64:+CLPRStMFeqLzjGmXlchva3m6e374MkGKJj9kaNnjBA='
+  APP_DEBUG= 'true'
+  APP_URL= 'http://localhost'
+  APP_LOCALE = 'ja'
+  APP_FALLBACK_LOCALE = 'en'
+  APP_FAKER_LOCALE = 'ja_JP'
+  APP_MAINTENANCE_DRIVER = 'file'
+  DB_CONNECTION = 'pgsql'
+  DB_HOST = 'pgsql'
+  DB_PORT = '5432'
+  DB_DATABASE = 'laravel'
+  DB_USERNAME = 'sail'
+  DB_PASSWORD = 'password'
+  PGADMIN_EMAIL = 'test1@gmail.com'
+  PGADMIN_PASSWORD = 'nobcof205'
+  SESSION_LIFETIME = '120'
+  SESSION_ENCRYPT = 'false'
+  SESSION_PATH = '/'
+  SESSION_DOMAIN = 'null'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
