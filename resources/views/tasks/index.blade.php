@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="mt-5">
                                     <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" onclick="triggerGacha({{ $child->id }})" disabled>
-                                        ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
+                                        ★<span class="text-custom-gray disabled:text-custom-gray/40">ガチャを引く</span>★
                                     </button>
                                     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
                                         <button onclick="Livewire.dispatch('openModal', { childId: {{ $child->id }} });" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="mt-5">
                                 <button class="js-reward-button block text-2xl md:text-3xl text-white text-center font-bold bg-yellow-400 mx-auto mt-0 py-3 sm:py-4 px-4 sm:px-6 rounded-full w-full max-w-xs sm:max-w-2xl indent-[0.2em] sm:indent-[0.4em] tracking-[0.2em] sm:tracking-[0.4em] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                                    ★<span class="text-custom-gray disabled:text-custom-gray/40">ごほうびガチャ</span>★
+                                    ★<span class="text-custom-gray disabled:text-custom-gray/40">ガチャを引く</span>★
                                 </button>
                                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-white text-base sm:text-lg font-bold py-2 mb-2 mt-6">
                                     <button onclick="Livewire.dispatch('openModal', { childId: null });" class="w-4/5 sm:w-[200px] px-4 py-2 bg-green-400 border border-transparent rounded-full hover:bg-green-400/60 text-center">約束の登録・編集</button>
