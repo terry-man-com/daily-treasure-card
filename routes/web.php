@@ -16,6 +16,7 @@ Route::view('/contact', 'legal.contact')->name('contact');
 
 Route::get('/dashboard', [TaskController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
 // タスク管理用ルーティング
 // 個別ページ方式（child_id パラメータを受け取る）
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
@@ -31,19 +32,17 @@ Route::put('/children/update', [ChildController::class, 'update'])->name('childr
 Route::resource('children', ChildController::class)
 ->except(['edit','update']);
 
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    // ガチャ機能のルート
-    Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
-    Route::post('/gacha/draw', [RewardController::class, 'drawGacha'])->name('gacha.draw');
-    
-    // FullCalendar用API
-    Route::get('/api/rewards/{childId}/events', [RewardController::class, 'getEvents']);
-    Route::get('/api/rewards/{childId}/{date}', [RewardController::class, 'getRewardsByDate']);
+// ガチャ機能のルート
+Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
+Route::post('/gacha/draw', [RewardController::class, 'drawGacha'])->name('gacha.draw');
+
+// FullCalendar用API
+Route::get('/api/rewards/{childId}/events', [RewardController::class, 'getEvents']);
+Route::get('/api/rewards/{childId}/{date}', [RewardController::class, 'getRewardsByDate']);
 });
 
 require __DIR__.'/auth.php';
