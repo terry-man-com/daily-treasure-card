@@ -43,4 +43,5 @@
     <script type="module" src="{{ asset('js/modules/rewards-calendar.js') }}"></script>
     @endpush
     @livewire('reward-modal')
+    @livewire('child-manage-modal')
 </x-app-layout>
