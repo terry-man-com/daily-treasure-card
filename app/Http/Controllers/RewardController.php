@@ -139,7 +139,7 @@ class RewardController extends Controller
                 ->whereBetween('earned_at',[$start, $end])
                 ->get();
 
-            // FullCalendar形式に変換（flower-stamp仕様）
+            // FullCalendar形式に変換
             // extentedPropsはカスタムデータ
             $events = $rewards->map(function($reward) {
                 return [
