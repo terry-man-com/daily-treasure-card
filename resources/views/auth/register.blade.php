@@ -53,7 +53,7 @@
         @for ($i = 0; $i < 3; $i++)
             <!-- ChildName1 -->
             <div class="mt-4">
-                <x-input-label for="child_name_1" :value="__('Child Name') . '（7文字以内）'" />
+                <x-input-label for="child_name_1" :value="__('Child Name') . ' '. $i+1 . '（7文字以内）'" />
                 <x-text-input id="child_name_1" class="block mt-1 w-full" type="text" name="child_name[]" />
                 <x-input-error :messages="$errors->get('child_name.' . $i)" class="mt-2" />
             </div>
