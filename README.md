@@ -68,7 +68,7 @@
 
 https://daily-treasure-card.fly.dev/
 
-### テストアカウント（デプロイ後利用可能）
+### テストアカウント（ご自由にお使いください）
 
 -   メールアドレス: `test@example.com`
 -   パスワード: `password`
